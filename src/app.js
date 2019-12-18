@@ -18,15 +18,36 @@ class Paddler {
 		// Create a div element to visually represent the paddler 
 		this.paddlerElement = document.createElement("div");
 		this.paddlerElement.setAttribute("class", "person");
+		this.name = name
+		/**
+		######## ED TODO: Name placement ###################
+		// this.paddlerName = document.createElement('p');
+		// this.paddlerName.setAttribute("class","profile_name")
+		// this.paddlerName.innerHTML = name;
+		// this.paddlerElement.appendChild(this.paddlerName);
+		**/
 		this.paddlerElement.innerHTML = name;
 		roster.appendChild(this.paddlerElement);
 
 		// Assign ID's to the paddler as well as its corresponding div element
 		this.id = paddlerList.length;
 		this.paddlerElement.setAttribute("id", this.id);
+		this.paddlerElement.setAttribute("name", name);
 
-		this.setPaddlerPositionInRoster()
+
+		/* Ed: I think I will disable this function since css itself can arrange all
+		person automatically*/
+		// this.setPaddlerPositionInRoster()
 	}	
+
+	/**
+	* Set paddler ID manually
+	**/
+	setPaddlerID(id){
+		this.id = id;
+		this.paddlerElement.setAttribute("id", id);
+
+	}
 
 	/**
 	*  Finds the next available spot in the roster and moves the paddler to that spot
@@ -58,6 +79,7 @@ class Paddler {
 	*  @param {seatPosition} The seat position to move the paddler to
 	*/
 	moveToBoat(seatPosition) {
+		this.paddlerElement.style.position =  "absolute"; /* fix person position*/
 		this.paddlerElement.style.top = seatPosition.top+"px";
 		this.paddlerElement.style.left = seatPosition.left+"px";
 	}
@@ -74,11 +96,12 @@ function handleClick(event) {
 		// Highlight and save the person that was clicked on
 		if (target.parentNode.id === "roster") {
 			let paddler = findPaddlerById(target.id);
+			const name = target.getAttribute('name');
 			paddler.setActivePerson();	
 		}
 		// Move person from boat back to roster 
 		else if (target.parentNode.id === "boat") {
-			roster.appendChild(target);
+			// roster.appendChild(target);   // Ed: Moved this function into movePersonToRoster!
 			movePersonToRoster(target.id);	
 		}
 	}
@@ -98,9 +121,29 @@ function handleClick(event) {
 *  @param {Number} id The ID of the paddler to move 
 */
 function movePersonToRoster(id) {
-	let paddler = findPaddlerById(id);
-	paddler.setPaddlerPositionInRoster();
-	paddler.resetActivePerson();	
+	/**
+	Ed:
+	Instead of changing the position of the person instance,
+	I think it is better to delete the old one in boat and 
+	create a new instance in roster
+	**/
+	// #############################################
+	var target = document.getElementById(id);
+	const name = target.getAttribute('name');
+
+	// remove html element of target id from boat div
+	boat.removeChild(target);
+
+	// create new paddler instance and update the
+	// paddlerList
+	let new_target = new Paddler(name)
+	new_target.setPaddlerID(id)
+	paddlerList[id] = new_target;
+	// ##############################################
+
+	// let paddler = findPaddlerById(activePerson.id);
+	// paddler.moveToBoat(seatPosition);
+	// paddler.resetActivePerson();
 }
 
 /**
@@ -221,6 +264,18 @@ function main() {
 	createSeatsInBoat();
 	document.addEventListener("click", handleClick);
 
+	paddlerList.push(new Paddler("eric"));
+	paddlerList.push(new Paddler("edgar"));
+	paddlerList.push(new Paddler("emily"));
+	paddlerList.push(new Paddler("eric"));
+	paddlerList.push(new Paddler("edgar"));
+	paddlerList.push(new Paddler("emily"));
+	paddlerList.push(new Paddler("eric"));
+	paddlerList.push(new Paddler("edgar"));
+	paddlerList.push(new Paddler("emily"));
+	paddlerList.push(new Paddler("eric"));
+	paddlerList.push(new Paddler("edgar"));
+	paddlerList.push(new Paddler("emily"));
 	paddlerList.push(new Paddler("eric"));
 	paddlerList.push(new Paddler("edgar"));
 	paddlerList.push(new Paddler("emily"));
