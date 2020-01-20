@@ -110,7 +110,7 @@ function handleClick(event) {
 		let activePerson = getActivePerson();
 		if (activePerson !== null) {
 			boat.appendChild(activePerson);
-			seatPosition = getSeatPosition(target);
+			let seatPosition = getSeatPosition(target);
 			moveActivePersonToBoat(seatPosition, activePerson);
 		}
 	}
@@ -209,12 +209,12 @@ function findPaddlerById(id) {
 *  @return {object}      Top and left positions of seat
 */
 function getSeatPosition(seat) {
-	seatRect = seat.getBoundingClientRect();
-	boatRect = boat.getBoundingClientRect();
+	let seatRect = seat.getBoundingClientRect();
+	let boatRect = boat.getBoundingClientRect();
 
 	// Get seat position relative to boat container
-	seatTop = seatRect.top - boatRect.top - 1;
-	seatLeft = seatRect.left - boatRect.left -1;
+	let seatTop = seatRect.top - boatRect.top - 1;
+	let seatLeft = seatRect.left - boatRect.left -1;
 
 	return {
 		top: seatTop,
@@ -254,7 +254,7 @@ function createSeatsInBoat() {
 *  Create element for drummer's seat. 
 */
 function createDrummerElement() {
-	drummerElement = document.createElement("div");
+	let drummerElement = document.createElement("div");
 	drummerElement.setAttribute("class", "seat");
 	boat.appendChild(drummerElement);
 	drummerElement.style.top = "10px";
@@ -265,7 +265,7 @@ function createDrummerElement() {
 *  Create element for steering position
 */
 function createSteeringElement() {
-	steeringElement = document.createElement("div");
+	let steeringElement = document.createElement("div");
 	steeringElement.setAttribute("class", "seat");
 	boat.appendChild(steeringElement);
 	steeringElement.style.top = "580px";
