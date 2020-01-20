@@ -96,7 +96,7 @@ function handleClick(event) {
 		// Highlight and save the person that was clicked on
 		if (target.parentNode.id === "roster") {
 			let paddler = findPaddlerById(target.id);
-			const name = target.getAttribute('name');
+			find_and_reset_active_person();
 			paddler.setActivePerson();	
 		}
 		// Move person from boat back to roster 
@@ -155,6 +155,18 @@ function moveActivePersonToBoat(seatPosition, activePerson) {
 	let paddler = findPaddlerById(activePerson.id);
 	paddler.moveToBoat(seatPosition);
 	paddler.resetActivePerson();
+}
+
+/**
+*	Finds the currently active person (if there is one) and resets it to no longer be active
+*/
+function find_and_reset_active_person() { 
+	let activePerson = getActivePerson();
+
+	if (activePerson !== null) {
+		let paddler = findPaddlerById(activePerson.id);
+		paddler.resetActivePerson();
+	}
 }
 
 /**
