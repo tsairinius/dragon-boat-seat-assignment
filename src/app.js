@@ -1,5 +1,6 @@
 //@todo: When someone is moved from the roster to boat, we should shift any subsequent paddlers over
 //@todo: Create a reset_all_active_persons function when we want to make sure that nobody is active 
+import hello from './paddler.js'
 
 const NUM_BOAT_SEATS = 20;
 
@@ -90,6 +91,7 @@ class Paddler {
 *  @param {event} event Click event
 */
 function handleClick(event) {
+	hello();
 	// Retrieve the element that was clicked on
 	let target = event.target;
 	if (target.className === "person") {
