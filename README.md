@@ -10,3 +10,13 @@ In order to run the webpage, you will need to create a local server. To do so, f
 Details for creating a local server can be found here: https://gist.github.com/jgravois/5e73b56fa7756fd00b89
 
 NOTE: Sometimes, when you make a change to the code and refresh your browser, the webpage will not update. If using Chrome, you can resolve the issue by performing a hard reboot. Hold down the reload button near the address bar. A menu of different reload options will appear. Select "Hard Reboot" 
+
+
+
+References:
+-Form for creating paddler: 
+https://www.youtube.com/watch?v=fNcJuPIZ2WE
+https://www.youtube.com/watch?v=In0nB0ABaUk
+
+-Creating tabs
+https://www.youtube.com/watch?v=PzSxehu4G78

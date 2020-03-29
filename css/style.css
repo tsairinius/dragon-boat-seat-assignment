@@ -7,46 +7,42 @@ body {
   	background-attachment: fixed;
 }
 
-.profile_name {
+.profileName {
 	/* create top margin to be 80% of the viewing area*/
-	padding-top: 30%
+	padding-top: 30%;
 }
 
-
-.column_l{
+.columnLeft { 
 	float: left;
 	width: 45%;
 	height:100%;
-	margin-right: : 1%
-	border: 1px solid blue;
+	margin-right: : 1%;
 	position: relative;
 }
 
-.column_r{
+.columnRight {
 	text-align: center;
 	float: right;
 	width: 45%;
 	height: 100%;
 	margin-left: : 1%;
-	/*border: 1px solid blue;*/
 	position: relative;
 }
 
-
-.row:after{
+.row:after {
 	content: "";
 	display: table;
 	clear: both;
 
 }
 
-.curly_font{
+.curlyFont {
 	color: black;
 	font-family: "Allura";
 	font-size: 40px;
 }
 
-.text_center{
+.textCenter {
 	text-align: center;
 }
 
@@ -66,10 +62,9 @@ body {
 }
 
 /*When mouse is hovering on the button, the image would turn darker*/
-.person:hover{
+.person:hover {
 	background-image: url("../img/profile_default_img_new_hover.svg");
 }
-
 
 /*If a paddler is selected, it's changed to darker color*/
 .active {
@@ -85,16 +80,10 @@ body {
 	left: 100px;
 }
 
-.container {
-	border: 1px solid blue;
-	position: relative;
-	float: left;
-	width: 50%;
-	width: 400px;
-	height: 650px;
-	box-sizing: border-box
+.tabContainer .buttonContainer button {
+	cursor: pointer;
 }
 
-
-
-
+.tabContainer .buttonContainer button:hover {
+	background-color: #d7d4d4;
+}
