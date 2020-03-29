@@ -2,11 +2,51 @@ import Paddler from './paddler.js'
 
 const NUM_BOAT_SEATS = 20;
 
-const roster = document.getElementById("roster");
+// const roster = document.getElementById("roster");
 const boat = document.getElementById("boat");
+
+var tabButtons = document.querySelectorAll(".tabContainer .buttonContainer button");
+var tabPanels = document.querySelectorAll(".tabContainer .tabPanel")
+
+var rosterPanel = document.getElementById("rosterPanel");
+var createPaddlerPanel = document.getElementById("createPaddlerPanel");
+var rosterButton = document.getElementById("rosterButton");
+var createPaddlerButton = document.getElementById("createPaddlerButton");
 
 // List of Paddler objects
 let paddlerList = [];
+
+/**
+ * 
+ */
+function showRosterPanel() {
+	createPaddlerButton.style.backgroundColor = "";
+	createPaddlerButton.style.color = "";
+	rosterButton.style.backgroundColor = '#f44336';
+	rosterButton.style.color = "white";
+
+	createPaddlerPanel.style.display = "none";
+	rosterPanel.style.display = "block";
+}
+
+/**
+ * 
+ */
+function showCreatePaddlerPanel() {
+	rosterButton.style.backgroundColor = "";
+	rosterButton.style.color = "";
+	createPaddlerButton.style.backgroundColor = '#f44336';
+	createPaddlerButton.style.color = "white";
+
+	rosterPanel.style.display = "none";
+	createPaddlerPanel.style.display = "block";
+}
+
+function initializePanels() {
+	rosterButton.addEventListener("click", showRosterPanel);
+	createPaddlerButton.addEventListener("click", showCreatePaddlerPanel);
+	showRosterPanel();
+}
 
 /**
 *  Handles logic for when the user clicks in the window
@@ -17,7 +57,7 @@ function handleClick(event) {
 	let target = event.target;
 	if (target.className === "person") {
 		// Highlight and save the person that was clicked on
-		if (target.parentNode.id === "roster") {
+		if (target.parentNode.id === "rosterPanel") {
 			let paddler = findPaddlerById(target.id);
 			find_and_reset_active_person();
 			paddler.setActivePerson();	
@@ -184,6 +224,7 @@ function createSteeringElement() {
 
 function main() {
 	createSeatsInBoat();
+	initializePanels();
 	document.addEventListener("click", handleClick);
 
 	paddlerList.push(new Paddler("eric", paddlerList.length));

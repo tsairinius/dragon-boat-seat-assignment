@@ -1,4 +1,3 @@
-// export default Paddler;
 /**
 *  Paddler class: The paddler class is used to better manage different paddlers' positions either in the roster 
 *  or boat. Each paddler object has a corresponding div element, which we can easily manipulate. 
@@ -17,7 +16,7 @@ export default class Paddler {
 		// this.paddlerElement.appendChild(this.paddlerName);
 		**/
 		this.paddlerElement.innerHTML = name;
-		roster.appendChild(this.paddlerElement);
+		rosterPanel.appendChild(this.paddlerElement);
 
 		// Assign ID's to the paddler as well as its corresponding div element
 		this.id = paddler_id;
@@ -31,7 +30,6 @@ export default class Paddler {
 	setPaddlerID(id){
 		this.id = id;
 		this.paddlerElement.setAttribute("id", id);
-
 	}
 
 	/**

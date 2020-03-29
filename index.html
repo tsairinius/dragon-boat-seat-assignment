@@ -3,20 +3,32 @@
 <head>
 	<title>Dragon Boat Seating Assignment</title>
 	<link rel="stylesheet" href="css/style.css">
-		<!-- link font fmaily : allura -->
+		<!-- link font family : allura -->
 	<link href='https://fonts.googleapis.com/css?family=Allura' rel='stylesheet'>
 </head>
 <body>
-	<h1 class ="text_center curly_font">Dragon Boat Seating Assignment</h1>
-	<div class = row>
-		<div class= "column_l" id="boat">
-			<h1 class="curly_font"> Boat </h1>
+	<h1 class="text_center curly_font">Dragon Boat Seating Assignment</h1>
+	<div class=row>
+		<div class="column_l" id="boat">
+			<h1 class="curly_font">Boat</h1>
 		</div>
 
-		<div class = "column_r">
-			<h1 class="curly_font"> Paddlers </h1>
-			<div id ="roster"></div>
+		<div class="column_r">						<!-- Move column_r outside of tabContainer?-->
+			<div class="tabContainer">
+				<div class="buttonContainer">
+					<button id="rosterButton">Roster</button>
+					<button id="createPaddlerButton">+</button>
+				</div>
+
+				<div class="tabPanel" id="rosterPanel">
+						<h1 class="curly_font">Paddlers</h1>
+						<!-- <div id="roster"></div>					Do we need this div if we have the tabPanel div?					 -->
+				</div>
+				
+				<div class="tabPanel" id="createPaddlerPanel">Create a Paddler</div>
+			</div>
 		</div>
+
 	</div>
 	<script src="./src/app.js" type="module"></script>
 </body>
