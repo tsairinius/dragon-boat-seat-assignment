@@ -12,7 +12,6 @@ body {
 	padding-top: 30%;
 }
 
-
 .column_l { 
 	float: left;
 	width: 45%;
@@ -32,7 +31,6 @@ body {
 	position: relative;
 	border: 1px solid #000;
 }
-
 
 .row:after {
 	content: "";

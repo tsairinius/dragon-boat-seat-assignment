@@ -3,11 +3,14 @@
 *  or boat. Each paddler object has a corresponding div element, which we can easily manipulate. 
 */
 export default class Paddler {
-	constructor(name, paddler_id) {
+	constructor(name, gender, weight, paddlerId) {
 		// Create a div element to visually represent the paddler 
 		this.paddlerElement = document.createElement("div");
 		this.paddlerElement.setAttribute("class", "person");
-		this.name = name
+		this.name = name;
+		this.gender = gender;
+		this.weight = weight;
+
 		/**
 		######## ED TODO: Name placement ###################
 		// this.paddlerName = document.createElement('p');
@@ -19,7 +22,7 @@ export default class Paddler {
 		rosterPanel.appendChild(this.paddlerElement);
 
 		// Assign ID's to the paddler as well as its corresponding div element
-		this.id = paddler_id;
+		this.id = paddlerId;
 		this.paddlerElement.setAttribute("id", this.id);
 		this.paddlerElement.setAttribute("name", name);
 	}	

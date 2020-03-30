@@ -5,16 +5,42 @@ const NUM_BOAT_SEATS = 20;
 // const roster = document.getElementById("roster");
 const boat = document.getElementById("boat");
 
-var tabButtons = document.querySelectorAll(".tabContainer .buttonContainer button");
-var tabPanels = document.querySelectorAll(".tabContainer .tabPanel")
-
 var rosterPanel = document.getElementById("rosterPanel");
 var createPaddlerPanel = document.getElementById("createPaddlerPanel");
 var rosterButton = document.getElementById("rosterButton");
 var createPaddlerButton = document.getElementById("createPaddlerButton");
 
+var createPaddlerForm = document.getElementById("createPaddlerForm");
+var newPaddlerSuccess = document.getElementById("newPaddlerSuccess");
+
 // List of Paddler objects
 let paddlerList = [];
+
+function createNewPaddler(event) {
+	var formPaddlerName = document.getElementById("formPaddlerName");
+	var formPaddlerWeight = document.getElementById("paddlerWeight");
+	var formPaddlerGender = document.getElementsByName("paddlerGender");
+
+	event.preventDefault();				// Prevent page from refreshing after hitting submit
+	var name = formPaddlerName.value;
+	var weight = formPaddlerWeight.value;
+
+	var gender;
+	for (let i = 0; i < formPaddlerGender.length; i++) {
+		if (formPaddlerGender[i].checked) {
+			gender = formPaddlerGender[i].value;
+			break;
+		}
+	}
+
+	paddlerList.push(new Paddler(name, gender, weight, paddlerList.length));
+
+	newPaddlerSuccess.innerText = "Successfully created new paddler!";
+}
+
+function formRemoveMessages(event) {
+	newPaddlerSuccess.innerText = "";
+}
 
 /**
  * 
@@ -226,22 +252,8 @@ function main() {
 	createSeatsInBoat();
 	initializePanels();
 	document.addEventListener("click", handleClick);
-
-	paddlerList.push(new Paddler("eric", paddlerList.length));
-	paddlerList.push(new Paddler("edgar", paddlerList.length));
-	paddlerList.push(new Paddler("emily", paddlerList.length));
-	paddlerList.push(new Paddler("eric", paddlerList.length));
-	paddlerList.push(new Paddler("edgar", paddlerList.length));
-	paddlerList.push(new Paddler("emily", paddlerList.length));
-	paddlerList.push(new Paddler("eric", paddlerList.length));
-	paddlerList.push(new Paddler("edgar", paddlerList.length));
-	paddlerList.push(new Paddler("emily", paddlerList.length));
-	paddlerList.push(new Paddler("eric", paddlerList.length));
-	paddlerList.push(new Paddler("edgar", paddlerList.length));
-	paddlerList.push(new Paddler("emily", paddlerList.length));
-	paddlerList.push(new Paddler("eric", paddlerList.length));
-	paddlerList.push(new Paddler("edgar", paddlerList.length));
-	paddlerList.push(new Paddler("emily", paddlerList.length));
+	createPaddlerForm.addEventListener('submit', createNewPaddler);
+	createPaddlerForm.addEventListener('reset', formRemoveMessages)
 }
 
 main();
