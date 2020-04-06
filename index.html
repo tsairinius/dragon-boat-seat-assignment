@@ -3,20 +3,62 @@
 <head>
 	<title>Dragon Boat Seating Assignment</title>
 	<link rel="stylesheet" href="css/style.css">
-		<!-- link font fmaily : allura -->
+		<!-- link font family : allura -->
 	<link href='https://fonts.googleapis.com/css?family=Allura' rel='stylesheet'>
 </head>
 <body>
-	<h1 class ="text_center curly_font">Dragon Boat Seating Assignment</h1>
-	<div class = row>
-		<div class= "column_l" id="boat">
-			<h1 class="curly_font"> Boat </h1>
+	<h1 class="textCenter curlyFont">Dragon Boat Seating Assignment</h1>
+	<div class=row>
+		<div class="columnLeft" id="boat">
+			<h1 class="curlyFont">Boat</h1>
 		</div>
 
-		<div class = "column_r">
-			<h1 class="curly_font"> Paddlers </h1>
-			<div id ="roster"></div>
+		<div class="columnRight">					
+			<div class="tabContainer">
+				<div class="buttonContainer">
+					<button id="rosterButton">Roster</button>
+					<button id="createPaddlerButton">+</button>
+				</div>
+
+				<div class="tab" id="rosterTab">
+						<h1 class="curlyFont">Paddlers</h1>
+				</div>
+				
+				<div class="tab" id="createPaddlerTab">
+					<h1 class="curlyFont">Create a Paddler</h1>
+					<form id="createPaddlerForm" action="/" method="GET">
+						<div>
+							<label for="formPaddlerName">Name</label>
+							<input type="text" name="name" id="formPaddlerName" placeholder="e.g. Ed Cheung" required>
+						</div>
+						<div>
+							Gender
+							<div>
+								<label for="male">Male</label>
+								<input type="radio" name="paddlerGender" id="male" value="male" required> 
+							</div>
+							<div>
+								<label for="female">Female</label>
+								<input type="radio" name="paddlerGender" id="female" value="female" required>
+							</div>
+							<div>
+								<label for="other">Other</label>
+								<input type="radio" name="paddlerGender" id="other" value="other" required>
+							</div>
+						</div>
+						<div>
+							<label for="paddlerWeight">Weight(lb)</label>
+							<input type="number" name="weight" id="paddlerWeight" min="1" placeholder="e.g. 150" required>
+						</div>
+						<button type="reset">Reset</button>
+						<button type="submit">Submit</button>
+
+						<div id="newPaddlerSuccess"></div>
+					</form>
+				</div>
+			</div>
 		</div>
+
 	</div>
 	<script src="./src/app.js" type="module"></script>
 </body>
