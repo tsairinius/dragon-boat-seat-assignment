@@ -1,3 +1,7 @@
+When cloning or pulling updates from this project, make sure to run the following command in order to 
+install all necessary dependencies:
+npm install 
+
 In order to run the webpage, you will need to create a local server. To do so, follow the steps below:
 1. In a terminal, navigate to the dragon boat repository and execute the following command:
     python -m SimpleHTTPServer 1337
