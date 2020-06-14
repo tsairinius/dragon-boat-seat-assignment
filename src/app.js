@@ -2,11 +2,10 @@ import Paddler from './paddler.js'
 
 const NUM_BOAT_SEATS = 20;
 
-// const roster = document.getElementById("roster");
 const boat = document.getElementById("boat");
 
-var rosterPanel = document.getElementById("rosterPanel");
-var createPaddlerPanel = document.getElementById("createPaddlerPanel");
+var rosterTab = document.getElementById("rosterTab");
+var createPaddlerTab = document.getElementById("createPaddlerTab");
 var rosterButton = document.getElementById("rosterButton");
 var createPaddlerButton = document.getElementById("createPaddlerButton");
 
@@ -75,6 +74,80 @@ function initializePanels() {
 }
 
 /**
+ * Creates a new paddler based on the info submitted in the "create a new paddler" form
+ * @param {event} event Submit event
+ */
+function createNewPaddler(event) {
+	// Prevent page from refreshing after hitting submit
+	event.preventDefault();				
+
+	var formPaddlerName = document.getElementById("formPaddlerName");
+	var formPaddlerWeight = document.getElementById("paddlerWeight");
+	var formPaddlerGender = document.getElementsByName("paddlerGender");
+
+	var name = formPaddlerName.value;
+	var weight = formPaddlerWeight.value;
+
+	// Retrieve the gender that was selected
+	var gender;
+	for (let i = 0; i < formPaddlerGender.length; i++) {
+		if (formPaddlerGender[i].checked) {
+			gender = formPaddlerGender[i].value;
+			break;
+		}
+	}
+
+	paddlerList.push(new Paddler(name, gender, weight, paddlerList.length));
+
+	createPaddlerForm.reset();
+	newPaddlerSuccess.innerText = "Successfully created a new paddler!";
+}
+
+/**
+ * Removes any existing messages in the "create a new paddler" form
+ * @param {event} event Reset event
+ */
+function formRemoveMessages(event) {
+	newPaddlerSuccess.innerText = "";
+}
+
+/**
+ * Shows the roster tab
+ */
+function showRosterTab() {
+	createPaddlerButton.style.backgroundColor = "";
+	createPaddlerButton.style.color = "";
+	rosterButton.style.backgroundColor = '#f44336';
+	rosterButton.style.color = "white";
+
+	createPaddlerTab.style.display = "none";
+	rosterTab.style.display = "block";
+}
+
+/**
+ * Shows the tab for creating a new paddler
+ */
+function showCreatePaddlerTab() {
+	rosterButton.style.backgroundColor = "";
+	rosterButton.style.color = "";
+	createPaddlerButton.style.backgroundColor = '#f44336';
+	createPaddlerButton.style.color = "white";
+
+	rosterTab.style.display = "none";
+	createPaddlerTab.style.display = "block";
+}
+
+/**
+ * Adds event listeners for switching between tabs. Webpage defaults to showing 
+ * the roster tab. 
+ */
+function initializeTabContent() {
+	rosterButton.addEventListener("click", showRosterTab);
+	createPaddlerButton.addEventListener("click", showCreatePaddlerTab);
+	showRosterTab();
+}
+
+/**
 *  Handles logic for when the user clicks in the window
 *  @param {event} event Click event
 */
@@ -83,14 +156,13 @@ function handleClick(event) {
 	let target = event.target;
 	if (target.className === "person") {
 		// Highlight and save the person that was clicked on
-		if (target.parentNode.id === "rosterPanel") {
+		if (target.parentNode.id === "rosterTab") {
 			let paddler = findPaddlerById(target.id);
-			find_and_reset_active_person();
+			findAndResetActivePerson();
 			paddler.setActivePerson();	
 		}
 		// Move person from boat back to roster 
 		else if (target.parentNode.id === "boat") {
-			// roster.appendChild(target);   // Ed: Moved this function into movePersonToRoster!
 			movePersonToRoster(target.id);	
 		}
 	}
@@ -136,7 +208,7 @@ function moveActivePersonToBoat(seatPosition, activePerson) {
 /**
 *	Finds the currently active person (if there is one) and resets it to no longer be active
 */
-function find_and_reset_active_person() { 
+function findAndResetActivePerson() { 
 	let activePerson = getActivePerson();
 
 	if (activePerson !== null) {
@@ -250,10 +322,10 @@ function createSteeringElement() {
 
 function main() {
 	createSeatsInBoat();
-	initializePanels();
+	initializeTabContent();
 	document.addEventListener("click", handleClick);
-	createPaddlerForm.addEventListener('submit', createNewPaddler);
-	createPaddlerForm.addEventListener('reset', formRemoveMessages)
+	createPaddlerForm.addEventListener("submit", createNewPaddler);
+	createPaddlerForm.addEventListener("reset", formRemoveMessages)
 }
 
 main();

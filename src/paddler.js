@@ -14,12 +14,12 @@ export default class Paddler {
 		/**
 		######## ED TODO: Name placement ###################
 		// this.paddlerName = document.createElement('p');
-		// this.paddlerName.setAttribute("class","profile_name")
+		// this.paddlerName.setAttribute("class","profileName")
 		// this.paddlerName.innerHTML = name;
 		// this.paddlerElement.appendChild(this.paddlerName);
 		**/
 		this.paddlerElement.innerHTML = name;
-		rosterPanel.appendChild(this.paddlerElement);
+		rosterTab.appendChild(this.paddlerElement);
 
 		// Assign ID's to the paddler as well as its corresponding div element
 		this.id = paddlerId;
