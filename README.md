@@ -2,6 +2,9 @@ When cloning or pulling updates from this project, make sure to run the followin
 install all necessary dependencies:
 npm install 
 
+Jest is used for unit testing. Please use node version 14.x.x when running the tests. Use the following command to run unit tests:
+npm test
+
 In order to run the webpage, you will need to create a local server. To do so, follow the steps below:
 1. In a terminal, navigate to the dragon boat repository and execute the following command:
     python -m SimpleHTTPServer 1337

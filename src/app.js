@@ -15,64 +15,6 @@ var newPaddlerSuccess = document.getElementById("newPaddlerSuccess");
 // List of Paddler objects
 let paddlerList = [];
 
-function createNewPaddler(event) {
-	var formPaddlerName = document.getElementById("formPaddlerName");
-	var formPaddlerWeight = document.getElementById("paddlerWeight");
-	var formPaddlerGender = document.getElementsByName("paddlerGender");
-
-	event.preventDefault();				// Prevent page from refreshing after hitting submit
-	var name = formPaddlerName.value;
-	var weight = formPaddlerWeight.value;
-
-	var gender;
-	for (let i = 0; i < formPaddlerGender.length; i++) {
-		if (formPaddlerGender[i].checked) {
-			gender = formPaddlerGender[i].value;
-			break;
-		}
-	}
-
-	paddlerList.push(new Paddler(name, gender, weight, paddlerList.length));
-
-	newPaddlerSuccess.innerText = "Successfully created new paddler!";
-}
-
-function formRemoveMessages(event) {
-	newPaddlerSuccess.innerText = "";
-}
-
-/**
- * 
- */
-function showRosterPanel() {
-	createPaddlerButton.style.backgroundColor = "";
-	createPaddlerButton.style.color = "";
-	rosterButton.style.backgroundColor = '#f44336';
-	rosterButton.style.color = "white";
-
-	createPaddlerPanel.style.display = "none";
-	rosterPanel.style.display = "block";
-}
-
-/**
- * 
- */
-function showCreatePaddlerPanel() {
-	rosterButton.style.backgroundColor = "";
-	rosterButton.style.color = "";
-	createPaddlerButton.style.backgroundColor = '#f44336';
-	createPaddlerButton.style.color = "white";
-
-	rosterPanel.style.display = "none";
-	createPaddlerPanel.style.display = "block";
-}
-
-function initializePanels() {
-	rosterButton.addEventListener("click", showRosterPanel);
-	createPaddlerButton.addEventListener("click", showCreatePaddlerPanel);
-	showRosterPanel();
-}
-
 /**
  * Creates a new paddler based on the info submitted in the "create a new paddler" form
  * @param {event} event Submit event
@@ -112,6 +54,16 @@ function formRemoveMessages(event) {
 }
 
 /**
+ * Adds event listeners for switching between tabs. Webpage defaults to showing 
+ * the roster tab. 
+ */
+function initializeTabContent() {
+	rosterButton.addEventListener("click", showRosterTab);
+	createPaddlerButton.addEventListener("click", showCreatePaddlerTab);
+	showRosterTab();
+}
+
+/**
  * Shows the roster tab
  */
 function showRosterTab() {
@@ -138,16 +90,6 @@ function showCreatePaddlerTab() {
 }
 
 /**
- * Adds event listeners for switching between tabs. Webpage defaults to showing 
- * the roster tab. 
- */
-function initializeTabContent() {
-	rosterButton.addEventListener("click", showRosterTab);
-	createPaddlerButton.addEventListener("click", showCreatePaddlerTab);
-	showRosterTab();
-}
-
-/**
 *  Handles logic for when the user clicks in the window
 *  @param {event} event Click event
 */
@@ -171,7 +113,7 @@ function handleClick(event) {
 		let activePerson = getActivePerson();
 		if (activePerson !== null) {
 			boat.appendChild(activePerson);
-			let seatPosition = getSeatPosition(target);
+			let seatPosition = getSeatPosition(boat, target);
 			moveActivePersonToBoat(seatPosition, activePerson);
 		}
 	}
@@ -256,13 +198,13 @@ function findPaddlerById(id) {
 *  @param {div}     seat The seat element of interest
 *  @return {object}      Top and left positions of seat
 */
-function getSeatPosition(seat) {
+function getSeatPosition(boatElement, seat) {
 	let seatRect = seat.getBoundingClientRect();
-	let boatRect = boat.getBoundingClientRect();
+	let boatRect = boatElement.getBoundingClientRect();
 
 	// Get seat position relative to boat container
 	let seatTop = seatRect.top - boatRect.top - 1;
-	let seatLeft = seatRect.left - boatRect.left -1;
+	let seatLeft = seatRect.left - boatRect.left - 1;
 
 	return {
 		top: seatTop,
@@ -273,55 +215,78 @@ function getSeatPosition(seat) {
 /**
 *  Creates the seat elements in the boat
 */
-function createSeatsInBoat() {
-	let firstCol = "100px";
-	let secondCol = "150px";
-	let seatElement = null;
-	let topPos = 0;
+function createSeatsInBoat(boatElement) {
+	createPaddlerSeatElements(boatElement);
+	createDrummerSeatElement(boatElement);
+	createSteeringSeatElement(boatElement);
+}
+
+// TODO: Should I give paddler seat elements their own specific id? 
+export function createPaddlerSeatElements(boatElement) {
 	for (let seatIdx = 0; seatIdx < NUM_BOAT_SEATS; seatIdx++) {
-		seatElement = document.createElement("div");
-		seatElement.setAttribute("class", "seat");
-		boat.appendChild(seatElement);
-		if (seatIdx < NUM_BOAT_SEATS/2) {
-			topPos = seatIdx*50 + 70;
-			seatElement.style.top = topPos+"px";
-			seatElement.style.left = firstCol;
-		}
-		else {
-			topPos = (seatIdx - NUM_BOAT_SEATS/2)*50 + 70;
-			seatElement.style.top = topPos+"px";
-			seatElement.style.left = secondCol;			
-		}
+		createOnePaddlerSeatElement(boatElement, seatIdx);
+	}
+}
+
+export function createOnePaddlerSeatElement(boatElement, seatIdx) {
+	let seatPosition = determinePaddlerSeatPosition(seatIdx);
+	createSeatElementAtPosition(boatElement, seatPosition.top, seatPosition.left);
+}
+
+export function determinePaddlerSeatPosition(seatIdx) {
+	let seatPosition = {};
+	let leftCol = "100px";
+	let rightCol = "150px";
+	let topPos = 0;
+	let leftPos = "";
+
+	if (seatIdx < NUM_BOAT_SEATS/2) {
+		topPos = seatIdx*50 + 70;
+		leftPos = leftCol;
+	}
+	else {
+		topPos = (seatIdx - NUM_BOAT_SEATS/2)*50 + 70;
+		leftPos = rightCol;
 	}
 
-	createDrummerElement();
-	createSteeringElement();
+	seatPosition = {
+		top: topPos+"px",
+		left: leftPos
+	};
+
+	return seatPosition;
 }
 
 /**
 *  Create element for drummer's seat. 
 */
-function createDrummerElement() {
-	let drummerElement = document.createElement("div");
-	drummerElement.setAttribute("class", "seat");
-	boat.appendChild(drummerElement);
-	drummerElement.style.top = "10px";
-	drummerElement.style.left = "125px";
+export function createDrummerSeatElement(boatElement) {
+	let top = "10px";
+	let left = "125px";
+	createSeatElementAtPosition(boatElement, top, left);
 }
 
 /**
 *  Create element for steering position
 */
-function createSteeringElement() {
-	let steeringElement = document.createElement("div");
-	steeringElement.setAttribute("class", "seat");
-	boat.appendChild(steeringElement);
-	steeringElement.style.top = "580px";
-	steeringElement.style.left = "125px";
+export function createSteeringSeatElement(boatElement) {
+	let top = "580px";
+	let left = "125px";
+	createSeatElementAtPosition(boatElement, top, left);
+}
+
+export function createSeatElementAtPosition(boatElement, top, left) {
+	let seatElement = document.createElement("div");
+
+	seatElement.setAttribute("class", "seat");
+	boatElement.appendChild(seatElement);
+
+	seatElement.style.top = top;
+	seatElement.style.left = left;
 }
 
 function main() {
-	createSeatsInBoat();
+	createSeatsInBoat(boat);
 	initializeTabContent();
 	document.addEventListener("click", handleClick);
 	createPaddlerForm.addEventListener("submit", createNewPaddler);
