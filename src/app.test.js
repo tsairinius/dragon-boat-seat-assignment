@@ -1,5 +1,133 @@
 import { createSteeringSeatElement, createDrummerSeatElement, createSeatElementAtPosition, determinePaddlerSeatPosition,
-          createPaddlerSeatElements, createOnePaddlerSeatElement } from './app.js'
+          createPaddlerSeatElements, createOnePaddlerSeatElement, findPaddlerById, getActivePerson, deletePersonElementFromBoat } from './app.js'
+import Paddler from './paddler.js'
+
+test('check that specified person is deleted boat element', () => {
+  document.body.innerHTML =
+  '<div class="columnLeft" id="boat">' +
+  '<h1 class="curlyFont">Boat</h1>' +
+  '<div class="person" id="4" name="Eric" style="position: absolute; top: 69px; left: 99px;">' +
+  'Eric' +
+  '</div>' +
+  '</div>';
+
+  const boatElement = document.getElementById("boat");
+  const personId = 4;
+  deletePersonElementFromBoat(boatElement, personId);
+
+  expect(boatElement.innerHTML).toBe('<h1 class="curlyFont">Boat</h1>');
+})
+
+test('check that returned person has active attribute', () => {
+  document.body.innerHTML = 
+    '<div class="tab" id="rosterTab">' +
+    '<h1 class="curlyFont">Paddlers</h1>' +
+    '</div>';
+
+  let rosterTab = document.getElementById("rosterTab");
+
+  const paddlerId = 12;
+  const weight = 100;
+  const name = "Eric";
+  const gender = "male";
+
+  let paddler = new Paddler(rosterTab, name, gender, weight, paddlerId);
+  paddler.setActivePerson();
+
+  let activePerson = getActivePerson();
+
+  expect(activePerson.getAttribute("class")).toBe("active person");
+
+
+});
+
+test('check that null is returned since there is no active person', () => {
+  document.body.innerHTML = 
+    '<div class="tab" id="rosterTab">' +
+    '<h1 class="curlyFont">Paddlers</h1>' +
+    '</div>';
+
+  let rosterTab = document.getElementById("rosterTab");
+
+  const paddlerId = 12;
+  const weight = 100;
+  const name = "Eric";
+  const gender = "male";
+
+  let paddler = new Paddler(rosterTab, name, gender, weight, paddlerId);
+
+  let activePerson = getActivePerson();
+
+  expect(activePerson).toBe(null);
+
+});
+
+test('check that assert is called when there is an invalid number of active people', () => {
+  document.body.innerHTML = 
+    '<div class="tab" id="rosterTab">' +
+    '<h1 class="curlyFont">Paddlers</h1>' +
+    '</div>';
+
+  let rosterTab = document.getElementById("rosterTab");
+
+  let firstPaddler = new Paddler(rosterTab, "Eric", "male", 100, 12);
+  let secondPaddler = new Paddler(rosterTab,"Julie", "female", 250, 5);
+
+  firstPaddler.setActivePerson();
+  secondPaddler.setActivePerson();
+
+  spyOn(console, 'assert');
+  getActivePerson();
+  expect(console.assert).toHaveBeenCalledWith(false, "There should only be one active person at a time. Otherwise, there are no active people");
+
+});
+
+test('check that correct paddler is found from list of paddlers', () => {
+  document.body.innerHTML = 
+    '<div class="tab" id="rosterTab">' +
+    '<h1 class="curlyFont">Paddlers</h1>' +
+    '</div>';
+
+  let rosterTab = document.getElementById("rosterTab");
+
+  const paddlerId = 12;
+  const weight = 100;
+  const name = "Eric";
+  const gender = "male";
+
+  let paddler = new Paddler(rosterTab, name, gender, weight, paddlerId);
+  let paddlerList = [ paddler ];
+
+  let returnedPaddler = findPaddlerById(paddlerId, paddlerList);
+
+  expect(returnedPaddler).toBe(paddler);
+
+});
+
+test('check that assert is called when specified paddler is not found from list of paddlers', () => {
+  document.body.innerHTML = 
+    '<div class="tab" id="rosterTab">' +
+    '<h1 class="curlyFont">Paddlers</h1>' +
+    '</div>';
+
+  let rosterTab = document.getElementById("rosterTab");
+
+  const paddlerId = 12;
+  const weight = 100;
+  const name = "Eric";
+  const gender = "male";
+
+  let paddlerInList= new Paddler(rosterTab, name, gender, weight, paddlerId);
+  let paddlerList = [ paddlerInList ];
+
+  const falsePaddlerId = 5;
+
+  spyOn(console, 'assert');
+  findPaddlerById(falsePaddlerId, paddlerList);
+  expect(console.assert).toHaveBeenCalledWith(false, "Could not find paddler with id %d", falsePaddlerId);
+
+});
+
   
 // test('checks that the correct pixel coordinates of a seat element are returned', () => {
 //   document.body.innerHTML = 
