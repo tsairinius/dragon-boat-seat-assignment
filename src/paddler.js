@@ -3,7 +3,7 @@
 *  or boat. Each paddler object has a corresponding div element, which we can easily manipulate. 
 */
 export default class Paddler {
-	constructor(name, gender, weight, paddlerId) {
+	constructor(rosterTab, name, gender, weight, paddlerId) {
 		// Create a div element to visually represent the paddler 
 		this.paddlerElement = document.createElement("div");
 		this.paddlerElement.setAttribute("class", "person");
@@ -57,5 +57,14 @@ export default class Paddler {
 		this.paddlerElement.style.position =  "absolute"; /* fix person position*/
 		this.paddlerElement.style.top = seatPosition.top+"px";
 		this.paddlerElement.style.left = seatPosition.left+"px";
+	}
+
+	getStats() {
+		return {
+			id: this.id,
+			name: this.name,
+			gender: this.gender,
+			weight: this.weight
+		};
 	}
 }

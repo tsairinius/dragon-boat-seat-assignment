@@ -1,0 +1,29 @@
+{
+  "name": "dragon-boat-seat-assignment",
+  "version": "1.0.0",
+  "description": "In order to run the webpage, you will need to create a local server. To do so, follow the steps below: 1. In a terminal, navigate to the dragon boat repository and execute the following command:     python -m SimpleHTTPServer 1337",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsairinius/dragon-boat-seat-assignment.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsairinius/dragon-boat-seat-assignment/issues"
+  },
+  "homepage": "https://github.com/tsairinius/dragon-boat-seat-assignment#readme",
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "jest-environment-jsdom-sixteen": "^1.0.3"
+  },
+  "jest": {
+    "testEnvironment": "jest-environment-jsdom-sixteen",
+    "transform": {}
+  },
+  "type": "module"
+}
