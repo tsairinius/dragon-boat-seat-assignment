@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendered CreatePaddlerForm matches snapshot 1`] = `
+<form
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div>
+    <label>
+      Name
+    </label>
+    <input
+      name="paddlerName"
+      onChange={[Function]}
+      placeholder="e.g. Ed Cheung"
+      required={true}
+      type="text"
+      value=""
+    />
+  </div>
+  <div>
+    Gender
+    <div>
+      <label>
+        Male
+      </label>
+      <input
+        checked={false}
+        name="paddlerGender"
+        onChange={[Function]}
+        required={true}
+        type="radio"
+        value="male"
+      />
+    </div>
+    <div>
+      <label>
+        Female
+      </label>
+      <input
+        checked={false}
+        name="paddlerGender"
+        onChange={[Function]}
+        required={true}
+        type="radio"
+        value="female"
+      />
+    </div>
+    <div>
+      <label>
+        Other
+      </label>
+      <input
+        checked={false}
+        name="paddlerGender"
+        onChange={[Function]}
+        required={true}
+        type="radio"
+        value="other"
+      />
+    </div>
+  </div>
+  <div>
+    <label>
+      Weight(lb)
+    </label>
+    <input
+      min="1"
+      name="paddlerWeight"
+      onChange={[Function]}
+      placeholder="e.g. 150"
+      required={true}
+      type="number"
+      value=""
+    />
+  </div>
+  <button
+    type="reset"
+  >
+    Reset
+  </button>
+  <button
+    type="submit"
+  >
+    Submit
+  </button>
+</form>
+`;

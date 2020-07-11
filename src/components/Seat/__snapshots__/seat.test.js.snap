@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendered Seat matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "border": "1px solid #000",
+      "height": "50px",
+      "width": "50px",
+    }
+  }
+/>
+`;

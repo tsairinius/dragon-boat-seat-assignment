@@ -1,29 +1,38 @@
 {
   "name": "dragon-boat-seat-assignment",
-  "version": "1.0.0",
-  "description": "In order to run the webpage, you will need to create a local server. To do so, follow the steps below: 1. In a terminal, navigate to the dragon boat repository and execute the following command:     python -m SimpleHTTPServer 1337",
-  "main": "index.js",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tsairinius/dragon-boat-seat-assignment.git"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tsairinius/dragon-boat-seat-assignment/issues"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
-  "homepage": "https://github.com/tsairinius/dragon-boat-seat-assignment#readme",
   "devDependencies": {
-    "jest": "^26.0.1",
-    "jest-environment-jsdom-sixteen": "^1.0.3"
-  },
-  "jest": {
-    "testEnvironment": "jest-environment-jsdom-sixteen",
-    "transform": {}
-  },
-  "type": "module"
+    "react-test-renderer": "^16.13.1"
+  }
 }

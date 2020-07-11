@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { cleanup } from '@testing-library/react';
-import App from './App';
+import Boat from './Boat';
 
 afterEach(cleanup);
 
-it('renders App component without crashing', () => {
+it('renders Boat component without crashing', () => {
   const container = document.createElement('div');
-  ReactDOM.render(<App />, container);
+  ReactDOM.render(<Boat />, container);
 });
 

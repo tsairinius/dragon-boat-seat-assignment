@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rendered Roster matches snapshot 1`] = `
+<div
+  style={
+    Object {
+      "border": "1px solid purple",
+    }
+  }
+>
+  <h1
+    style={
+      Object {
+        "color": "black",
+        "fontFamily": "Allura",
+        "fontSize": "40px",
+      }
+    }
+  >
+    Paddlers
+  </h1>
+  <div
+    style={
+      Object {
+        "border": "1px solid green",
+      }
+    }
+  >
+    Eric
+  </div>
+</div>
+`;
