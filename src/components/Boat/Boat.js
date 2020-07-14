@@ -1,6 +1,6 @@
-import React from "react";
-import Seat from "../Seat/Seat";
-import PropTypes from "prop-types";
+import React from 'react';
+import Seat from '../Seat/Seat';
+import PropTypes from 'prop-types';
 
 function Boat(props) {
 

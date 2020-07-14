@@ -1,5 +1,5 @@
-import React from "react";
-import Paddler from "../Paddler/Paddler";
+import React from 'react';
+import Paddler from '../Paddler/Paddler';
 import PropTypes from 'prop-types';
 
 function Seat(props) {
@@ -29,11 +29,11 @@ function Seat(props) {
     }
 
     const paddler = props.paddlersInBoat.filter(paddler => paddler.seatId === props.id);
-    console.assert(paddler.length <= 1, "There should only be at most one paddler assigned to this seat.");
+    console.assert(paddler.length <= 1, 'There should only be at most one paddler assigned to this seat.');
     const paddlerComponent = paddler.length ? <Paddler paddlerProfile={paddler[0]} handlePaddlerClick={props.handlePaddlerClick}/> : undefined;
 
     return(
-        <div style={style} onClick={() => props.handleSeatClick(props.id)}>
+        <div data-testid={'seat'+props.id} style={style} onClick={() => props.handleSeatClick(props.id)}>
             {paddlerComponent}
         </div>
     )

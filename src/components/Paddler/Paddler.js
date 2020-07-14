@@ -13,7 +13,7 @@ function Paddler(props) {
         margin: '1px',
         float: 'left',
         textAlign: 'center',
-        backgroundImage: "url(" + profileImg + ")",
+        backgroundImage: 'url(' + profileImg + ')',
         backgroundSize: 'cover',
         backgroundPosition: '30% 100%'
     };

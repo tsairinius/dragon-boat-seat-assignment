@@ -7,7 +7,7 @@ function Roster(props) {
     const paddlerComponents = props.paddlers.map(paddler => <Paddler key={paddler.id} paddlerProfile={paddler} handlePaddlerClick={props.handlePaddlerClick}/>)
     
     return (
-        <div>
+        <div data-testid={'roster'}>
             <h1 style={{color: 'black', fontFamily: 'Allura', fontSize: '40px'}}>Paddlers</h1>
             {paddlerComponents}
         </div>
