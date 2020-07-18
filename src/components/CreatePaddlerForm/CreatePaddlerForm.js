@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 function CreatePaddlerForm(props) {
 
-    const [paddlerName, setPaddlerName] = useState("");
-    const [paddlerGender, setPaddlerGender] = useState("");
-    const [paddlerWeight, setPaddlerWeight] = useState("");
+    const [paddlerName, setPaddlerName] = useState('');
+    const [paddlerGender, setPaddlerGender] = useState('');
+    const [paddlerWeight, setPaddlerWeight] = useState('');
 
     const handleNameChange = event => setPaddlerName(event.target.value);
     const handleGenderChange = event => setPaddlerGender(event.target.value);
@@ -20,17 +20,19 @@ function CreatePaddlerForm(props) {
            gender: paddlerGender, 
            weight: paddlerWeight, 
            inBoat: false,
-           seatId: "",
+           seatId: '',
            isActive: false
         };
 
        props.addPaddler(paddlerProfile);
+
+       handleReset();
    }
 
    const handleReset = () => {
-       setPaddlerName("");
-       setPaddlerGender("");
-       setPaddlerWeight("");
+       setPaddlerName('');
+       setPaddlerGender('');
+       setPaddlerWeight('');
    };
 
     return ( 
@@ -38,30 +40,36 @@ function CreatePaddlerForm(props) {
             <h1 style={{color: 'black', fontFamily: 'Allura', fontSize: '40px'}}>Create a Paddler</h1>
             <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div>
-                    <label>Name</label>
-                    <input type="text" name="paddlerName" placeholder="e.g. Ed Cheung" value={paddlerName} onChange={handleNameChange} required />
+                    <label>Name
+                        <input type='text' name='paddlerName' placeholder='e.g. Ed Cheung' value={paddlerName} onChange={handleNameChange} required />
+                    </label>
+                    
                 </div>
                 <div>
                     Gender
                     <div>
-                        <label>Male</label>
-                        <input type="radio" name="paddlerGender" value="male" checked={paddlerGender==="male"} onChange={handleGenderChange} required /> 
+                        <label>Male
+                            <input type='radio' name='paddlerGender' value='male' checked={paddlerGender==='male'} onChange={handleGenderChange} required /> 
+                        </label>
                     </div>
                     <div>
-                        <label>Female</label>
-                        <input type="radio" name="paddlerGender" value="female" checked={paddlerGender==="female"} onChange={handleGenderChange} required />
+                        <label>Female
+                            <input type='radio' name='paddlerGender' value='female' checked={paddlerGender==='female'} onChange={handleGenderChange} required />
+                        </label>
                     </div>
                     <div>
-                        <label>Other</label>
-                        <input type="radio" name="paddlerGender" value="other" checked={paddlerGender==="other"} onChange={handleGenderChange}required />
+                        <label>Other
+                            <input type='radio' name='paddlerGender' value='other' checked={paddlerGender==='other'} onChange={handleGenderChange} required />
+                        </label>
                     </div>
                 </div>
                 <div>
-                    <label>Weight(lb)</label>
-                    <input type="number" name="paddlerWeight" min="1" placeholder="e.g. 150" value={paddlerWeight} onChange={handleWeightChange} required />
+                    <label>Weight(lb)
+                        <input type='number' name='paddlerWeight' min='1' placeholder='e.g. 150' value={paddlerWeight} onChange={handleWeightChange} required />
+                    </label>
                 </div>
-                <button type="reset">Reset</button>
-                <button type="submit">Submit</button>
+                <button type='reset'>Reset</button>
+                <button type='submit'>Submit</button>
             </form>
         </div>
     )

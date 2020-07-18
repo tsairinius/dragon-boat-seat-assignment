@@ -29,7 +29,7 @@ function App() {
       else {
         if (paddler.id === paddlerId) {
           paddler.inBoat = false;
-          paddler.seatId = "";
+          paddler.seatId = '';
         }
       }
       return paddler;
@@ -51,7 +51,7 @@ function App() {
 
   const style = {
     ':after': {
-      content: "", 
+      content: '', 
       display: 'table', 
       clear: 'both'
     }
@@ -61,8 +61,8 @@ function App() {
     <div style={style}>
       <Boat paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick}/>
       <Tabs>
-        <Roster label="Roster" paddlers={paddlersOnRoster} handlePaddlerClick={handlePaddlerClick}/> 
-        <CreatePaddlerForm label="+" addPaddler={addPaddlerToList}/> 
+        <Roster label='Roster' paddlers={paddlersOnRoster} handlePaddlerClick={handlePaddlerClick}/> 
+        <CreatePaddlerForm label='+' addPaddler={addPaddlerToList}/> 
       </Tabs>
     </div>
 

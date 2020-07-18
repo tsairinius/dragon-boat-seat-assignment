@@ -1,17 +1,51 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { cleanup } from "@testing-library/react";
-import renderer from "react-test-renderer";
-import Seat from "./Seat";
+import React from 'react';
+import { render } from '@testing-library/react';
+import Seat from './Seat';
+import {v4 as uuidv4} from 'uuid';
+import userEvent from '@testing-library/user-event';
 
-afterEach(cleanup);
+let handleSeatClick;
+let handlePaddlerClick;
+let paddlersInBoat;
+beforeAll(() => {
+    handleSeatClick = jest.fn();
+    handlePaddlerClick = jest.fn();
+
+    const paddlerBob = {
+        id: uuidv4(),
+        name: 'Bob', 
+        gender: 'male', 
+        weight: '125', 
+        inBoat: true,
+        seatId: 1,
+        isActive: false
+     };
+
+     const paddlerLisa = {
+        id: uuidv4(),
+        name: 'Lisa', 
+        gender: 'female', 
+        weight: '150', 
+        inBoat: true,
+        seatId: 2,
+        isActive: false
+     };
+
+     paddlersInBoat = [paddlerBob, paddlerLisa];
+});
 
 it('renders Seat component without crashing', () => {
-    const container = document.createElement('div');
-    ReactDOM.render(<Seat />, container);
+    render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
 });
 
-it('rendered Seat matches snapshot', () => {
-    const tree = renderer.create(<Seat />).toJSON();
-    expect(tree).toMatchSnapshot();
+it('renders Seat with Paddler inside of it', () => {
+    const { getByTestId, getByText } = render(<Seat id={1} paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
+    expect(getByTestId('seat1').firstChild).toBe(getByText('Bob'));
 });
+
+it('calls appropriate callback function when Seat is clicked on', () => {
+    const { getByTestId } = render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
+    userEvent.click(getByTestId('seat1'));
+    expect(handleSeatClick).toHaveBeenCalledTimes(1);
+});
+

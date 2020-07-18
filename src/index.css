@@ -1,5 +1,5 @@
 body {
-    background-image: url("./assets/img/leaf_like_line_new.svg");
+    background-image: url('./assets/img/leaf_like_line_new.svg');
 	  background-repeat: no-repeat;
   	background-position: center;
   	margin-right: 200px;

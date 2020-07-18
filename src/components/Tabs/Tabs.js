@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function Tabs(props) {
-    const [activeTab, setActiveTab] = useState(props.children[0].props.label);
-
+    const tabsCollection = React.Children.toArray(props.children);  
+    const [activeTab, setActiveTab] = useState(tabsCollection[0].props.label);
     const handleClick = tab => setActiveTab(tab);
 
     const style = {
@@ -17,14 +17,14 @@ function Tabs(props) {
 
     return (
         <div style={style}>
-            {props.children.map(child => <button key={child.props.label} type="button" onClick={() => handleClick(child.props.label)}>{child.props.label}</button> )}
-            {props.children.map(child => child.props.label === activeTab ? child : undefined)}
+            {tabsCollection.map(tab => <button key={tab.props.label} type='button' onClick={() => handleClick(tab.props.label)}>{tab.props.label}</button> )}
+            {tabsCollection.map(tab => tab.props.label === activeTab ? tab : undefined)}
         </div>
     )
 };
 
 Tabs.propTypes = {
-    children: PropTypes.any.isRequired
+    children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired
 }
 
 export default Tabs;
