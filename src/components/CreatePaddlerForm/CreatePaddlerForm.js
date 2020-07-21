@@ -36,7 +36,7 @@ function CreatePaddlerForm(props) {
    };
 
     return ( 
-        <div style={{border: 'solid 1px orange'}}>
+        <div style={{border: 'solid 1px green'}}>
             <h1 style={{color: 'black', fontFamily: 'Allura', fontSize: '40px'}}>Create a Paddler</h1>
             <form onSubmit={handleSubmit} onReset={handleReset}>
                 <div>

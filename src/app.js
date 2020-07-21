@@ -3,6 +3,7 @@ import Boat from './components/Boat/Boat';
 import Roster from './components/Roster/Roster';
 import CreatePaddlerForm from './components/CreatePaddlerForm/CreatePaddlerForm';
 import Tabs from './components/Tabs/Tabs';
+import ProfileViewer from './components/ProfileViewer/ProfileViewer';
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
     }))
   }
 
-  const handleSeatClick = seatId => {
+  const assignActivePaddlerSeat = seatId => {
       // Find active paddler and assign it seatId
       updateList(paddlerList.map(paddler => {
           if (paddler.isActive === true) {
@@ -54,16 +55,23 @@ function App() {
       content: '', 
       display: 'table', 
       clear: 'both'
-    }
+    },
+    width: '100%',
+    height: '100%'
   };
+
 
   return (
     <div style={style}>
-      <Boat paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick}/>
-      <Tabs>
-        <Roster label='Roster' paddlers={paddlersOnRoster} handlePaddlerClick={handlePaddlerClick}/> 
-        <CreatePaddlerForm label='+' addPaddler={addPaddlerToList}/> 
-      </Tabs>
+      <Boat paddlersInBoat={paddlersInBoat} handleSeatClick={assignActivePaddlerSeat} handlePaddlerClick={handlePaddlerClick}/>
+      <div style={{float: 'right', width: '45%', height: '600px', marginLeft: ': 1%',position: 'relative', border: 'solid 1px orange'}}>
+        <Tabs>
+          <Roster label='Roster' paddlers={paddlersOnRoster} handlePaddlerClick={handlePaddlerClick}/> 
+          <CreatePaddlerForm label='+' addPaddler={addPaddlerToList}/> 
+        </Tabs>
+        <ProfileViewer paddler={paddlersOnRoster.find(paddler => paddler.isActive === true)} />
+      </div>
+      
     </div>
 
   );

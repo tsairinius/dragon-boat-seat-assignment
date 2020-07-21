@@ -18,12 +18,12 @@ function Boat(props) {
         width: '45%',
         height: '100%',
         marginRight: ': 1%',
-        position: 'relative'
+        position: 'relative',
+        border: 'solid 1px red'
     };
 
     return (
         <div style={style}>
-            <h1 style={{color: 'black', fontFamily: 'Allura', fontSize: '40px', textAlign: 'center'}}>Boat</h1>
             <div style={{display: 'grid', gridTemplateColumns: '50px 50px', width: '100px', height: '500px', margin: '0 auto'}}>
                 {createSeatComponents()}
             </div>
