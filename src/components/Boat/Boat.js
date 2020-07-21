@@ -8,7 +8,7 @@ function Boat(props) {
         const numSeats = 22;
         var seatComponents = [];
         for (var i = 0; i < numSeats; i++) {
-           seatComponents = [...seatComponents, <Seat key={i} id={i} paddlersInBoat={props.paddlersInBoat} handleSeatClick={props.handleSeatClick} handlePaddlerClick={props.handlePaddlerClick}/>]
+           seatComponents = [...seatComponents, <Seat key={i} id={i} paddlersInBoat={props.paddlersInBoat} handleSeatClick={props.handleSeatClick} handlePaddlerMouseEnter={props.handlePaddlerMouseEnter} handlePaddlerMouseLeave={props.handlePaddlerMouseLeave} handlePaddlerClick={props.handlePaddlerClick}/>]
         }
         return seatComponents;
     };
@@ -18,12 +18,12 @@ function Boat(props) {
         width: '45%',
         height: '100%',
         marginRight: ': 1%',
-        position: 'relative'
+        position: 'relative',
+        border: 'solid 1px red'
     };
 
     return (
         <div style={style}>
-            <h1 style={{color: 'black', fontFamily: 'Allura', fontSize: '40px', textAlign: 'center'}}>Boat</h1>
             <div style={{display: 'grid', gridTemplateColumns: '50px 50px', width: '100px', height: '500px', margin: '0 auto'}}>
                 {createSeatComponents()}
             </div>
@@ -35,7 +35,9 @@ function Boat(props) {
 Boat.propTypes = {
     paddlersInBoat: PropTypes.array.isRequired,
     handleSeatClick: PropTypes.func.isRequired,
-    handlePaddlerClick: PropTypes.func.isRequired
+    handlePaddlerClick: PropTypes.func.isRequired,
+    handlePaddlerMouseEnter: PropTypes.func.isRequired,
+    handlePaddlerMouseLeave: PropTypes.func.isRequired
 };
 
 export default Boat;

@@ -8,11 +8,8 @@ function Tabs(props) {
 
     const style = {
             textAlign: 'center',
-            float: 'right',
-            width: '45%',
-            height: '100%',
-            marginLeft: ': 1%',
-            position: 'relative'
+            height: '80%',
+            border: 'solid 1px purple'
     };
 
     return (

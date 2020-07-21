@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/react/dont-cleanup-after-each';  
 import { cleanup, render } from '@testing-library/react';
 import App from './App';
-import { screen } from '@testing-library/dom';
+import { screen, fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 describe('tests process of adding a new paddler and moving it between the roster and boat', () => {
@@ -37,7 +37,7 @@ describe('tests process of adding a new paddler and moving it between the roster
   
     await userEvent.type(nameInput, 'Eric');
     userEvent.click(maleButton);
-    await userEvent.type(weightInput, '200');
+    fireEvent.change(weightInput, {target: {value: '200'}}); // Using userEvent.type for a number doesn't work currently
     userEvent.click(submitButton);
     userEvent.click(rosterTab);
 
@@ -75,7 +75,7 @@ describe('tests process of adding a new paddler and moving it between the roster
   });
 });
 
-describe('tests interacting with multiple paddlers', () => {
+describe('tests with cleanup after each', () => {
   beforeEach(async () => {
     render(<App/>);
     const createPaddlerTab = screen.getByRole('button', {name: '+'});
@@ -90,12 +90,12 @@ describe('tests interacting with multiple paddlers', () => {
 
     await userEvent.type(nameInput, 'Bob');
     userEvent.click(otherButton);
-    await userEvent.type(weightInput, '150');
+    fireEvent.change(weightInput, {target: {value: '150'}});  // Using userEvent.type for a number doesn't work currently
     userEvent.click(submitButton);
 
     await userEvent.type(nameInput, 'Jenny');
     userEvent.click(femaleButton);
-    await userEvent.type(weightInput, '120');
+    fireEvent.change(weightInput, {target: {value: '120'}}); // Using userEvent.type for a number doesn't work currently
     userEvent.click(submitButton);
 
     userEvent.click(rosterTab);
@@ -120,6 +120,18 @@ describe('tests interacting with multiple paddlers', () => {
 
     expect(screen.getByText('Bob')).toHaveStyle('background-image: url(profile_default_img_new.svg)');
     expect(screen.getByText('Jenny')).toHaveStyle('background-image: url(profile_default_img_new_hover.svg)')
+  });
+
+  it('displays info on paddler only when hovered over', () => {
+    userEvent.hover(screen.getByText('Jenny'));
+    expect(screen.getByText('Name: Jenny')).toBeInTheDocument();
+    expect(screen.getByText('Gender: female')).toBeInTheDocument();
+    expect(screen.getByText('Weight (lb): 120')).toBeInTheDocument();
+
+    userEvent.unhover(screen.getByText('Jenny'));
+    expect(screen.queryByText('Name: Jenny')).not.toBeInTheDocument();
+    expect(screen.queryByText('Gender: female')).not.toBeInTheDocument();
+    expect(screen.queryByText('Weight (lb): 120')).not.toBeInTheDocument();
   });
 
   // THERE'S A BUG SUCH THAT THIS UNIT TEST WILL NOT YET PASS
