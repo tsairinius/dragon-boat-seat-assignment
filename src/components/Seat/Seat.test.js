@@ -6,10 +6,14 @@ import userEvent from '@testing-library/user-event';
 
 let handleSeatClick;
 let handlePaddlerClick;
+let handlePaddlerMouseEnter;
+let handlePaddlerMouseLeave;
 let paddlersInBoat;
 beforeAll(() => {
     handleSeatClick = jest.fn();
     handlePaddlerClick = jest.fn();
+    handlePaddlerMouseEnter = jest.fn();
+    handlePaddlerMouseLeave = jest.fn();
 
     const paddlerBob = {
         id: uuidv4(),
@@ -35,16 +39,16 @@ beforeAll(() => {
 });
 
 it('renders Seat component without crashing', () => {
-    render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
+    render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
 });
 
 it('renders Seat with Paddler inside of it', () => {
-    const { getByTestId, getByText } = render(<Seat id={1} paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
+    const { getByTestId, getByText } = render(<Seat id={1} paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
     expect(getByTestId('seat1').firstChild).toBe(getByText('Bob'));
 });
 
 it('calls appropriate callback function when Seat is clicked on', () => {
-    const { getByTestId } = render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} />);
+    const { getByTestId } = render(<Seat id={1} paddlersInBoat={[]} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
     userEvent.click(getByTestId('seat1'));
     expect(handleSeatClick).toHaveBeenCalledTimes(1);
 });

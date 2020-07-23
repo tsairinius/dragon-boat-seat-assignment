@@ -6,11 +6,6 @@ function ProfileViewer(props) {
     const style = {
         border: 'solid 1px blue',
         height: '20%'
-
-        // position: 'relative',
-        // width: '45%',
-        // float: 'right'
-
     };
 
     const showPaddlerInfo = () => {

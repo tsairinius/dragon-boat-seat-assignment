@@ -10,12 +10,6 @@ function Tabs(props) {
             textAlign: 'center',
             height: '80%',
             border: 'solid 1px purple'
-            // float: 'right',
-            // width: '45%',
-            // height: '450px',
-            // marginLeft: ': 1%',
-            // position: 'relative',
-            // border: 'solid 1px orange'
     };
 
     return (

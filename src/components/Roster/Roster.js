@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function Roster(props) {
 
-    const paddlerComponents = props.paddlers.map(paddler => <Paddler key={paddler.id} paddlerProfile={paddler} handlePaddlerClick={props.handlePaddlerClick}/>)
+    const paddlerComponents = props.paddlers.map(paddler => <Paddler key={paddler.id} paddlerProfile={paddler} handlePaddlerMouseEnter={props.handlePaddlerMouseEnter} handlePaddlerMouseLeave={props.handlePaddlerMouseLeave} handlePaddlerClick={props.handlePaddlerClick}/>)
     
     return (
         <div data-testid={'roster'}>
@@ -17,7 +17,9 @@ function Roster(props) {
 Roster.propTypes = {
     label: PropTypes.string.isRequired,
     paddlers: PropTypes.array.isRequired,
-    handlePaddlerClick: PropTypes.func.isRequired
+    handlePaddlerClick: PropTypes.func.isRequired,
+    handlePaddlerMouseEnter: PropTypes.func.isRequired,
+    handlePaddlerMouseLeave: PropTypes.func.isRequired
 };
 
 

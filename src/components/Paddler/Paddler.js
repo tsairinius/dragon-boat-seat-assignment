@@ -18,10 +18,12 @@ function Paddler(props) {
         backgroundPosition: '30% 100%'
     };
 
-    const handlePaddlerClick = () => props.handlePaddlerClick(props.paddlerProfile.id)
-    
+    const handlePaddlerClick = () => props.handlePaddlerClick(props.paddlerProfile.id);
+    const handleMouseEnter = () => props.handlePaddlerMouseEnter(props.paddlerProfile.id);
+    const handleMouseLeave = () => props.handlePaddlerMouseLeave(props.paddlerProfile.id);
+
     return (
-        <div style={style} onClick={handlePaddlerClick}>
+        <div style={style} onClick={handlePaddlerClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             {props.paddlerProfile.name}
         </div>
     )
@@ -29,7 +31,9 @@ function Paddler(props) {
 
 Paddler.propTypes = {
     paddlerProfile: PropTypes.object.isRequired,
-    handlePaddlerClick: PropTypes.func.isRequired
+    handlePaddlerClick: PropTypes.func.isRequired,
+    handlePaddlerMouseEnter: PropTypes.func.isRequired,
+    handlePaddlerMouseLeave: PropTypes.func.isRequired
 }
 
 

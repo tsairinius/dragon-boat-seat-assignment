@@ -21,7 +21,8 @@ function CreatePaddlerForm(props) {
            weight: paddlerWeight, 
            inBoat: false,
            seatId: '',
-           isActive: false
+           isActive: false,
+           isHovered: false
         };
 
        props.addPaddler(paddlerProfile);
