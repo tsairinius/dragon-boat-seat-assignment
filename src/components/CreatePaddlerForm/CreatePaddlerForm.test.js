@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import CreatePaddlerForm from './CreatePaddlerForm';
-import { screen } from '@testing-library/dom';
+import { screen, fireEvent } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 
 let addPaddlerCallback;
@@ -34,9 +34,10 @@ it('other gender radio button is selected when user selects it', () => {
   expect(otherButton.checked).toBeTruthy();
 });
 
-it('paddler weight input gets updated as user types in weight', async () => {
+// TODO: Using userEvent.type for a number doesn't work currently. May want to use once possible
+it('paddler weight input gets updated as user types in weight', () => {
   const weightInput = screen.getByLabelText('Weight(lb)');
-  await userEvent.type(weightInput, '200');
+  fireEvent.change(weightInput, {target: {value: '200'}});
   expect(weightInput).toHaveAttribute('value', '200');
 });
 
@@ -80,5 +81,3 @@ it('all form fields are cleared when user submits new paddler', async () => {
 
 //   expect(addPaddlerCallback).not.toHaveBeenCalled();
 // });
-
-

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Paddler from './Paddler';
 import {v4 as uuidv4} from 'uuid';
 import userEvent from '@testing-library/user-event';
@@ -41,24 +41,21 @@ it('calls appropriate callback function when Paddler component is clicked on', (
   expect(handlePaddlerClick).toHaveBeenCalledTimes(1);
 });
 
-// it('calls appropriate callback function when mouse is over Paddler component', () => {
-//   const { getByText } = render(<Paddler paddlerProfile={paddlerProfile} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
-//   const paddlerComponent = getByText('John');
+it('calls appropriate callback function when mouse is over Paddler component', () => {
+  const { getByText } = render(<Paddler paddlerProfile={paddlerProfile} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
+  const paddlerComponent = getByText('John');
 
-//   // userEvent.hover(paddlerComponent);
-//   // userEvent.hover(getByText('John'));
-//   userEvent.click(getByText('John'));
-//   userEvent.hover(getByText('John'));
-//   expect(handlePaddlerMouseEnter).toHaveBeenCalledTimes(1);
-// });
+  userEvent.hover(paddlerComponent);
 
-// it('calls appropriate callback function when mouse hovers then unhovers from Paddler component', () => {
-//   const { getByText } = render(<Paddler paddlerProfile={paddlerProfile} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
-//   const paddlerComponent = getByText('John');
+  expect(handlePaddlerMouseEnter).toHaveBeenCalled();
+});
 
-//   // userEvent.hover(paddlerComponent);
-//   userEvent.unhover(paddlerComponent);
+it('calls appropriate callback function when mouse hovers then unhovers from Paddler component', () => {
+  const { getByText } = render(<Paddler paddlerProfile={paddlerProfile} handlePaddlerClick={handlePaddlerClick} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave}/>);
+  const paddlerComponent = getByText('John');
 
-//   expect(handlePaddlerMouseLeave).toHaveBeenCalledTimes(1);
+  userEvent.hover(paddlerComponent);
+  userEvent.unhover(paddlerComponent);
 
-// });
+  expect(handlePaddlerMouseLeave).toHaveBeenCalledTimes(1);
+});
