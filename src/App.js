@@ -3,6 +3,7 @@ import Boat from './components/Boat/Boat';
 import Roster from './components/Roster/Roster';
 import CreatePaddlerForm from './components/CreatePaddlerForm/CreatePaddlerForm';
 import Tabs from './components/Tabs/Tabs';
+import ProfileViewer from './components/ProfileViewer/ProfileViewer';
 
 function App() {
 
@@ -34,9 +35,33 @@ function App() {
       }
       return paddler;
     }))
-  }
+  };
 
-  const handleSeatClick = seatId => {
+  const handlePaddlerMouseEnter = paddlerId => {
+    updateList(paddlerList.map(paddler => {
+      if (paddler.id !== paddlerId) {
+        if (paddler.isHovered === true) {
+          paddler.isHovered = false;
+        }
+      }
+      else {
+        paddler.isHovered = true;
+      }
+
+      return paddler;
+    }));
+  };
+
+  const handlePaddlerMouseLeave = paddlerId => {
+    updateList(paddlerList.map(paddler => {
+      if (paddler.id === paddlerId) {
+        paddler.isHovered = false;
+      }
+      return paddler;
+    }));
+  };
+
+  const assignActivePaddlerSeat = seatId => {
       // Find active paddler and assign it seatId
       updateList(paddlerList.map(paddler => {
           if (paddler.isActive === true) {
@@ -57,13 +82,18 @@ function App() {
     }
   };
 
+
   return (
     <div style={style}>
-      <Boat paddlersInBoat={paddlersInBoat} handleSeatClick={handleSeatClick} handlePaddlerClick={handlePaddlerClick}/>
-      <Tabs>
-        <Roster label='Roster' paddlers={paddlersOnRoster} handlePaddlerClick={handlePaddlerClick}/> 
-        <CreatePaddlerForm label='+' addPaddler={addPaddlerToList}/> 
-      </Tabs>
+      <Boat paddlersInBoat={paddlersInBoat} handleSeatClick={assignActivePaddlerSeat} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave} handlePaddlerClick={handlePaddlerClick}/>
+      <div style={{float: 'right', width: '45%', height: '600px', marginLeft: ': 1%',position: 'relative', border: 'solid 1px orange'}}>
+        <Tabs>
+          <Roster label='Roster' paddlers={paddlersOnRoster} handlePaddlerMouseEnter={handlePaddlerMouseEnter} handlePaddlerMouseLeave={handlePaddlerMouseLeave} handlePaddlerClick={handlePaddlerClick}/> 
+          <CreatePaddlerForm label='+' addPaddler={addPaddlerToList}/> 
+        </Tabs>
+        <ProfileViewer paddler={paddlerList.find(paddler => paddler.isHovered === true)} />
+      </div>
+      
     </div>
 
   );

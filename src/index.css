@@ -1,10 +1,10 @@
 body {
     background-image: url('./assets/img/leaf_like_line_new.svg');
-	  background-repeat: no-repeat;
+	background-repeat: no-repeat;
   	background-position: center;
-  	margin-right: 200px;
+  	margin-right: 200px;			/* Do we need these margins? */
   	margin-left: 200px;
-  	background-attachment: fixed;
+	background-attachment: fixed;
 }
 
 /* code {

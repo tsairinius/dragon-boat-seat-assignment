@@ -30,7 +30,7 @@ function Seat(props) {
 
     const paddler = props.paddlersInBoat.filter(paddler => paddler.seatId === props.id);
     console.assert(paddler.length <= 1, 'There should only be at most one paddler assigned to this seat.');
-    const paddlerComponent = paddler.length ? <Paddler paddlerProfile={paddler[0]} handlePaddlerClick={props.handlePaddlerClick}/> : undefined;
+    const paddlerComponent = paddler.length ? <Paddler paddlerProfile={paddler[0]} handlePaddlerMouseEnter={props.handlePaddlerMouseEnter} handlePaddlerMouseLeave={props.handlePaddlerMouseLeave} handlePaddlerClick={props.handlePaddlerClick}/> : undefined;
 
     return(
         <div data-testid={'seat'+props.id} style={style} onClick={() => props.handleSeatClick(props.id)}>
@@ -43,7 +43,9 @@ Seat.propTypes = {
     id: PropTypes.number.isRequired,
     paddlersInBoat: PropTypes.array.isRequired,
     handleSeatClick: PropTypes.func.isRequired,
-    handlePaddlerClick: PropTypes.func.isRequired
+    handlePaddlerClick: PropTypes.func.isRequired,
+    handlePaddlerMouseEnter: PropTypes.func.isRequired,
+    handlePaddlerMouseLeave: PropTypes.func.isRequired
 };
 
 export default Seat;
