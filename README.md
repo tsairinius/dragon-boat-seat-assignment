@@ -1,8 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-When cloning or pulling updates from this project, make sure to run the following command in order to 
+When cloning or pulling updates from this project, make sure to run the following command in order to
 install all necessary dependencies:
-npm install 
+
+### `npm install`
 
 ## Available Scripts
 
