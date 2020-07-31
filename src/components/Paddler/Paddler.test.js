@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import Paddler from "./Paddler";
 import { v4 as uuidv4 } from "uuid";
 import userEvent from "@testing-library/user-event";
