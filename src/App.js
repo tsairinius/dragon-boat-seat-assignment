@@ -4,6 +4,7 @@ import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
 import Tabs from "./components/Tabs/Tabs";
 import ProfileViewer from "./components/ProfileViewer/ProfileViewer";
+import styled from "styled-components";
 
 function App() {
   const [paddlerList, updateList] = useState([]);
@@ -69,7 +70,6 @@ function App() {
   };
 
   const assignActivePaddlerSeat = (seatId) => {
-    // Find active paddler and assign it seatId
     updateList(
       paddlerList.map((paddler) => {
         if (paddler.isActive === true) {
@@ -82,16 +82,8 @@ function App() {
     );
   };
 
-  const style = {
-    ":after": {
-      content: "",
-      display: "table",
-      clear: "both",
-    },
-  };
-
   return (
-    <div style={style}>
+    <StyledApp>
       <Boat
         paddlersInBoat={paddlersInBoat}
         handleSeatClick={assignActivePaddlerSeat}
@@ -99,16 +91,7 @@ function App() {
         handlePaddlerMouseLeave={handlePaddlerMouseLeave}
         handlePaddlerClick={handlePaddlerClick}
       />
-      <div
-        style={{
-          float: "right",
-          width: "45%",
-          height: "600px",
-          marginLeft: ": 1%",
-          position: "relative",
-          border: "solid 1px orange",
-        }}
-      >
+      <StyledRightColumn>
         <Tabs>
           <Roster
             label="Roster"
@@ -122,9 +105,26 @@ function App() {
         <ProfileViewer
           paddler={paddlerList.find((paddler) => paddler.isHovered === true)}
         />
-      </div>
-    </div>
+      </StyledRightColumn>
+    </StyledApp>
   );
 }
+
+const StyledApp = styled.div`
+  :after: {
+    content: "";
+    display: table;
+    clear: both;
+  }
+`;
+
+const StyledRightColumn = styled.div`
+  float: right;
+  width: 45%;
+  height: 600px;
+  margin-left: : 1%;
+  position: relative;
+  border: solid 1px orange;
+`;
 
 export default App;

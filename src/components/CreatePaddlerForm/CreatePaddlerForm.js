@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 function CreatePaddlerForm(props) {
   const [paddlerName, setPaddlerName] = useState("");
@@ -36,10 +37,8 @@ function CreatePaddlerForm(props) {
   };
 
   return (
-    <div style={{ border: "solid 1px green" }}>
-      <h1 style={{ color: "black", fontFamily: "Allura", fontSize: "40px" }}>
-        Create a Paddler
-      </h1>
+    <StyledCreatePaddlerForm>
+      <StyledCreatePaddlerTitle>Create a Paddler</StyledCreatePaddlerTitle>
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           <label>
@@ -113,7 +112,7 @@ function CreatePaddlerForm(props) {
         <button type="reset">Reset</button>
         <button type="submit">Submit</button>
       </form>
-    </div>
+    </StyledCreatePaddlerForm>
   );
 }
 
@@ -121,5 +120,15 @@ CreatePaddlerForm.propTypes = {
   label: PropTypes.string.isRequired,
   addPaddler: PropTypes.func.isRequired,
 };
+
+const StyledCreatePaddlerForm = styled.div`
+  border: solid 1px green;
+`;
+
+const StyledCreatePaddlerTitle = styled.h1`
+  color: black;
+  font-family: Allura;
+  font-size: 40px;
+`;
 
 export default CreatePaddlerForm;
