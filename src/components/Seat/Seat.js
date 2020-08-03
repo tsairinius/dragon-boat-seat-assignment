@@ -1,31 +1,9 @@
 import React from "react";
 import Paddler from "../Paddler/Paddler";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 function Seat(props) {
-  var style = {
-    width: "50px",
-    height: "50px",
-    border: "1px solid #000",
-    margin: "0 auto",
-  };
-
-  if (props.id === 0) {
-    style = {
-      ...style,
-      gridColumnStart: "1",
-      gridColumnEnd: "3",
-    };
-  } else if (props.id === 21) {
-    style = {
-      ...style,
-      gridColumnStart: "1",
-      gridColumnEnd: "3",
-      gridRowStart: "22",
-      gridRowEnd: "23",
-    };
-  }
-
   const paddler = props.paddlersInBoat.filter(
     (paddler) => paddler.seatId === props.id
   );
@@ -43,13 +21,13 @@ function Seat(props) {
   ) : undefined;
 
   return (
-    <div
+    <SeatDiv
+      seatId={props.id}
       data-testid={"seat" + props.id}
-      style={style}
       onClick={() => props.handleSeatClick(props.id)}
     >
       {paddlerComponent}
-    </div>
+    </SeatDiv>
   );
 }
 
@@ -61,5 +39,18 @@ Seat.propTypes = {
   handlePaddlerMouseEnter: PropTypes.func.isRequired,
   handlePaddlerMouseLeave: PropTypes.func.isRequired,
 };
+
+const SeatDiv = styled.div`
+  width: 50px;
+  height: 50px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  grid-column-start: ${(props) =>
+    props.seatId === 21 || props.seatId === 0 ? "1" : "auto"};
+  grid-column-end: ${(props) =>
+    props.seatId === 21 || props.seatId === 0 ? "3" : "auto"};
+  grid-row-start: ${(props) => (props.seatId === 21 ? "22" : "auto")};
+  grid-row-end: ${(props) => (props.seatId === 21 ? "23" : "auto")};
+`;
 
 export default Seat;

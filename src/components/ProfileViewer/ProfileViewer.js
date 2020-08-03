@@ -1,12 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 function ProfileViewer(props) {
-  const style = {
-    border: "solid 1px blue",
-    height: "20%",
-  };
-
   const showPaddlerInfo = () => {
     return (
       <ul>
@@ -18,14 +14,19 @@ function ProfileViewer(props) {
   };
 
   return (
-    <div style={style}>
+    <StyledProfileViewer>
       {props.paddler !== undefined ? showPaddlerInfo() : undefined}
-    </div>
+    </StyledProfileViewer>
   );
 }
 
 ProfileViewer.propTypes = {
   paddler: PropTypes.object,
 };
+
+const StyledProfileViewer = styled.div`
+  border: solid 1px blue;
+  height: 20%;
+`;
 
 export default ProfileViewer;
