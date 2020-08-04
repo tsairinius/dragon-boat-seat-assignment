@@ -8,9 +8,9 @@ function Roster(props) {
     <Paddler
       key={paddler.id}
       paddlerProfile={paddler}
-      handlePaddlerMouseEnter={props.handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={props.handlePaddlerMouseLeave}
-      handlePaddlerClick={props.handlePaddlerClick}
+      onPaddlerClick={props.onPaddlerClick}
+      onPaddlerMouseEnter={props.onPaddlerMouseEnter}
+      onPaddlerMouseLeave={props.onPaddlerMouseLeave}
     />
   ));
 
@@ -25,9 +25,9 @@ function Roster(props) {
 Roster.propTypes = {
   label: PropTypes.string.isRequired,
   paddlers: PropTypes.array.isRequired,
-  handlePaddlerClick: PropTypes.func.isRequired,
-  handlePaddlerMouseEnter: PropTypes.func.isRequired,
-  handlePaddlerMouseLeave: PropTypes.func.isRequired,
+  onPaddlerClick: PropTypes.func.isRequired,
+  onPaddlerMouseEnter: PropTypes.func.isRequired,
+  onPaddlerMouseLeave: PropTypes.func.isRequired,
 };
 
 const PaddlersTitle = styled.h1`

@@ -4,13 +4,13 @@ import Roster from "./Roster";
 import { v4 as uuidv4 } from "uuid";
 import { screen } from "@testing-library/dom";
 
-let handlePaddlerClick;
-let handlePaddlerMouseEnter;
-let handlePaddlerMouseLeave;
+let onPaddlerClick;
+let onPaddlerMouseEnter;
+let onPaddlerMouseLeave;
 beforeAll(() => {
-  handlePaddlerClick = jest.fn();
-  handlePaddlerMouseEnter = jest.fn();
-  handlePaddlerMouseLeave = jest.fn();
+  onPaddlerClick = jest.fn();
+  onPaddlerMouseEnter = jest.fn();
+  onPaddlerMouseLeave = jest.fn();
 });
 
 it("renders Roster without crashing", () => {
@@ -18,9 +18,9 @@ it("renders Roster without crashing", () => {
     <Roster
       label={"Roster"}
       paddlers={[]}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
 });
@@ -40,9 +40,9 @@ it("renders Paddler in Roster", () => {
     <Roster
       label={"Roster"}
       paddlers={[paddlerBob]}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
 

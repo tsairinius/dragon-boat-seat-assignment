@@ -1,16 +1,35 @@
 import React from "react";
-import "@testing-library/react/dont-cleanup-after-each";
-import { cleanup, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import App from "./App";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
 describe("tests process of adding a new paddler and moving it between the roster and boat", () => {
-  afterAll(cleanup);
-
-  it("renders App component without crashing", () => {
+  beforeEach(() => {
     render(<App />);
   });
+
+  const createPaddlerAndViewRoster = async () => {
+    const rosterTab = screen.getByRole("button", { name: "Roster" });
+    const createPaddlerTab = screen.getByRole("button", { name: "+" });
+    userEvent.click(createPaddlerTab);
+
+    const nameInput = screen.getByLabelText("Name");
+    const maleButton = screen.getByLabelText("Male");
+    const weightInput = screen.getByLabelText("Weight(lb)");
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+
+    await userEvent.type(nameInput, "Eric");
+    userEvent.click(maleButton);
+    await userEvent.type(weightInput, "200");
+    userEvent.click(submitButton);
+    userEvent.click(rosterTab);
+  };
+
+  const movePaddlerFromRosterToBoatSeat = (seat) => {
+    userEvent.click(screen.getByText("Eric"));
+    userEvent.click(screen.getByTestId(`${seat}`));
+  };
 
   it("renders paddler form when create-a-paddler tab is clicked", () => {
     const createPaddlerTab = screen.getByRole("button", { name: "+" });
@@ -26,26 +45,14 @@ describe("tests process of adding a new paddler and moving it between the roster
   });
 
   it("renders Paddler component in roster after new paddler is submitted", async () => {
-    const rosterTab = screen.getByRole("button", { name: "Roster" });
-    const createPaddlerTab = screen.getByRole("button", { name: "+" });
-    userEvent.click(createPaddlerTab);
-
-    const nameInput = screen.getByLabelText("Name");
-    const maleButton = screen.getByLabelText("Male");
-    const weightInput = screen.getByLabelText("Weight(lb)");
-    const submitButton = screen.getByRole("button", { name: "Submit" });
-
-    await userEvent.type(nameInput, "Eric");
-    userEvent.click(maleButton);
-    await userEvent.type(weightInput, "200");
-    userEvent.click(submitButton);
-    userEvent.click(rosterTab);
+    await createPaddlerAndViewRoster();
 
     expect(screen.getByText("Eric")).toBeInTheDocument();
     expect(screen.getByText("Eric").tagName).toBe("DIV");
   });
 
-  it("renders Paddler in roster with appropriate profile image when not active and then active", () => {
+  it("renders Paddler in roster with appropriate profile image when not active and then active", async () => {
+    await createPaddlerAndViewRoster();
     const paddler = screen.getByText("Eric");
 
     expect(paddler).toHaveStyle(
@@ -57,31 +64,33 @@ describe("tests process of adding a new paddler and moving it between the roster
     );
   });
 
-  it("renders Paddler in specified seat in boat with non-active profile image", () => {
-    const seat = screen.getByTestId("seat5");
+  it("renders Paddler in specified seat in boat with non-active profile image", async () => {
+    const seatId = "seat5";
+    await createPaddlerAndViewRoster();
+    movePaddlerFromRosterToBoatSeat(seatId);
 
-    userEvent.click(seat);
-
-    const paddler = screen.getByText("Eric");
-    expect(paddler).toHaveStyle(
+    expect(screen.getByText("Eric")).toHaveStyle(
       "background-image: url(profile_default_img_new.svg)"
     );
-    expect(seat.firstChild).toBe(paddler);
+
+    const seat = screen.getByTestId(seatId);
+    expect(seat.firstChild).toBe(screen.getByText("Eric"));
   });
 
-  it("renders Paddler in boat back to roster when clicked on", () => {
-    const paddler = screen.getByText("Eric");
-    expect(paddler).toBeInTheDocument();
-    const seat = paddler.parentElement;
+  it("renders Paddler in boat back to roster when clicked on", async () => {
+    const seatId = "seat5";
+    await createPaddlerAndViewRoster();
+    movePaddlerFromRosterToBoatSeat(seatId);
 
-    userEvent.click(paddler);
+    userEvent.click(screen.getByText("Eric"));
 
+    const seat = screen.getByText("Eric").parentElement;
     expect(screen.getByText("Eric")).toBeInTheDocument();
     expect(seat.firstChild).not.toBe(screen.getByText("Eric"));
   });
 });
 
-describe("tests with cleanup after each", () => {
+describe("tests interactions with multiple paddlers, as well as hovering over paddlers", () => {
   beforeEach(async () => {
     render(<App />);
     const createPaddlerTab = screen.getByRole("button", { name: "+" });
@@ -106,8 +115,6 @@ describe("tests with cleanup after each", () => {
 
     userEvent.click(rosterTab);
   });
-
-  afterEach(cleanup);
 
   it("renders multiple paddlers in user-specified seats on boat", () => {
     userEvent.click(screen.getByText("Bob"));

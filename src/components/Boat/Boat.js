@@ -1,5 +1,6 @@
 import React from "react";
 import Seat from "../Seat/Seat";
+import Paddler from "../Paddler/Paddler";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
@@ -7,46 +8,62 @@ function Boat(props) {
   const createSeatComponents = () => {
     const numSeats = 22;
     var seatComponents = [];
+    let currentSeatId;
     for (var i = 0; i < numSeats; i++) {
+      currentSeatId = i;
+      const paddler = getPaddlerWithAssignedSeat(currentSeatId);
+      const paddlerComponent = createPaddlerComponent(paddler);
+
       seatComponents = [
         ...seatComponents,
-        <Seat
-          key={i}
-          id={i}
-          paddlersInBoat={props.paddlersInBoat}
-          handleSeatClick={props.handleSeatClick}
-          handlePaddlerMouseEnter={props.handlePaddlerMouseEnter}
-          handlePaddlerMouseLeave={props.handlePaddlerMouseLeave}
-          handlePaddlerClick={props.handlePaddlerClick}
-        />,
+        createSeatAndSittingPaddler(currentSeatId, paddlerComponent),
       ];
     }
     return seatComponents;
   };
 
-  return (
-    <StyledLeftColumn>
-      <StyledBoat>{createSeatComponents()}</StyledBoat>
-    </StyledLeftColumn>
-  );
+  const getPaddlerWithAssignedSeat = (seatId) => {
+    const paddler = props.paddlersInBoat.filter(
+      (paddler) => paddler.seatId === seatId
+    );
+
+    console.assert(
+      paddler.length <= 1,
+      "There should only be at most one paddler assigned to this seat."
+    );
+
+    return paddler;
+  };
+
+  const createPaddlerComponent = (paddler) => {
+    return paddler.length ? (
+      <Paddler
+        paddlerProfile={paddler[0]}
+        onPaddlerClick={props.onPaddlerClick}
+        onPaddlerMouseEnter={props.onPaddlerMouseEnter}
+        onPaddlerMouseLeave={props.onPaddlerMouseLeave}
+      />
+    ) : undefined;
+  };
+
+  const createSeatAndSittingPaddler = (seatId, paddlerComponent) => {
+    return (
+      <Seat key={seatId} id={seatId} onSeatClick={props.onSeatClick}>
+        {paddlerComponent}
+      </Seat>
+    );
+  };
+
+  return <StyledBoat>{createSeatComponents()}</StyledBoat>;
 }
 
 Boat.propTypes = {
   paddlersInBoat: PropTypes.array.isRequired,
-  handleSeatClick: PropTypes.func.isRequired,
-  handlePaddlerClick: PropTypes.func.isRequired,
-  handlePaddlerMouseEnter: PropTypes.func.isRequired,
-  handlePaddlerMouseLeave: PropTypes.func.isRequired,
+  onSeatClick: PropTypes.func.isRequired,
+  onPaddlerClick: PropTypes.func.isRequired,
+  onPaddlerMouseEnter: PropTypes.func.isRequired,
+  onPaddlerMouseLeave: PropTypes.func.isRequired,
 };
-
-const StyledLeftColumn = styled.div`
-  float: left;
-  width: 45%;
-  height: 100%;
-  margin-right: : 1%;
-  position: relative;
-  border: solid 1px red;
-`;
 
 const StyledBoat = styled.div`
   display: grid;
