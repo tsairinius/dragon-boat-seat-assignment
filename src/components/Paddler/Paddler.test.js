@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 import userEvent from "@testing-library/user-event";
 
 let paddlerProfile;
-let handlePaddlerClick;
-let handlePaddlerMouseEnter;
-let handlePaddlerMouseLeave;
+let onPaddlerClick;
+let onPaddlerMouseEnter;
+let onPaddlerMouseLeave;
 beforeAll(() => {
-  handlePaddlerClick = jest.fn();
-  handlePaddlerMouseEnter = jest.fn();
-  handlePaddlerMouseLeave = jest.fn();
+  onPaddlerClick = jest.fn();
+  onPaddlerMouseEnter = jest.fn();
+  onPaddlerMouseLeave = jest.fn();
 
   paddlerProfile = {
     id: uuidv4(),
@@ -28,9 +28,9 @@ it("renders Paddler component without crashing", () => {
   render(
     <Paddler
       paddlerProfile={paddlerProfile}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
 });
@@ -39,9 +39,9 @@ it("displays name of paddler when component is created", () => {
   const { getByText } = render(
     <Paddler
       paddlerProfile={paddlerProfile}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
   expect(getByText("John")).toBeInTheDocument();
@@ -51,40 +51,40 @@ it("calls appropriate callback function when Paddler component is clicked on", (
   const { getByText } = render(
     <Paddler
       paddlerProfile={paddlerProfile}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
   const paddlerComponent = getByText("John");
 
   userEvent.click(paddlerComponent);
-  expect(handlePaddlerClick).toHaveBeenCalledTimes(1);
+  expect(onPaddlerClick).toHaveBeenCalledTimes(1);
 });
 
 it("calls appropriate callback function when mouse is over Paddler component", () => {
   const { getByText } = render(
     <Paddler
       paddlerProfile={paddlerProfile}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
   const paddlerComponent = getByText("John");
 
   userEvent.hover(paddlerComponent);
 
-  expect(handlePaddlerMouseEnter).toHaveBeenCalled();
+  expect(onPaddlerMouseEnter).toHaveBeenCalled();
 });
 
 it("calls appropriate callback function when mouse hovers then unhovers from Paddler component", () => {
   const { getByText } = render(
     <Paddler
       paddlerProfile={paddlerProfile}
-      handlePaddlerClick={handlePaddlerClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
   const paddlerComponent = getByText("John");
@@ -92,5 +92,5 @@ it("calls appropriate callback function when mouse hovers then unhovers from Pad
   userEvent.hover(paddlerComponent);
   userEvent.unhover(paddlerComponent);
 
-  expect(handlePaddlerMouseLeave).toHaveBeenCalledTimes(1);
+  expect(onPaddlerMouseLeave).toHaveBeenCalledTimes(1);
 });

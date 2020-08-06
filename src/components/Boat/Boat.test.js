@@ -3,18 +3,18 @@ import { render } from "@testing-library/react";
 import Boat from "./Boat";
 
 it("renders Boat component without crashing", () => {
-  const handlePaddlerClick = jest.fn();
-  const handleSeatClick = jest.fn();
-  const handlePaddlerMouseEnter = jest.fn();
-  const handlePaddlerMouseLeave = jest.fn();
+  const onPaddlerClick = jest.fn();
+  const onSeatClick = jest.fn();
+  const onPaddlerMouseEnter = jest.fn();
+  const onPaddlerMouseLeave = jest.fn();
 
   render(
     <Boat
       paddlersInBoat={[]}
-      handlePaddlerClick={handlePaddlerClick}
-      handleSeatClick={handleSeatClick}
-      handlePaddlerMouseEnter={handlePaddlerMouseEnter}
-      handlePaddlerMouseLeave={handlePaddlerMouseLeave}
+      onPaddlerClick={onPaddlerClick}
+      onSeatClick={onSeatClick}
+      onPaddlerMouseEnter={onPaddlerMouseEnter}
+      onPaddlerMouseLeave={onPaddlerMouseLeave}
     />
   );
 });

@@ -5,30 +5,30 @@ import defaultBackground from "../../assets/img/profile_default_img_new.svg";
 import activeBackground from "../../assets/img/profile_default_img_new_hover.svg";
 
 function Paddler(props) {
-  const handlePaddlerClick = () =>
-    props.handlePaddlerClick(props.paddlerProfile.id);
-  const handleMouseEnter = () =>
-    props.handlePaddlerMouseEnter(props.paddlerProfile.id);
-  const handleMouseLeave = () =>
-    props.handlePaddlerMouseLeave(props.paddlerProfile.id);
+  const {
+    paddlerProfile,
+    onPaddlerClick,
+    onPaddlerMouseEnter,
+    onPaddlerMouseLeave,
+  } = props;
 
   return (
     <StyledPaddler
-      paddlerProfile={props.paddlerProfile}
-      onClick={handlePaddlerClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      paddlerProfile={paddlerProfile}
+      onClick={() => onPaddlerClick(paddlerProfile.id)}
+      onMouseEnter={() => onPaddlerMouseEnter(paddlerProfile.id)}
+      onMouseLeave={() => onPaddlerMouseLeave(paddlerProfile.id)}
     >
-      {props.paddlerProfile.name}
+      {paddlerProfile.name}
     </StyledPaddler>
   );
 }
 
 Paddler.propTypes = {
   paddlerProfile: PropTypes.object.isRequired,
-  handlePaddlerClick: PropTypes.func.isRequired,
-  handlePaddlerMouseEnter: PropTypes.func.isRequired,
-  handlePaddlerMouseLeave: PropTypes.func.isRequired,
+  onPaddlerClick: PropTypes.func.isRequired,
+  onPaddlerMouseEnter: PropTypes.func.isRequired,
+  onPaddlerMouseLeave: PropTypes.func.isRequired,
 };
 
 const StyledPaddler = styled.div`
