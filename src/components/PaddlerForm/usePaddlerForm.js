@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
-function useCreatePaddlerForm(addPaddler) {
-  const [paddlerName, setPaddlerName] = useState("");
-  const [paddlerGender, setPaddlerGender] = useState("");
-  const [paddlerWeight, setPaddlerWeight] = useState("");
+function usePaddlerForm(
+  onSubmit,
+  paddler = { name: "", gender: "", weight: "" }
+) {
+  const [paddlerName, setPaddlerName] = useState(paddler.name);
+  const [paddlerGender, setPaddlerGender] = useState(paddler.gender);
+  const [paddlerWeight, setPaddlerWeight] = useState(paddler.weight);
 
   const handleNameChange = (event) => setPaddlerName(event.target.value);
   const handleGenderChange = (event) => setPaddlerGender(event.target.value);
@@ -13,18 +15,12 @@ function useCreatePaddlerForm(addPaddler) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const paddlerProfile = {
-      id: uuidv4(),
       name: paddlerName,
       gender: paddlerGender,
       weight: paddlerWeight,
-      inBoat: false,
-      seatId: "",
-      isSelected: false,
-      isHovered: false,
     };
 
-    addPaddler(paddlerProfile);
-
+    onSubmit(paddlerProfile);
     handleReset();
   };
 
@@ -46,4 +42,4 @@ function useCreatePaddlerForm(addPaddler) {
   };
 }
 
-export default useCreatePaddlerForm;
+export default usePaddlerForm;
