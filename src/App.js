@@ -3,20 +3,26 @@ import Boat from "./components/Boat/Boat";
 import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
 import Tabs from "./components/Tabs/Tabs";
-import ProfileViewer from "./components/ProfileViewer/ProfileViewer";
+import ProfilePreview from "./components/ProfilePreview/ProfilePreview";
 import styled from "styled-components";
 import useApp from "./useApp";
+import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 
 function App() {
   const {
     paddlersInBoat,
     paddlersOnRoster,
-    paddlerToView,
+    paddlerPreview,
+    paddlerFullView,
     handlePaddlerClick,
     handlePaddlerMouseEnter,
     handlePaddlerMouseLeave,
-    assignActivePaddlerSeat,
+    assignSelectedPaddlerSeat,
     addPaddlerToList,
+    handleFullViewEdit,
+    handleFullViewDelete,
+    handleMoveToRoster,
+    handleFullViewCancel,
   } = useApp();
 
   return (
@@ -24,24 +30,34 @@ function App() {
       <StyledColumn side="left">
         <Boat
           paddlersInBoat={paddlersInBoat}
-          onSeatClick={assignActivePaddlerSeat}
+          onSeatClick={assignSelectedPaddlerSeat}
           onPaddlerMouseEnter={handlePaddlerMouseEnter}
           onPaddlerMouseLeave={handlePaddlerMouseLeave}
           onPaddlerClick={handlePaddlerClick}
         />
       </StyledColumn>
       <StyledColumn side="right">
-        <Tabs>
-          <Roster
-            label="Roster"
-            paddlers={paddlersOnRoster}
-            onPaddlerMouseEnter={handlePaddlerMouseEnter}
-            onPaddlerMouseLeave={handlePaddlerMouseLeave}
-            onPaddlerClick={handlePaddlerClick}
+        {paddlerFullView === undefined ? (
+          <Tabs>
+            <Roster
+              label="Roster"
+              paddlers={paddlersOnRoster}
+              onPaddlerMouseEnter={handlePaddlerMouseEnter}
+              onPaddlerMouseLeave={handlePaddlerMouseLeave}
+              onPaddlerClick={handlePaddlerClick}
+            />
+            <CreatePaddlerForm label="+" onSubmit={addPaddlerToList} />
+          </Tabs>
+        ) : (
+          <ProfileFullView
+            paddler={paddlerFullView}
+            onFormSubmit={handleFullViewEdit}
+            onFullViewDelete={handleFullViewDelete}
+            onMoveToRoster={handleMoveToRoster}
+            onFullViewCancel={handleFullViewCancel}
           />
-          <CreatePaddlerForm label="+" addPaddler={addPaddlerToList} />
-        </Tabs>
-        <ProfileViewer paddler={paddlerToView} />
+        )}
+        <ProfilePreview paddler={paddlerPreview} />
       </StyledColumn>
     </StyledApp>
   );

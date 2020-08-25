@@ -20,7 +20,7 @@ beforeAll(() => {
     weight: "345",
     inBoat: false,
     seatId: "",
-    isActive: false,
+    isSelected: false,
   };
 });
 

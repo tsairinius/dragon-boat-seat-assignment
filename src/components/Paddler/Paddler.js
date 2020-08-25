@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import defaultBackground from "../../assets/img/profile_default_img_new.svg";
-import activeBackground from "../../assets/img/profile_default_img_new_hover.svg";
+import hoverBackground from "../../assets/img/profile_default_img_new_hover.svg";
 
 function Paddler(props) {
   const {
@@ -38,7 +38,7 @@ const StyledPaddler = styled.div`
   float: left;
   text-align: center;
   background-image: url(${(props) =>
-    props.paddlerProfile.isActive ? activeBackground : defaultBackground});
+    props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});
   background-size: cover;
   background-position: 30% 100%;
 `;

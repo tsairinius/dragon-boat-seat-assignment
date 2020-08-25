@@ -33,7 +33,7 @@ it("renders Paddler in Roster", () => {
     weight: "125",
     inBoat: true,
     seatId: 1,
-    isActive: false,
+    isSelected: false,
   };
 
   const { getByTestId } = render(
