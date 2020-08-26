@@ -2,17 +2,11 @@ import React from "react";
 import { render } from "@testing-library/react";
 import Paddler from "./Paddler";
 import { v4 as uuidv4 } from "uuid";
-import userEvent from "@testing-library/user-event";
+import { screen } from "@testing-library/dom";
+import Store from "../../Store";
 
 let paddlerProfile;
-let onPaddlerClick;
-let onPaddlerMouseEnter;
-let onPaddlerMouseLeave;
 beforeAll(() => {
-  onPaddlerClick = jest.fn();
-  onPaddlerMouseEnter = jest.fn();
-  onPaddlerMouseLeave = jest.fn();
-
   paddlerProfile = {
     id: uuidv4(),
     name: "John",
@@ -24,73 +18,17 @@ beforeAll(() => {
   };
 });
 
-it("renders Paddler component without crashing", () => {
+beforeEach(() => {
   render(
-    <Paddler
-      paddlerProfile={paddlerProfile}
-      onPaddlerClick={onPaddlerClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
+    <Store>
+      <Paddler paddlerProfile={paddlerProfile} />
+    </Store>
   );
 });
 
-it("displays name of paddler when component is created", () => {
-  const { getByText } = render(
-    <Paddler
-      paddlerProfile={paddlerProfile}
-      onPaddlerClick={onPaddlerClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
+it("displays name of paddler along with default profile image when component is created", () => {
+  expect(screen.getByText("John")).toHaveStyle(
+    "background-image: url(profile_default_img_new.svg)"
   );
-  expect(getByText("John")).toBeInTheDocument();
-});
-
-it("calls appropriate callback function when Paddler component is clicked on", () => {
-  const { getByText } = render(
-    <Paddler
-      paddlerProfile={paddlerProfile}
-      onPaddlerClick={onPaddlerClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
-  );
-  const paddlerComponent = getByText("John");
-
-  userEvent.click(paddlerComponent);
-  expect(onPaddlerClick).toHaveBeenCalledTimes(1);
-});
-
-it("calls appropriate callback function when mouse is over Paddler component", () => {
-  const { getByText } = render(
-    <Paddler
-      paddlerProfile={paddlerProfile}
-      onPaddlerClick={onPaddlerClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
-  );
-  const paddlerComponent = getByText("John");
-
-  userEvent.hover(paddlerComponent);
-
-  expect(onPaddlerMouseEnter).toHaveBeenCalled();
-});
-
-it("calls appropriate callback function when mouse hovers then unhovers from Paddler component", () => {
-  const { getByText } = render(
-    <Paddler
-      paddlerProfile={paddlerProfile}
-      onPaddlerClick={onPaddlerClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
-  );
-  const paddlerComponent = getByText("John");
-
-  userEvent.hover(paddlerComponent);
-  userEvent.unhover(paddlerComponent);
-
-  expect(onPaddlerMouseLeave).toHaveBeenCalledTimes(1);
+  expect(screen.getByText("John")).toBeInTheDocument();
 });

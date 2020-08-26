@@ -1,23 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
+import paddlerListContext from "../../paddlerListContext";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import defaultBackground from "../../assets/img/profile_default_img_new.svg";
 import hoverBackground from "../../assets/img/profile_default_img_new_hover.svg";
+import {
+  clickPaddler,
+  hoverPaddler,
+  unhoverPaddler,
+} from "../../reducers/paddlerListReducer/paddlerListActions";
 
 function Paddler(props) {
-  const {
-    paddlerProfile,
-    onPaddlerClick,
-    onPaddlerMouseEnter,
-    onPaddlerMouseLeave,
-  } = props;
+  const { paddlerProfile } = props;
+
+  const { dispatch } = useContext(paddlerListContext);
 
   return (
     <StyledPaddler
       paddlerProfile={paddlerProfile}
-      onClick={() => onPaddlerClick(paddlerProfile.id)}
-      onMouseEnter={() => onPaddlerMouseEnter(paddlerProfile.id)}
-      onMouseLeave={() => onPaddlerMouseLeave(paddlerProfile.id)}
+      onClick={() => dispatch(clickPaddler(paddlerProfile.id))}
+      onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}
+      onMouseLeave={() => dispatch(unhoverPaddler(paddlerProfile.id))}
     >
       {paddlerProfile.name}
     </StyledPaddler>
@@ -26,9 +29,6 @@ function Paddler(props) {
 
 Paddler.propTypes = {
   paddlerProfile: PropTypes.object.isRequired,
-  onPaddlerClick: PropTypes.func.isRequired,
-  onPaddlerMouseEnter: PropTypes.func.isRequired,
-  onPaddlerMouseLeave: PropTypes.func.isRequired,
 };
 
 const StyledPaddler = styled.div`

@@ -36,19 +36,12 @@ function Boat(props) {
   };
 
   const createPaddlerComponent = (paddler) => {
-    return paddler.length ? (
-      <Paddler
-        paddlerProfile={paddler[0]}
-        onPaddlerClick={props.onPaddlerClick}
-        onPaddlerMouseEnter={props.onPaddlerMouseEnter}
-        onPaddlerMouseLeave={props.onPaddlerMouseLeave}
-      />
-    ) : undefined;
+    return paddler.length ? <Paddler paddlerProfile={paddler[0]} /> : undefined;
   };
 
   const createSeatAndSittingPaddler = (seatId, paddlerComponent) => {
     return (
-      <Seat key={seatId} id={seatId} onSeatClick={props.onSeatClick}>
+      <Seat key={seatId} id={seatId}>
         {paddlerComponent}
       </Seat>
     );
@@ -59,10 +52,6 @@ function Boat(props) {
 
 Boat.propTypes = {
   paddlersInBoat: PropTypes.array.isRequired,
-  onSeatClick: PropTypes.func.isRequired,
-  onPaddlerClick: PropTypes.func.isRequired,
-  onPaddlerMouseEnter: PropTypes.func.isRequired,
-  onPaddlerMouseLeave: PropTypes.func.isRequired,
 };
 
 const StyledBoat = styled.div`

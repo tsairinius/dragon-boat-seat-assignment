@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import PaddlerForm from "../PaddlerForm/PaddlerForm";
+import paddlerListContext from "../../paddlerListContext";
+import { addPaddler } from "../../reducers/paddlerListReducer/paddlerListActions";
 
-function CreatePaddlerForm(props) {
+function CreatePaddlerForm() {
+  const { dispatch } = useContext(paddlerListContext);
+
+  const handleSubmit = (paddlerProfile) => {
+    dispatch(addPaddler(paddlerProfile));
+  };
+
   return (
     <StyledCreatePaddlerForm data-testid="createPaddlerForm">
       <StyledCreatePaddlerTitle>Create a Paddler</StyledCreatePaddlerTitle>
-      <PaddlerForm onSubmit={props.onSubmit} />
+      <PaddlerForm onSubmit={handleSubmit} />
     </StyledCreatePaddlerForm>
   );
 }
 
 CreatePaddlerForm.propTypes = {
   label: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
 };
 
 const StyledCreatePaddlerForm = styled.div`

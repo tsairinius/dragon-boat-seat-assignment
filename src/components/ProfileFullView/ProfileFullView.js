@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import PaddlerForm from "../PaddlerForm/PaddlerForm";
+import paddlerListContext from "../../paddlerListContext";
+import {
+  submitEdit,
+  deletePaddler,
+  moveToRoster,
+  unselectPaddlers,
+} from "../../reducers/paddlerListReducer/paddlerListActions";
 
 function ProfileFullView(props) {
   console.assert(
@@ -11,6 +18,7 @@ function ProfileFullView(props) {
   );
 
   const [isEditRequested, setIsEditRequested] = useState(false);
+  const { dispatch } = useContext(paddlerListContext);
 
   const toggleIsEditRequested = () => {
     setIsEditRequested(!isEditRequested);
@@ -23,7 +31,8 @@ function ProfileFullView(props) {
       gender: editedPaddler.gender,
       weight: editedPaddler.weight,
     };
-    props.onFormSubmit(paddlerProfile);
+
+    dispatch(submitEdit(paddlerProfile));
   };
 
   const showProfileWithOptions = () => {
@@ -32,13 +41,13 @@ function ProfileFullView(props) {
         <h1>Profile</h1>
         <ProfileInfo paddler={props.paddler} />
         <button onClick={toggleIsEditRequested}>Edit</button>
-        <button onClick={props.onFullViewDelete}>Delete</button>
+        <button onClick={() => dispatch(deletePaddler())}>Delete</button>
         {props.paddler.inBoat && (
-          <button onClick={() => props.onMoveToRoster(props.paddler)}>
+          <button onClick={() => dispatch(moveToRoster(props.paddler))}>
             Move to Roster
           </button>
         )}
-        <button onClick={props.onFullViewCancel}>Cancel</button>
+        <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
       </div>
     );
   };
@@ -62,10 +71,6 @@ function ProfileFullView(props) {
 
 ProfileFullView.propTypes = {
   paddler: PropTypes.object.isRequired,
-  onFormSubmit: PropTypes.func.isRequired,
-  onFullViewDelete: PropTypes.func.isRequired,
-  onMoveToRoster: PropTypes.func.isRequired,
-  onFullViewCancel: PropTypes.func.isRequired,
 };
 
 const StyledProfileFullView = styled.div`

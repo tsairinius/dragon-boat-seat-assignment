@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import paddlerListContext from "../../paddlerListContext";
+import { clickSeat } from "../../reducers/paddlerListReducer/paddlerListActions";
 
 function Seat(props) {
+  const { dispatch } = useContext(paddlerListContext);
+
   return (
     <StyledSeat
       seatId={props.id}
       data-testid={"seat" + props.id}
-      onClick={() => props.onSeatClick(props.id)}
+      onClick={() => dispatch(clickSeat(props.id))}
     >
       {props.children}
     </StyledSeat>
@@ -16,7 +20,6 @@ function Seat(props) {
 
 Seat.propTypes = {
   id: PropTypes.number.isRequired,
-  onSeatClick: PropTypes.func.isRequired,
 };
 
 const StyledSeat = styled.div`

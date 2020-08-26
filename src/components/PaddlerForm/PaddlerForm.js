@@ -96,7 +96,6 @@ function PaddlerForm(props) {
 }
 
 PaddlerForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
   paddler: PropTypes.object,
 };
 

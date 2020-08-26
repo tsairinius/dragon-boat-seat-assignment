@@ -4,6 +4,8 @@ import App from "./App";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
+import Store from "./Store";
+
 describe("tests interactions with a single paddler", () => {
   const paddlerInfo = {
     name: "Eric",
@@ -12,7 +14,11 @@ describe("tests interactions with a single paddler", () => {
   };
 
   beforeEach(async () => {
-    render(<App />);
+    render(
+      <Store>
+        <App />
+      </Store>
+    );
     await createPaddlerAndViewRoster();
   });
 
@@ -168,8 +174,13 @@ describe("tests interactions with multiple paddlers", () => {
     gender: "Female",
     weight: "120",
   };
+
   beforeEach(async () => {
-    render(<App />);
+    render(
+      <Store>
+        <App />
+      </Store>
+    );
     const createPaddlerTab = screen.getByRole("button", { name: "+" });
     const rosterTab = screen.getByRole("button", { name: "Roster" });
     userEvent.click(createPaddlerTab);
