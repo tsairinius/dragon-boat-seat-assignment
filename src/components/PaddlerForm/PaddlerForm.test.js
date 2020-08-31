@@ -3,11 +3,16 @@ import { render } from "@testing-library/react";
 import PaddlerForm from "./PaddlerForm";
 import { screen } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
+import Store from "../../Store";
 
-const addPaddlerCallback = jest.fn();
+const handleSubmit = jest.fn();
 describe("no paddler object is passed in to the PaddlerForm", () => {
   beforeEach(() => {
-    render(<PaddlerForm onSubmit={addPaddlerCallback} />);
+    render(
+      <Store>
+        <PaddlerForm onSubmit={handleSubmit} />
+      </Store>
+    );
   });
 
   it("paddler name input gets updated as user types in name", async () => {
@@ -69,7 +74,9 @@ describe("paddler object is passed in to PaddlerForm", () => {
   };
   beforeEach(() => {
     render(
-      <PaddlerForm onSubmit={addPaddlerCallback} paddler={paddlerProfile} />
+      <Store>
+        <PaddlerForm onSubmit={handleSubmit} paddler={paddlerProfile} />
+      </Store>
     );
   });
 
@@ -86,5 +93,5 @@ describe("paddler object is passed in to PaddlerForm", () => {
 //   const submitButton = screen.getByRole('button', {name: 'Submit'});
 //   userEvent.click(submitButton);
 
-//   expect(addPaddlerCallback).not.toHaveBeenCalled();
+//   expect(handleSubmit).not.toHaveBeenCalled();
 // });

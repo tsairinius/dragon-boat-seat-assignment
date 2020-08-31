@@ -1,20 +1,36 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import Boat from "./Boat";
+import { screen } from "@testing-library/dom";
+import { v4 as uuidv4 } from "uuid";
+import Store from "../../Store";
 
 it("renders Boat component without crashing", () => {
-  const onPaddlerClick = jest.fn();
-  const onSeatClick = jest.fn();
-  const onPaddlerMouseEnter = jest.fn();
-  const onPaddlerMouseLeave = jest.fn();
+  render(
+    <Store>
+      <Boat paddlersInBoat={[]} />
+    </Store>
+  );
+});
+
+it("renders boat with paddler in specified seat", () => {
+  const paddler = {
+    id: uuidv4(),
+    name: "Bob",
+    gender: "male",
+    weight: "125",
+    inBoat: true,
+    seatId: 3,
+    isSelected: false,
+  };
 
   render(
-    <Boat
-      paddlersInBoat={[]}
-      onPaddlerClick={onPaddlerClick}
-      onSeatClick={onSeatClick}
-      onPaddlerMouseEnter={onPaddlerMouseEnter}
-      onPaddlerMouseLeave={onPaddlerMouseLeave}
-    />
+    <Store>
+      <Boat paddlersInBoat={[paddler]} />
+    </Store>
+  );
+
+  expect(screen.getByText("Bob").parentElement).toBe(
+    screen.getByTestId("seat3")
   );
 });
