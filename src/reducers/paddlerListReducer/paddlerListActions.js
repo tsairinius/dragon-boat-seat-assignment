@@ -8,38 +8,18 @@ export const DELETE_PADDLER = "DELETE_PADDLER";
 export const MOVE_TO_ROSTER = "MOVE_TO_ROSTER";
 export const UNSELECT_PADDLERS = "UNSELECT_PADDLERS";
 
-export const addPaddler = (paddlerProfile) => {
-  return { type: ADD_PADDLER, payload: paddlerProfile };
-};
+const makeDispatch = (actionType) => {
+  return (actionPayload) => {
+    return { type: actionType, payload: actionPayload };
+  }
+}
 
-export const clickPaddler = (paddlerId) => {
-  return { type: CLICK_PADDLER, payload: paddlerId };
-};
-
-export const hoverPaddler = (paddlerId) => {
-  return { type: HOVER_PADDLER, payload: paddlerId };
-};
-
-export const unhoverPaddler = (paddlerId) => {
-  return { type: UNHOVER_PADDLER, payload: paddlerId };
-};
-
-export const clickSeat = (seatId) => {
-  return { type: CLICK_SEAT, payload: seatId };
-};
-
-export const submitEdit = (paddlerProfile) => {
-  return { type: SUBMIT_EDIT, payload: paddlerProfile };
-};
-
-export const deletePaddler = () => {
-  return { type: DELETE_PADDLER };
-};
-
-export const moveToRoster = (paddler) => {
-  return { type: MOVE_TO_ROSTER, payload: paddler };
-};
-
-export const unselectPaddlers = () => {
-  return { type: UNSELECT_PADDLERS };
-};
+export const addPaddler = makeDispatch(ADD_PADDLER);
+export const clickPaddler = makeDispatch(CLICK_PADDLER);
+export const hoverPaddler = makeDispatch(HOVER_PADDLER);
+export const unhoverPaddler = makeDispatch(UNHOVER_PADDLER);
+export const clickSeat = makeDispatch(CLICK_SEAT);
+export const submitEdit = makeDispatch(SUBMIT_EDIT);
+export const deletePaddler = makeDispatch(DELETE_PADDLER);
+export const moveToRoster = makeDispatch(MOVE_TO_ROSTER);
+export const unselectPaddlers = makeDispatch(UNSELECT_PADDLERS);
