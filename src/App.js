@@ -20,13 +20,10 @@ function App() {
   } = useApp(paddlerList);
 
   return (
-    <StyledApp>
-      <StyledColumn side="left">
-        <Boat paddlersInBoat={paddlersInBoat} />
-      </StyledColumn>
-      <StyledColumn side="right">
+    <div>
         {paddlerFullView === undefined ? (
           <Tabs>
+            <Boat label="Boat" paddlersInBoat={paddlersInBoat} />
             <Roster label="Roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="+" />
           </Tabs>
@@ -34,18 +31,12 @@ function App() {
           <ProfileFullView paddler={paddlerFullView} />
         )}
         <ProfilePreview paddler={paddlerPreview} />
-      </StyledColumn>
-    </StyledApp>
+    </div>
   );
 }
 
 const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledColumn = styled.div`
-  border: solid 1px orange;
+  display: grid;
 `;
 
 export default App;

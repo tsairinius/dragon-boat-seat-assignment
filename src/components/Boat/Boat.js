@@ -57,9 +57,7 @@ Boat.propTypes = {
 const StyledBoat = styled.div`
   display: grid;
   grid-template-columns: 50px 50px;
-  width: 100px;
-  height: 500px;
-  margin: 0 auto;
+  justify-content: center;
 `;
 
 export default Boat;

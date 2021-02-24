@@ -31,7 +31,6 @@ Tabs.propTypes = {
 
 const StyledTabs = styled.div`
   text-align: center;
-  height: 80%;
   border: solid 1px purple;
 `;
 

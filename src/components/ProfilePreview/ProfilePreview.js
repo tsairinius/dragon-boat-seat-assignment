@@ -19,7 +19,6 @@ ProfilePreview.propTypes = {
 
 const StyledProfilePreview = styled.div`
   border: solid 1px blue;
-  height: 20%;
 `;
 
 export default ProfilePreview;
