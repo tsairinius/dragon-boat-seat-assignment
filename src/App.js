@@ -40,21 +40,11 @@ function App() {
 }
 
 const StyledApp = styled.div`
-  :after: {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  height: 600px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledColumn = styled.div`
-  float: ${(props) => props.side};
-  width: 45%;
-  height: 100%;
-  margin-left: ${(props) => (props.side === "right" ? ": 1%" : "0")};
-  margin-right: ${(props) => (props.side === "left" ? ": 1%" : "0")};
-  position: relative;
   border: solid 1px orange;
 `;
 
