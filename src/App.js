@@ -30,7 +30,7 @@ function App() {
             <CreatePaddlerForm label="+" />
           </Tabs>
         ) : (
-          <ProfileFullView paddler={paddlerFullView} />
+          <ProfileFullView paddler={paddlerFullView} onTabChangeRequest={label => setActiveTab(label)}/>
         )}
         <ProfilePreview paddler={paddlerPreview} />
     </div>
