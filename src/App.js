@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Boat from "./components/Boat/Boat";
 import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
@@ -19,10 +19,12 @@ function App() {
     paddlerFullView,
   } = useApp(paddlerList);
 
+  const [activeTab, setActiveTab ] = useState("Boat");
+
   return (
     <div>
         {paddlerFullView === undefined ? (
-          <Tabs>
+          <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <Boat label="Boat" paddlersInBoat={paddlersInBoat} />
             <Roster label="Roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="+" />

@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-function Tabs(props) {
-  const tabsCollection = React.Children.toArray(props.children);
-  const [activeTab, setActiveTab] = useState(tabsCollection[0].props.label);
-  const handleClick = (tab) => setActiveTab(tab);
+function Tabs({children, activeTab, onTabRequest}) {
+  const tabsCollection = React.Children.toArray(children);
 
   return (
     <StyledTabs>
@@ -13,7 +11,7 @@ function Tabs(props) {
         <button
           key={tab.props.label}
           type="button"
-          onClick={() => handleClick(tab.props.label)}
+          onClick={() => onTabRequest(tab.props.label)}
         >
           {tab.props.label}
         </button>
@@ -27,6 +25,8 @@ function Tabs(props) {
 
 Tabs.propTypes = {
   children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  activeTab: PropTypes.string.isRequired,
+  onTabRequest: PropTypes.func.isRequired
 };
 
 const StyledTabs = styled.div`
