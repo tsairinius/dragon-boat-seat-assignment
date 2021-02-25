@@ -41,6 +41,7 @@ describe("tests interactions with a single paddler", () => {
 
   const movePaddlerFromRosterToBoatSeat = (seat) => {
     userEvent.click(screen.getByText(paddlerInfo.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId(`${seat}`));
   };
 
@@ -83,12 +84,12 @@ describe("tests interactions with a single paddler", () => {
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
     const seatId = "seat5";
     movePaddlerFromRosterToBoatSeat(seatId);
+    const seat = screen.getByText(paddlerInfo.name).parentElement;
 
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByRole("button", { name: "Move to Roster" }));
 
-    const seat = screen.getByText(paddlerInfo.name).parentElement;
-    expect(screen.getByText(paddlerInfo.name)).toBeInTheDocument();
+    expect(screen.getByText(paddlerInfo.name)).not.toBeInTheDocument();
     expect(seat.firstChild).not.toBe(screen.getByText(paddlerInfo.name));
   });
 
