@@ -6,6 +6,8 @@ export const CLICK_SEAT = "CLICK_SEAT";
 export const SUBMIT_EDIT = "SUBMIT_EDIT";
 export const DELETE_PADDLER = "DELETE_PADDLER";
 export const MOVE_TO_ROSTER = "MOVE_TO_ROSTER";
+export const MOVE_TO_BOAT = "MOVE_TO_BOAT";
+export const SWITCH_SEATS = "SWITCH_SEATS";
 export const UNSELECT_PADDLERS = "UNSELECT_PADDLERS";
 
 export const addPaddler = (paddlerProfile) => {
@@ -39,6 +41,14 @@ export const deletePaddler = () => {
 export const moveToRoster = (paddler) => {
   return { type: MOVE_TO_ROSTER, payload: paddler };
 };
+
+export const moveToBoat = () => {
+  return { type: MOVE_TO_BOAT };
+};
+
+export const switchSeats = () => {
+  return { type: SWITCH_SEATS };
+}
 
 export const unselectPaddlers = () => {
   return { type: UNSELECT_PADDLERS };

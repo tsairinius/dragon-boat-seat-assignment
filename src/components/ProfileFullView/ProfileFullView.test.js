@@ -26,7 +26,7 @@ describe("paddler edit behavior", () => {
   beforeEach(() => {
     render(
       <Store>
-        <ProfileFullView paddler={paddlerInRoster} onTabChangeRequest={() => jest.fn()} />
+        <ProfileFullView paddler={paddlerInRoster} onMoveToBoat={() => jest.fn()} />
       </Store>
     );
   });
@@ -67,7 +67,7 @@ describe("display appropriate button for moving paddler between boat and roster"
   it("for paddler in roster: displays options along with move-to-boat button for selected paddler", () => {
     render(
       <Store>
-        <ProfileFullView paddler={paddlerInRoster} onTabChangeRequest={() => jest.fn()} />
+        <ProfileFullView paddler={paddlerInRoster} onMoveToBoat={() => jest.fn()} />
       </Store>
     );
   
@@ -79,7 +79,7 @@ describe("display appropriate button for moving paddler between boat and roster"
   it("for paddler in boat: displays options along with move-to-roster button for selected paddler", () => {
     render(
       <Store>
-        <ProfileFullView paddler={paddlerInBoat} onTabChangeRequest={() => jest.fn()} />
+        <ProfileFullView paddler={paddlerInBoat} onMoveToBoat={() => jest.fn()} />
       </Store>
     );
   

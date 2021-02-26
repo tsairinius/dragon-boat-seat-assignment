@@ -47,7 +47,7 @@ function Boat(props) {
     );
   };
 
-  return <StyledBoat>{createSeatComponents()}</StyledBoat>;
+  return <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>;
 }
 
 Boat.propTypes = {

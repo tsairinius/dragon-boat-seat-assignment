@@ -84,13 +84,12 @@ describe("tests interactions with a single paddler", () => {
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
     const seatId = "seat5";
     movePaddlerFromRosterToBoatSeat(seatId);
-    const seat = screen.getByText(paddlerInfo.name).parentElement;
 
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByRole("button", { name: "Move to Roster" }));
 
-    expect(screen.getByText(paddlerInfo.name)).not.toBeInTheDocument();
-    expect(seat.firstChild).not.toBe(screen.getByText(paddlerInfo.name));
+    expect(screen.queryByText(paddlerInfo.name)).not.toBeInTheDocument();
+    expect(screen.getByTestId("boat")).toBeInTheDocument();
   });
 
   it("displays paddler's info in profile preview window only when hovered over", () => {
@@ -152,14 +151,14 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("paddler gets moved from one seat to another in boat", () => {
-    const firstSeat = screen.getByTestId("seat3");
-    const secondSeat = screen.getByTestId("seat18");
     userEvent.click(screen.getByText(paddlerInfo.name));
-    userEvent.click(firstSeat);
+    userEvent.click(screen.getByText("Move to Boat"));
+    userEvent.click(screen.getByTestId("seat3"));
     userEvent.click(screen.getByText(paddlerInfo.name));
-    userEvent.click(secondSeat);
+    userEvent.click(screen.getByText("Switch Seats"));
+    userEvent.click(screen.getByTestId("seat18"));
 
-    expect(screen.getByText(paddlerInfo.name).parentElement).toBe(secondSeat);
+    expect(screen.getByText(paddlerInfo.name).parentElement).toBe(screen.getByTestId("seat18"));
   });
 });
 
@@ -207,9 +206,12 @@ describe("tests interactions with multiple paddlers", () => {
 
   it("renders multiple paddlers in user-specified seats on boat", () => {
     userEvent.click(screen.getByText(paddler1.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat0"));
 
+    userEvent.click(screen.getByRole("button", {name: "Roster"}));
     userEvent.click(screen.getByText(paddler2.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat21"));
 
     expect(screen.getByTestId("seat0").firstChild).toBe(
@@ -234,9 +236,12 @@ describe("tests interactions with multiple paddlers", () => {
 
   it("does not display profile preview of any paddler when a paddler is selected", () => {
     userEvent.click(screen.getByText(paddler1.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat4"));
 
+    userEvent.click(screen.getByRole("button", {name: "Roster"}));
     userEvent.click(screen.getByText(paddler2.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.hover(screen.getByText(paddler1.name));
 
     expect(screen.queryByText("Name: Bob")).not.toBeInTheDocument();
@@ -244,23 +249,16 @@ describe("tests interactions with multiple paddlers", () => {
     expect(screen.queryByText("Weight (lb): 150")).not.toBeInTheDocument();
   });
 
-  it("displays selected paddler's profile in full-view even when another paddler is clicked on", () => {
-    userEvent.click(screen.getByText(paddler1.name));
-    userEvent.click(screen.getByTestId("seat4"));
-
-    userEvent.click(screen.getByText(paddler2.name));
-    userEvent.click(screen.getByText(paddler1.name));
-
-    expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
-  });
-
   it("keeps original paddler in seat when user tries to assign another paddler to that seat", () => {
     userEvent.click(screen.getByText(paddler1.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat3"));
+
+    userEvent.click(screen.getByRole("button", {name: "Roster"}));
     userEvent.click(screen.getByText(paddler2.name));
+    userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByText(paddler1.name));
 
-    expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
     expect(screen.getByText(paddler1.name).parentElement).toBe(
       screen.getByTestId("seat3")
     );

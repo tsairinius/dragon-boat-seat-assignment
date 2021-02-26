@@ -9,9 +9,10 @@ import {
   deletePaddler,
   moveToRoster,
   unselectPaddlers,
+  switchSeats
 } from "../../reducers/paddlerListReducer/paddlerListActions";
 
-function ProfileFullView({paddler, onTabChangeRequest}) {
+function ProfileFullView({paddler, onMoveToBoat}) {
   console.assert(
     paddler !== undefined,
     "Paddler to display in full-view is undefined"
@@ -42,12 +43,18 @@ function ProfileFullView({paddler, onTabChangeRequest}) {
         <ProfileInfo paddler={paddler} />
         <button onClick={toggleIsEditRequested}>Edit</button>
         <button onClick={() => dispatch(deletePaddler())}>Delete</button>
-        {paddler.inBoat ?
-          <button onClick={() => dispatch(moveToRoster(paddler))}>
-            Move to Roster
-          </button>
+        {paddler.inBoat ? (
+            <React.Fragment>
+              <button onClick={() => dispatch(moveToRoster(paddler))}>
+                Move to Roster
+              </button>
+              <button onClick={() => dispatch(switchSeats())}>
+                Switch Seats
+              </button>
+            </React.Fragment>
+          )
         :
-          <button onClick={() => onTabChangeRequest("Boat")}>
+          <button onClick={onMoveToBoat}>
             Move to Boat
           </button>}
         <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
@@ -74,7 +81,7 @@ function ProfileFullView({paddler, onTabChangeRequest}) {
 
 ProfileFullView.propTypes = {
   paddler: PropTypes.object.isRequired,
-  onTabChangeRequest: PropTypes.func.isRequired
+  onMoveToBoat: PropTypes.func.isRequired
 };
 
 const StyledProfileFullView = styled.div`

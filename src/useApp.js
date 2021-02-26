@@ -11,7 +11,7 @@ function useApp(paddlerList) {
   );
 
   const paddlerFullView = paddlerList.find(
-    (paddler) => paddler.isSelected === true
+    (paddler) => paddler.fullView === true
   );
 
   return {

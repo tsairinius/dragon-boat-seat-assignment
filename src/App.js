@@ -8,9 +8,10 @@ import styled from "styled-components";
 import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
+import { moveToBoat } from "./reducers/paddlerListReducer/paddlerListActions";
 
 function App() {
-  const { paddlerList } = useContext(paddlerListContext);
+  const { paddlerList, dispatch } = useContext(paddlerListContext);
 
   const {
     paddlersInBoat,
@@ -21,6 +22,11 @@ function App() {
 
   const [activeTab, setActiveTab ] = useState("Boat");
 
+  const handleMoveToBoatRequest = () => {
+    dispatch(moveToBoat());
+    setActiveTab("Boat");
+  }
+
   return (
     <div>
         {paddlerFullView === undefined ? (
@@ -30,7 +36,7 @@ function App() {
             <CreatePaddlerForm label="+" />
           </Tabs>
         ) : (
-          <ProfileFullView paddler={paddlerFullView} onTabChangeRequest={label => setActiveTab(label)}/>
+          <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
         )}
         <ProfilePreview paddler={paddlerPreview} />
     </div>
