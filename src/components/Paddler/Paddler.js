@@ -35,7 +35,6 @@ const StyledPaddler = styled.div`
   width: 50px;
   height: 50px;
   margin: 1px;
-  float: left;
   text-align: center;
   background-image: url(${(props) =>
     props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});

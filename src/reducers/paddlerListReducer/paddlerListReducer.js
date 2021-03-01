@@ -10,6 +10,7 @@ function paddlerListReducer(state, action) {
       seatId: "",
       isSelected: false,
       isHovered: false,
+      fullView: false
     };
 
     return [...state, paddlerProfile];
@@ -24,6 +25,7 @@ function paddlerListReducer(state, action) {
         }
         if (paddler.id === paddlerId) {
           paddler.isSelected = true;
+          paddler.fullView = true;
         }
         return paddler;
       });
@@ -84,6 +86,7 @@ function paddlerListReducer(state, action) {
           "Selected paddler should also be the paddler being edited"
         );
         paddler.isSelected = false;
+        paddler.fullView = false;
       }
       return paddler;
     });
@@ -104,6 +107,7 @@ function paddlerListReducer(state, action) {
           isHovered: false,
           seatId: "",
           isSelected: false,
+          fullView: false
         };
       }
       return paddler;
@@ -112,11 +116,29 @@ function paddlerListReducer(state, action) {
     return new_state;
   };
 
-  const handleFullViewCancel = () => {
+  const handleSeatAssignment = () => {
     const new_state = state.map((paddler) => {
-      if (paddler.isSelected === true) {
-        paddler.isSelected = false;
+      if (paddler.isSelected) {
+        if (paddler.fullView === false) {
+          throw new Error("Paddler should be in full-view mode and selected prior to move-to-boat request.");
+        }
+
+        paddler = {
+          ...paddler,
+          fullView: false
+        }
       }
+
+      return paddler;
+    });
+
+    return new_state;
+  }
+
+  const handleUnselectPaddlers = () => {
+    const new_state = state.map((paddler) => {
+      paddler.isSelected = false;
+      paddler.fullView = false;
       return paddler;
     });
     return new_state;
@@ -159,8 +181,11 @@ function paddlerListReducer(state, action) {
       return handleFullViewDelete();
     case actions.MOVE_TO_ROSTER:
       return handleMoveToRoster(action.payload);
+    case actions.MOVE_TO_BOAT:
+    case actions.SWITCH_SEATS:
+      return handleSeatAssignment();
     case actions.UNSELECT_PADDLERS:
-      return handleFullViewCancel();
+      return handleUnselectPaddlers();
     default:
       return state;
   }

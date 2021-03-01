@@ -1,13 +1,8 @@
-body {
+/* body {
   background-image: url("./assets/img/leaf_like_line_new.svg");
   background-repeat: no-repeat;
   background-position: center;
-  margin-right: 200px; /* Do we need these margins? */
-  margin-left: 200px;
   background-attachment: fixed;
-}
-
-/* code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 } */
+
+

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import usePaddlerForm from "./usePaddlerForm";
 
-function PaddlerForm(props) {
+function PaddlerForm({onSubmit, paddler}) {
   const {
     paddlerName,
     paddlerGender,
@@ -12,7 +12,7 @@ function PaddlerForm(props) {
     handleWeightChange,
     handleSubmit,
     handleReset,
-  } = usePaddlerForm(props.onSubmit, props.paddler);
+  } = usePaddlerForm(onSubmit, paddler);
 
   return (
     <form
@@ -96,7 +96,8 @@ function PaddlerForm(props) {
 }
 
 PaddlerForm.propTypes = {
-  paddler: PropTypes.object,
+  onSubmit: PropTypes.func.isRequired,
+  paddler: PropTypes.object
 };
 
 export default PaddlerForm;

@@ -4,25 +4,14 @@ import Tabs from "./Tabs";
 import userEvent from "@testing-library/user-event";
 import { screen } from "@testing-library/dom";
 
-it("renders Tabs component without crashing", () => {
+it("shows tab based on active tab prop", () => {
   render(
-    <Tabs>
-      <div label="Tab1">Tab1</div>
-    </Tabs>
-  );
-});
-
-it("shows tab that was last clicked on", () => {
-  render(
-    <Tabs>
+    <Tabs activeTab={"Dog"} onTabRequest={() => jest.fn()}>
       <div label="Cat">Meow!</div>
       <div label="Dog">Woof!</div>
       <div label="Pig">Oink!</div>
     </Tabs>
   );
-
-  userEvent.click(screen.getByRole("button", { name: "Pig" }));
-  userEvent.click(screen.getByRole("button", { name: "Dog" }));
 
   expect(screen.getByText("Woof!")).toBeInTheDocument();
   expect(screen.queryByText("Meow!")).not.toBeInTheDocument();

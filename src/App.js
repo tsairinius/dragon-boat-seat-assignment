@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Boat from "./components/Boat/Boat";
 import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
@@ -8,54 +8,61 @@ import styled from "styled-components";
 import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
+import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
 
 function App() {
-  const { paddlerList } = useContext(paddlerListContext);
+  const { paddlerList, dispatch } = useContext(paddlerListContext);
 
   const {
     paddlersInBoat,
     paddlersOnRoster,
     paddlerPreview,
     paddlerFullView,
+    assignSeatMode
   } = useApp(paddlerList);
 
+  const [activeTab, setActiveTab ] = useState("Boat");
+
+  const handleMoveToBoatRequest = () => {
+    dispatch(moveToBoat());
+    setActiveTab("Boat");
+  }
+
   return (
-    <StyledApp>
-      <StyledColumn side="left">
-        <Boat paddlersInBoat={paddlersInBoat} />
-      </StyledColumn>
-      <StyledColumn side="right">
+    <div>
         {paddlerFullView === undefined ? (
-          <Tabs>
+          <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
+            <StyledBoatContainer label="Boat">
+              {assignSeatMode ? 
+                <StyledChooseSeat>
+                  <h2>Choose a seat</h2>
+                  <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
+                </StyledChooseSeat>
+                :
+                null
+              }
+              <Boat paddlersInBoat={paddlersInBoat} />
+            </StyledBoatContainer>
             <Roster label="Roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="+" />
           </Tabs>
         ) : (
-          <ProfileFullView paddler={paddlerFullView} />
+          <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
         )}
         <ProfilePreview paddler={paddlerPreview} />
-      </StyledColumn>
-    </StyledApp>
+    </div>
   );
 }
 
-const StyledApp = styled.div`
-  :after: {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  height: 600px;
+const StyledChooseSeat = styled.div`
+  position: absolute;
+  border: 1px solid black;
+  padding: 1em;
+  margin: 1em;
 `;
 
-const StyledColumn = styled.div`
-  float: ${(props) => props.side};
-  width: 45%;
-  height: 100%;
-  margin-left: ${(props) => (props.side === "right" ? ": 1%" : "0")};
-  margin-right: ${(props) => (props.side === "left" ? ": 1%" : "0")};
+const StyledBoatContainer = styled.div`
   position: relative;
-  border: solid 1px orange;
 `;
 
 export default App;

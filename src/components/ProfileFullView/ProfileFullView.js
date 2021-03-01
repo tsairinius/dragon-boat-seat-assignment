@@ -9,11 +9,12 @@ import {
   deletePaddler,
   moveToRoster,
   unselectPaddlers,
+  switchSeats
 } from "../../reducers/paddlerListReducer/paddlerListActions";
 
-function ProfileFullView(props) {
+function ProfileFullView({paddler, onMoveToBoat}) {
   console.assert(
-    props.paddler !== undefined,
+    paddler !== undefined,
     "Paddler to display in full-view is undefined"
   );
 
@@ -26,7 +27,7 @@ function ProfileFullView(props) {
 
   const handleEditSubmit = (editedPaddler) => {
     const paddlerProfile = {
-      ...props.paddler,
+      ...paddler,
       name: editedPaddler.name,
       gender: editedPaddler.gender,
       weight: editedPaddler.weight,
@@ -39,14 +40,23 @@ function ProfileFullView(props) {
     return (
       <div>
         <h1>Profile</h1>
-        <ProfileInfo paddler={props.paddler} />
+        <ProfileInfo paddler={paddler} />
         <button onClick={toggleIsEditRequested}>Edit</button>
         <button onClick={() => dispatch(deletePaddler())}>Delete</button>
-        {props.paddler.inBoat && (
-          <button onClick={() => dispatch(moveToRoster(props.paddler))}>
-            Move to Roster
-          </button>
-        )}
+        {paddler.inBoat ? (
+            <React.Fragment>
+              <button onClick={() => dispatch(moveToRoster(paddler))}>
+                Move to Roster
+              </button>
+              <button onClick={() => dispatch(switchSeats())}>
+                Switch Seats
+              </button>
+            </React.Fragment>
+          )
+        :
+          <button onClick={onMoveToBoat}>
+            Move to Boat
+          </button>}
         <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
       </div>
     );
@@ -56,7 +66,7 @@ function ProfileFullView(props) {
     return (
       <div>
         <h1>Edit Paddler Profile</h1>
-        <PaddlerForm onSubmit={handleEditSubmit} paddler={props.paddler} />
+        <PaddlerForm onSubmit={handleEditSubmit} paddler={paddler} />
         <button onClick={toggleIsEditRequested}>Back</button>
       </div>
     );
@@ -71,6 +81,7 @@ function ProfileFullView(props) {
 
 ProfileFullView.propTypes = {
   paddler: PropTypes.object.isRequired,
+  onMoveToBoat: PropTypes.func.isRequired
 };
 
 const StyledProfileFullView = styled.div`
