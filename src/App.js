@@ -8,7 +8,7 @@ import styled from "styled-components";
 import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
-import { moveToBoat } from "./reducers/paddlerListReducer/paddlerListActions";
+import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -18,6 +18,7 @@ function App() {
     paddlersOnRoster,
     paddlerPreview,
     paddlerFullView,
+    assignSeatMode
   } = useApp(paddlerList);
 
   const [activeTab, setActiveTab ] = useState("Boat");
@@ -31,7 +32,17 @@ function App() {
     <div>
         {paddlerFullView === undefined ? (
           <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <Boat label="Boat" paddlersInBoat={paddlersInBoat} />
+            <StyledBoatContainer label="Boat">
+              {assignSeatMode ? 
+                <StyledChooseSeat>
+                  <h2>Choose a seat</h2>
+                  <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
+                </StyledChooseSeat>
+                :
+                null
+              }
+              <Boat paddlersInBoat={paddlersInBoat} />
+            </StyledBoatContainer>
             <Roster label="Roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="+" />
           </Tabs>
@@ -43,8 +54,15 @@ function App() {
   );
 }
 
-const StyledApp = styled.div`
-  display: grid;
+const StyledChooseSeat = styled.div`
+  position: absolute;
+  border: 1px solid black;
+  padding: 1em;
+  margin: 1em;
+`;
+
+const StyledBoatContainer = styled.div`
+  position: relative;
 `;
 
 export default App;

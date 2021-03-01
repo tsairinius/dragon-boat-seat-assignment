@@ -6,13 +6,36 @@ import userEvent from "@testing-library/user-event";
 
 import Store from "./Store";
 
-describe("tests interactions with a single paddler", () => {
-  const paddlerInfo = {
-    name: "Eric",
-    gender: "Male",
-    weight: "200",
-  };
+const paddlerInfo = Object.freeze({
+  name: "Eric",
+  gender: "Male",
+  weight: "200",
+});
 
+const createPaddlerAndViewRoster = async () => {
+  const rosterTab = screen.getByRole("button", { name: "Roster" });
+  const createPaddlerTab = screen.getByRole("button", { name: "+" });
+  userEvent.click(createPaddlerTab);
+
+  const nameInput = screen.getByLabelText("Name");
+  const maleButton = screen.getByLabelText(paddlerInfo.gender);
+  const weightInput = screen.getByLabelText("Weight(lb)");
+  const submitButton = screen.getByRole("button", { name: "Submit" });
+
+  await userEvent.type(nameInput, paddlerInfo.name);
+  userEvent.click(maleButton);
+  await userEvent.type(weightInput, paddlerInfo.weight);
+  userEvent.click(submitButton);
+  userEvent.click(rosterTab);
+};
+
+const movePaddlerFromRosterToBoatSeat = (seat) => {
+  userEvent.click(screen.getByText(paddlerInfo.name));
+  userEvent.click(screen.getByText("Move to Boat"));
+  userEvent.click(screen.getByTestId(`${seat}`));
+};
+
+describe("'Choose a seat' message behavior", () => {
   beforeEach(async () => {
     render(
       <Store>
@@ -22,28 +45,79 @@ describe("tests interactions with a single paddler", () => {
     await createPaddlerAndViewRoster();
   });
 
-  const createPaddlerAndViewRoster = async () => {
-    const rosterTab = screen.getByRole("button", { name: "Roster" });
-    const createPaddlerTab = screen.getByRole("button", { name: "+" });
-    userEvent.click(createPaddlerTab);
-
-    const nameInput = screen.getByLabelText("Name");
-    const maleButton = screen.getByLabelText(paddlerInfo.gender);
-    const weightInput = screen.getByLabelText("Weight(lb)");
-    const submitButton = screen.getByRole("button", { name: "Submit" });
-
-    await userEvent.type(nameInput, paddlerInfo.name);
-    userEvent.click(maleButton);
-    await userEvent.type(weightInput, paddlerInfo.weight);
-    userEvent.click(submitButton);
-    userEvent.click(rosterTab);
-  };
-
-  const movePaddlerFromRosterToBoatSeat = (seat) => {
+  const enterAndExitSeatAssignmentMode = () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Move to Boat"));
-    userEvent.click(screen.getByTestId(`${seat}`));
-  };
+    userEvent.click(screen.getByRole("button", {name: "Cancel"}));
+  }
+
+  it("'Choose a seat' message with cancel option shown when moving paddler from roster to boat", () => {
+    userEvent.click(screen.getByText(paddlerInfo.name));
+    userEvent.click(screen.getByText("Move to Boat"));
+
+    expect(screen.getByText("Choose a seat")).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
+  });
+
+  it("'Choose a seat' message disappears once paddler is moved from roster to boat", () => {
+    movePaddlerFromRosterToBoatSeat("seat4");
+    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
+  });
+
+  it("'Choose a seat' box is shown when moving paddler from one seat to another", () => {
+    movePaddlerFromRosterToBoatSeat("seat4");
+    userEvent.click(screen.getByText(paddlerInfo.name));
+    userEvent.click(screen.getByText("Switch Seats"));
+
+    expect(screen.getByText("Choose a seat")).toBeInTheDocument();
+    expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
+  });
+
+  it("'Choose a seat' box disappears when paddler is moved from one seat to another", () => {
+    movePaddlerFromRosterToBoatSeat("seat4");
+    userEvent.click(screen.getByText(paddlerInfo.name));
+    userEvent.click(screen.getByText("Switch Seats"));
+    userEvent.click(screen.getByTestId("seat6"));
+
+    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
+  });
+
+  it("Clicking cancel when choosing a seat exits 'Choose a seat' mode", () => {
+    enterAndExitSeatAssignmentMode();
+
+    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
+  });
+
+  it("After exiting choose-a-seat mode, clicking on an empty seat should not move paddler", () => {
+    enterAndExitSeatAssignmentMode();
+
+    userEvent.click(screen.getByTestId("seat6"));
+
+    expect(screen.queryByText(paddlerInfo.name)).not.toBeInTheDocument();
+  });
+
+  it("After exiting choose-a-seat mode, should be able to select a paddler again", () => {
+    enterAndExitSeatAssignmentMode();
+    userEvent.click(screen.getByRole("button", {name: "Roster"}));
+    userEvent.click(screen.getByText(paddlerInfo.name));
+
+    expect(screen.getByRole("button", {name: "Move to Boat"})).toBeInTheDocument();
+    expect(screen.getByText("Profile")).toBeInTheDocument();
+  });
+
+});
+
+describe("tests interactions with a single paddler", () => {
+  beforeEach(async () => {
+    render(
+      <Store>
+        <App />
+      </Store>
+    );
+    await createPaddlerAndViewRoster();
+  });
 
   it("renders paddler form when create-a-paddler tab is clicked", () => {
     const createPaddlerTab = screen.getByRole("button", { name: "+" });

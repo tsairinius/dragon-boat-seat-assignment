@@ -14,11 +14,14 @@ function useApp(paddlerList) {
     (paddler) => paddler.fullView === true
   );
 
+  const assignSeatMode = (!paddlerFullView && paddlerList.some(paddler => paddler.isSelected));
+
   return {
     paddlersInBoat,
     paddlersOnRoster,
     paddlerPreview,
     paddlerFullView,
+    assignSeatMode
   };
 }
 
