@@ -11,6 +11,7 @@ function Tabs({children, activeTab, onTabRequest}) {
         {tabsCollection.map((tab) => (
           <StyledTab
             key={tab.props.label}
+            isActive={tab.props.label === activeTab}
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
@@ -33,6 +34,8 @@ Tabs.propTypes = {
   onTabRequest: PropTypes.func.isRequired
 };
 
+const tabContentBackground = 'rgb(140, 228, 255)';
+
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
@@ -40,13 +43,18 @@ const StyledTabs = styled.div`
 `;
 
 const StyledTab = styled.button`
-  background: rgb(140, 228, 255); 
+  background: ${props => props.isActive ? tabContentBackground : 'rgb(0, 173, 226)'}; 
   border: black 1px solid;
+  border-bottom: ${tabContentBackground};
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
-  border-bottom: rgb(191, 191, 255);
   font-size: 1rem;
   padding: 0.5em 1em;
+
+  &:focus {
+    outline: none;
+    border-top: rgb(0, 115, 150) 2.5px solid;
+  }
 
   &:hover {
     cursor: pointer;
@@ -54,7 +62,7 @@ const StyledTab = styled.button`
 `;
 
 const StyledTabContent = styled.div`
-  background: rgb(140, 228, 255);
+  background: ${tabContentBackground};
   border-radius: 3px;
   height: 100%;
 `;
