@@ -29,7 +29,7 @@ function App() {
   }
 
   return (
-    <div>
+    <StyledApp>
         {paddlerFullView === undefined ? (
           <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <StyledBoatContainer label="Boat">
@@ -50,9 +50,15 @@ function App() {
           <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
         )}
         <ProfilePreview paddler={paddlerPreview} />
-    </div>
+    </StyledApp>
   );
 }
+
+const StyledApp = styled.div`
+  display: grid;
+  height: 97vh;
+  grid-template-rows: 10fr 2fr;
+`;
 
 const StyledChooseSeat = styled.div`
   position: absolute;

@@ -87,7 +87,6 @@ ProfileFullView.propTypes = {
 const StyledProfileFullView = styled.div`
   text-align: center;
   font-family: Allura;
-  height: 80%;
   border: solid 1px purple;
 `;
 

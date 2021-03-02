@@ -32,14 +32,12 @@ Paddler.propTypes = {
 };
 
 const StyledPaddler = styled.div`
-  width: 50px;
-  height: 50px;
-  margin: 1px;
+  width: 38px;
+  height: 38px;
   text-align: center;
   background-image: url(${(props) =>
     props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});
   background-size: cover;
-  background-position: 30% 100%;
 `;
 
 export default Paddler;

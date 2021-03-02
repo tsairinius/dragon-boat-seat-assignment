@@ -23,8 +23,8 @@ Seat.propTypes = {
 };
 
 const StyledSeat = styled.div`
-  width: 50px;
-  height: 50px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   border: 2px solid red;
   margin: 0 auto;
