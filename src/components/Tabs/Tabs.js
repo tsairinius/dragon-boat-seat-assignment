@@ -7,18 +7,22 @@ function Tabs({children, activeTab, onTabRequest}) {
 
   return (
     <StyledTabs>
-      {tabsCollection.map((tab) => (
-        <button
-          key={tab.props.label}
-          type="button"
-          onClick={() => onTabRequest(tab.props.label)}
-        >
-          {tab.props.label}
-        </button>
-      ))}
-      {tabsCollection.map((tab) =>
-        tab.props.label === activeTab ? tab : undefined
-      )}
+      <div>
+        {tabsCollection.map((tab) => (
+          <StyledTab
+            key={tab.props.label}
+            type="button"
+            onClick={() => onTabRequest(tab.props.label)}
+          >
+            {tab.props.label}
+          </StyledTab>
+        ))}
+      </div>
+      <StyledTabContent>
+        {tabsCollection.map((tab) =>
+          tab.props.label === activeTab ? tab : undefined
+        )}
+      </StyledTabContent>
     </StyledTabs>
   );
 }
@@ -31,7 +35,28 @@ Tabs.propTypes = {
 
 const StyledTabs = styled.div`
   text-align: center;
-  border: solid 1px purple;
+  display: grid;
+  grid-template-rows: min-content auto;
+`;
+
+const StyledTab = styled.button`
+  background: rgb(140, 228, 255); 
+  border: black 1px solid;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom: rgb(191, 191, 255);
+  font-size: 1rem;
+  padding: 0.5em 1em;
+
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const StyledTabContent = styled.div`
+  background: rgb(140, 228, 255);
+  border-radius: 3px;
+  height: 100%;
 `;
 
 export default Tabs;
