@@ -21,8 +21,11 @@ beforeAll(() => {
 it("displays provided paddler's info", () => {
   render(<ProfileInfo paddler={paddlerProfile} />);
 
-  expect(screen.getByRole("list")).toBeInTheDocument();
-  expect(screen.getByText("Name: John")).toBeInTheDocument();
-  expect(screen.getByText("Gender: male")).toBeInTheDocument();
-  expect(screen.getByText("Weight (lb): 250")).toBeInTheDocument();
+  expect(screen.getByTestId("profileInfo")).toBeInTheDocument();
+  expect(screen.getByText("Name:")).toBeInTheDocument();
+  expect(screen.getByText("John")).toBeInTheDocument();
+  expect(screen.getByText("Gender:")).toBeInTheDocument();  
+  expect(screen.getByText("male")).toBeInTheDocument();
+  expect(screen.getByText("Weight (lb):")).toBeInTheDocument();
+  expect(screen.getByText("250")).toBeInTheDocument();
 });

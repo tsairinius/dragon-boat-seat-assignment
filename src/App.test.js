@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import App from "./App";
-import { screen } from "@testing-library/dom";
+import { screen, within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 
 import Store from "./Store";
@@ -167,10 +167,12 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("displays paddler's info in profile preview window only when hovered over", () => {
-    userEvent.hover(screen.getByText(paddlerInfo.name));
+    const paddlerElement = screen.getByText(paddlerInfo.name);
+
+    userEvent.hover(paddlerElement);
     expect(screen.getByTestId("profileInfo")).toBeInTheDocument();
 
-    userEvent.unhover(screen.getByText(paddlerInfo.name));
+    userEvent.unhover(paddlerElement);
     expect(screen.queryByTestId("profileInfo")).not.toBeInTheDocument();
   });
 
@@ -219,9 +221,10 @@ describe("tests interactions with a single paddler", () => {
     expect(screen.getByText(newInfo.name)).toBeInTheDocument();
 
     userEvent.hover(screen.getByText("Karen"));
-    expect(screen.getByText(`Name: ${newInfo.name}`));
-    expect(screen.getByText(`Gender: ${newInfo.gender}`));
-    expect(screen.getByText(`Weight (lb): ${newInfo.weight}`));
+    const profileInfo = screen.getByTestId("profileInfo");
+    expect(within(profileInfo).getByText(newInfo.name));
+    expect(within(profileInfo).getByText(newInfo.gender));
+    expect(within(profileInfo).getByText(newInfo.weight));
   });
 
   it("paddler gets moved from one seat to another in boat", () => {
@@ -303,7 +306,9 @@ describe("tests interactions with multiple paddlers", () => {
     expect(screen.getByText(paddler1.name)).toHaveStyle(
       "background-image: url(profile_default_img_new.svg)"
     );
-    expect(screen.getByText(paddler2.name)).toHaveStyle(
+
+    const roster = screen.getByTestId("roster");
+    expect(within(roster).getByText(paddler2.name)).toHaveStyle(
       "background-image: url(profile_default_img_new_hover.svg)"
     );
   });
