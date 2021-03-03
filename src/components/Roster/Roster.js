@@ -10,7 +10,6 @@ function Roster(props) {
 
   return (
     <div>
-      <PaddlersTitle>Paddlers</PaddlersTitle>
       <StyledPaddlersContainer data-testid={"roster"}>
         {paddlerComponents}
       </StyledPaddlersContainer>
@@ -22,12 +21,6 @@ Roster.propTypes = {
   label: PropTypes.string.isRequired,
   paddlers: PropTypes.array.isRequired,
 };
-
-const PaddlersTitle = styled.h1`
-  color: black;
-  font-family: Allura;
-  font-size: 40px;
-`;
 
 const StyledPaddlersContainer = styled.div`
   display: flex;

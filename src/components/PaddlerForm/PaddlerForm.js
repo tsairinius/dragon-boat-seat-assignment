@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import usePaddlerForm from "./usePaddlerForm";
+import styled from "styled-components";
 
 function PaddlerForm({onSubmit, paddler}) {
   const {
@@ -15,83 +16,81 @@ function PaddlerForm({onSubmit, paddler}) {
   } = usePaddlerForm(onSubmit, paddler);
 
   return (
-    <form
+    <StyledForm
       data-testid="paddlerForm"
       onSubmit={handleSubmit}
       onReset={handleReset}
     >
-      <div>
-        <label>
+      <StyledField>
+        <label htmlFor="paddlerName">
           Name
-          <input
-            type="text"
-            name="paddlerName"
-            placeholder="e.g. Ed Cheung"
-            value={paddlerName}
-            onChange={handleNameChange}
-            required
-          />
         </label>
-      </div>
-      <div>
+        <StyledInput
+          type="text"
+          name="paddlerName"
+          id="paddlerName"
+          placeholder="e.g. Ed Cheung"
+          value={paddlerName}
+          onChange={handleNameChange}
+          required
+        />
+      </StyledField>
+      <StyledField>
         Gender
-        <div>
-          <label>
-            Male
-            <input
-              type="radio"
-              name="paddlerGender"
-              value="Male"
-              checked={paddlerGender === "Male"}
-              onChange={handleGenderChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Female
-            <input
-              type="radio"
-              name="paddlerGender"
-              value="Female"
-              checked={paddlerGender === "Female"}
-              onChange={handleGenderChange}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Other
-            <input
-              type="radio"
-              name="paddlerGender"
-              value="Other"
-              checked={paddlerGender === "Other"}
-              onChange={handleGenderChange}
-              required
-            />
-          </label>
-        </div>
-      </div>
-      <div>
-        <label>
+          <StyledGenderButtons>
+            <label>
+              Male
+              <input
+                type="radio"
+                name="paddlerGender"
+                value="Male"
+                checked={paddlerGender === "Male"}
+                onChange={handleGenderChange}
+                required
+              />
+            </label>
+            <label>
+              Female
+              <input
+                type="radio"
+                name="paddlerGender"
+                value="Female"
+                checked={paddlerGender === "Female"}
+                onChange={handleGenderChange}
+                required
+              />
+            </label>
+            <label>
+              Other
+              <input
+                type="radio"
+                name="paddlerGender"
+                value="Other"
+                checked={paddlerGender === "Other"}
+                onChange={handleGenderChange}
+                required
+              />
+            </label>
+          </StyledGenderButtons>
+      </StyledField>
+      <StyledField>
+        <label htmlFor="paddlerWeight">
           Weight(lb)
-          <input
-            type="number"
-            name="paddlerWeight"
-            min="1"
-            placeholder="e.g. 150"
-            value={paddlerWeight}
-            onChange={handleWeightChange}
-            required
-          />
         </label>
-      </div>
+        <StyledInput
+          type="number"
+          name="paddlerWeight"
+          id="paddlerWeight"
+          min="1"
+          placeholder="e.g. 150"
+          value={paddlerWeight}
+          onChange={handleWeightChange}
+          required
+        />
+      </StyledField>
       <button type="reset">Reset</button>
       <button type="submit">Submit</button>
-    </form>
+    </StyledForm>
   );
 }
 
@@ -99,5 +98,33 @@ PaddlerForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   paddler: PropTypes.object
 };
+
+const StyledForm = styled.form`
+  width: 65%;
+  margin: 0 auto;
+  font-family: Roboto;
+  font-size: 1.2rem;
+`;
+
+const StyledField = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  align-items: center;
+  grid-gap: 10px;
+  margin: 20px;
+`;
+
+const StyledGenderButtons = styled.span`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledInput = styled.input`
+  background: rgb(194, 241, 255);
+  border: rgb(0, 126, 165) solid 1px;
+  font-size: 1.2rem;
+  height: 1.5em;
+  border-radius: 2px;
+`;
 
 export default PaddlerForm;

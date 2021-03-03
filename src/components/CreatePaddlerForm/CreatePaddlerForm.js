@@ -13,20 +13,16 @@ function CreatePaddlerForm() {
   };
 
   return (
-    <StyledCreatePaddlerForm data-testid="createPaddlerForm">
+    <div data-testid="createPaddlerForm">
       <StyledCreatePaddlerTitle>Create a Paddler</StyledCreatePaddlerTitle>
       <PaddlerForm onSubmit={handleSubmit} />
-    </StyledCreatePaddlerForm>
+    </div>
   );
 }
 
 CreatePaddlerForm.propTypes = {
   label: PropTypes.string,
 };
-
-const StyledCreatePaddlerForm = styled.div`
-  border: solid 1px green;
-`;
 
 const StyledCreatePaddlerTitle = styled.h1`
   color: black;

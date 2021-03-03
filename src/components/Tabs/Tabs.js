@@ -53,7 +53,7 @@ const StyledTab = styled.button`
 
   &:focus {
     outline: none;
-    border-top: rgb(0, 115, 150) 2.5px solid;
+    filter: brightness(110%);
   }
 
   &:hover {
