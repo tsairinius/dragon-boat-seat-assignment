@@ -49,6 +49,7 @@ const StyledTab = styled.button`
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   font-size: 1rem;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   padding: 0.5em 1em;
 
   &:focus {

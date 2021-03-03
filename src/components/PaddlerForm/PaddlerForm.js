@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import usePaddlerForm from "./usePaddlerForm";
 import styled from "styled-components";
+import { StyledButton } from "../StyledButton";
 
 function PaddlerForm({onSubmit, paddler}) {
   const {
@@ -88,8 +89,8 @@ function PaddlerForm({onSubmit, paddler}) {
           required
         />
       </StyledField>
-      <button type="reset">Reset</button>
-      <button type="submit">Submit</button>
+      <StyledButton type="reset">Reset</StyledButton>
+      <StyledButton type="submit">Submit</StyledButton>
     </StyledForm>
   );
 }
@@ -102,7 +103,7 @@ PaddlerForm.propTypes = {
 const StyledForm = styled.form`
   width: 65%;
   margin: 0 auto;
-  font-family: Roboto;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 1.2rem;
 `;
 
