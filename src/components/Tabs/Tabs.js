@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { primaryBackground } from "../../styles";
 
 function Tabs({children, activeTab, onTabRequest}) {
   const tabsCollection = React.Children.toArray(children);
@@ -34,8 +35,6 @@ Tabs.propTypes = {
   onTabRequest: PropTypes.func.isRequired
 };
 
-const tabContentBackground = 'rgb(140, 228, 255)';
-
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
@@ -43,9 +42,9 @@ const StyledTabs = styled.div`
 `;
 
 const StyledTab = styled.button`
-  background: ${props => props.isActive ? tabContentBackground : 'rgb(0, 173, 226)'}; 
+  background: ${props => props.isActive ? primaryBackground : 'rgb(0, 173, 226)'}; 
   border: black 1px solid;
-  border-bottom: ${tabContentBackground};
+  border-bottom: ${primaryBackground};
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   font-size: 1rem;
@@ -63,7 +62,7 @@ const StyledTab = styled.button`
 `;
 
 const StyledTabContent = styled.div`
-  background: ${tabContentBackground};
+  background: ${primaryBackground};
   border-radius: 3px;
   height: 100%;
 `;
