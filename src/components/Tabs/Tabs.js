@@ -12,13 +12,13 @@ function Tabs({children, activeTab, onTabRequest}) {
   const getIcon = (label) => {
     let icon = null;
     switch(label) {
-      case "Roster":
+      case "roster":
         icon = rosterIcon;
         break;
-      case "Boat":
+      case "boat":
         icon = boatIcon;
         break;
-      case "+":
+      case "create-paddler":
         icon = createPaddlerIcon;
         break;
     }
@@ -33,6 +33,7 @@ function Tabs({children, activeTab, onTabRequest}) {
           <StyledTab
             key={tab.props.label}
             isActive={tab.props.label === activeTab}
+            data-testid={`tab-${tab.props.label}`}
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
@@ -59,7 +60,7 @@ Tabs.propTypes = {
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
-  grid-template-rows: 4.2rem auto;
+  grid-template-rows: 3rem auto;
 `;
 
 const StyledTabContainer = styled.div`
@@ -81,7 +82,7 @@ const StyledTab = styled.button`
 `;
 
 const StyledIcon = styled.img`
-  height: 3rem;
+  height: 2rem;
 `;
 
 const StyledTabContent = styled.div`

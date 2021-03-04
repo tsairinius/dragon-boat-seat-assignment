@@ -13,8 +13,8 @@ const paddlerInfo = Object.freeze({
 });
 
 const createPaddlerAndViewRoster = async () => {
-  const rosterTab = screen.getByRole("button", { name: "Roster" });
-  const createPaddlerTab = screen.getByRole("button", { name: "+" });
+  const rosterTab = screen.getByTestId("tab-roster");
+  const createPaddlerTab = screen.getByTestId("tab-create-paddler");
   userEvent.click(createPaddlerTab);
 
   const nameInput = screen.getByLabelText("Name");
@@ -29,8 +29,8 @@ const createPaddlerAndViewRoster = async () => {
   userEvent.click(rosterTab);
 };
 
-const movePaddlerFromRosterToBoatSeat = (seat) => {
-  userEvent.click(screen.getByText(paddlerInfo.name));
+const movePaddlerFromRosterToBoatSeat = (paddler, seat) => {
+  userEvent.click(screen.getByText(paddler.name));
   userEvent.click(screen.getByText("Move to Boat"));
   userEvent.click(screen.getByTestId(`${seat}`));
 };
@@ -60,12 +60,12 @@ describe("'Choose a seat' message behavior", () => {
   });
 
   it("'Choose a seat' message disappears once paddler is moved from roster to boat", () => {
-    movePaddlerFromRosterToBoatSeat("seat4");
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
     expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
   });
 
   it("'Choose a seat' box is shown when moving paddler from one seat to another", () => {
-    movePaddlerFromRosterToBoatSeat("seat4");
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Switch Seats"));
 
@@ -74,7 +74,7 @@ describe("'Choose a seat' message behavior", () => {
   });
 
   it("'Choose a seat' box disappears when paddler is moved from one seat to another", () => {
-    movePaddlerFromRosterToBoatSeat("seat4");
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat6"));
@@ -100,7 +100,7 @@ describe("'Choose a seat' message behavior", () => {
 
   it("After exiting choose-a-seat mode, should be able to select a paddler again", () => {
     enterAndExitSeatAssignmentMode();
-    userEvent.click(screen.getByRole("button", {name: "Roster"}));
+    userEvent.click(screen.getByTestId("tab-roster"));
     userEvent.click(screen.getByText(paddlerInfo.name));
 
     expect(screen.getByRole("button", {name: "Move to Boat"})).toBeInTheDocument();
@@ -120,7 +120,7 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("renders paddler form when create-a-paddler tab is clicked", () => {
-    const createPaddlerTab = screen.getByRole("button", { name: "+" });
+    const createPaddlerTab = screen.getByTestId("tab-create-paddler");
     userEvent.click(createPaddlerTab);
 
     expect(screen.getByTestId("createPaddlerForm")).toBeInTheDocument();
@@ -145,7 +145,7 @@ describe("tests interactions with a single paddler", () => {
 
   it("renders Paddler in specified seat in boat with 'unhovered' profile image", () => {
     const seatId = "seat5";
-    movePaddlerFromRosterToBoatSeat(seatId);
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
 
     expect(screen.getByText(paddlerInfo.name)).toHaveStyle(
       "background-image: url(profile_default_img_new.svg)"
@@ -157,7 +157,7 @@ describe("tests interactions with a single paddler", () => {
 
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
     const seatId = "seat5";
-    movePaddlerFromRosterToBoatSeat(seatId);
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
 
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByRole("button", { name: "Move to Roster" }));
@@ -189,9 +189,20 @@ describe("tests interactions with a single paddler", () => {
     expect(screen.queryByTestId("profileFullView")).not.toBeInTheDocument();
   });
 
-  it("paddler gets deleted as requested", () => {
+  it("paddler gets deleted from roster", () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByRole("button", { name: "Delete" }));
+
+    expect(screen.queryByTestId("profileFullView")).not.toBeInTheDocument();
+    expect(screen.queryByText(paddlerInfo.name)).not.toBeInTheDocument();
+  });
+
+  it("paddler gets deleted from boat", () => {
+    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
+
+    userEvent.click(screen.getByTestId("tab-boat"));
+    userEvent.click(screen.getByText(paddlerInfo.name));
+    userEvent.click(screen.getByRole("button", {name: "Delete"}));
 
     expect(screen.queryByTestId("profileFullView")).not.toBeInTheDocument();
     expect(screen.queryByText(paddlerInfo.name)).not.toBeInTheDocument();
@@ -258,8 +269,8 @@ describe("tests interactions with multiple paddlers", () => {
         <App />
       </Store>
     );
-    const createPaddlerTab = screen.getByRole("button", { name: "+" });
-    const rosterTab = screen.getByRole("button", { name: "Roster" });
+    const createPaddlerTab = screen.getByTestId("tab-create-paddler");
+    const rosterTab = screen.getByTestId("tab-roster");
     userEvent.click(createPaddlerTab);
 
     const nameInput = screen.getByLabelText("Name");
@@ -286,7 +297,7 @@ describe("tests interactions with multiple paddlers", () => {
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat0"));
 
-    userEvent.click(screen.getByRole("button", {name: "Roster"}));
+    userEvent.click(screen.getByTestId("tab-roster"));
     userEvent.click(screen.getByText(paddler2.name));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat21"));
@@ -318,7 +329,7 @@ describe("tests interactions with multiple paddlers", () => {
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat4"));
 
-    userEvent.click(screen.getByRole("button", {name: "Roster"}));
+    userEvent.click(screen.getByTestId("tab-roster"));
     userEvent.click(screen.getByText(paddler2.name));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.hover(screen.getByText(paddler1.name));
@@ -333,7 +344,7 @@ describe("tests interactions with multiple paddlers", () => {
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat3"));
 
-    userEvent.click(screen.getByRole("button", {name: "Roster"}));
+    userEvent.click(screen.getByTestId("tab-roster"));
     userEvent.click(screen.getByText(paddler2.name));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByText(paddler1.name));

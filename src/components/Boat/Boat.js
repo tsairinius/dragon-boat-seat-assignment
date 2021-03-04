@@ -3,6 +3,7 @@ import Seat from "../Seat/Seat";
 import Paddler from "../Paddler/Paddler";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import boatImg from "../../assets/img/boat.svg";
 
 function Boat(props) {
   const createSeatComponents = () => {
@@ -47,19 +48,37 @@ function Boat(props) {
     );
   };
 
-  return <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>;
+  return (
+    <StyledBoatImg>
+      <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>
+    </StyledBoatImg>
+  );
 }
 
 Boat.propTypes = {
   paddlersInBoat: PropTypes.array.isRequired,
 };
 
+const StyledBoatImg = styled.div`
+  background-image: url(${boatImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: min-content;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 2rem;
+`;
+
 const StyledBoat = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
   grid-gap: 0.2rem;
   justify-content: center;
-  padding: 1rem;
+  justify-items: center;
 `;
 
 export default Boat;

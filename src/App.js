@@ -22,18 +22,18 @@ function App() {
     assignSeatMode
   } = useApp(paddlerList);
 
-  const [activeTab, setActiveTab ] = useState("Boat");
+  const [activeTab, setActiveTab ] = useState("boat");
 
   const handleMoveToBoatRequest = () => {
     dispatch(moveToBoat());
-    setActiveTab("Boat");
+    setActiveTab("boat");
   }
 
   return (
     <StyledApp>
         {paddlerFullView === undefined ? (
           <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <StyledBoatContainer label="Boat">
+            <StyledBoatContainer label="boat">
               {assignSeatMode ? 
                 <StyledChooseSeat>
                   <h2>Choose a seat</h2>
@@ -44,8 +44,8 @@ function App() {
               }
               <Boat paddlersInBoat={paddlersInBoat} />
             </StyledBoatContainer>
-            <Roster label="Roster" paddlers={paddlersOnRoster} />
-            <CreatePaddlerForm label="+" />
+            <Roster label="roster" paddlers={paddlersOnRoster} />
+            <CreatePaddlerForm label="create-paddler" />
           </Tabs>
         ) : (
           <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
@@ -60,7 +60,7 @@ const StyledApp = styled.div`
   width: 85%;
   margin: 0 auto;
   height: 97vh;
-  grid-template-rows: 6fr 1fr;
+  grid-template-rows: 9fr 1fr;
   background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
@@ -75,6 +75,7 @@ const StyledChooseSeat = styled.div`
 
 const StyledBoatContainer = styled.div`
   position: relative;
+  height: 100%;
 `;
 
 export default App;

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import paddlerListContext from "../../paddlerListContext";
 import { clickSeat } from "../../reducers/paddlerListReducer/paddlerListActions";
+import { paddlerIconSizePixels } from "../../styles";
 
 function Seat(props) {
   const { dispatch } = useContext(paddlerListContext);
@@ -22,12 +23,14 @@ Seat.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
+const seatBorderSizePixels = 2;
+const seatSizePixels = paddlerIconSizePixels + 2*seatBorderSizePixels;
+
 const StyledSeat = styled.div`
-  width: 38px;
-  height: 38px;
+  width: ${seatSizePixels}px;
+  height: ${seatSizePixels}px;
   border-radius: 50%;
-  border: 2px solid red;
-  margin: 0 auto;
+  border: ${seatBorderSizePixels}px solid red;
   grid-column-start: ${(props) =>
     props.seatId === 21 || props.seatId === 0 ? "1" : "auto"};
   grid-column-end: ${(props) =>
