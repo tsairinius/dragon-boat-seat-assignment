@@ -6,3 +6,17 @@
 } */
 
 
+.nothing {
+  background: rgb(226, 226, 226);
+  font-family: Roboto, Arial, Helvetica, sans-serif
+}
+
+body {
+  font-family: Roboto, Arial, Helvetica, sans-serif;
+  background: rgb(218, 217, 217);
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}

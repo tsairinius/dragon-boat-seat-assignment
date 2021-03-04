@@ -2,13 +2,33 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { primaryBackground } from "../../styles";
+import rosterIcon from "../../assets/img/roster-icon.png";
+import boatIcon from "../../assets/img/boat-icon.png";
+import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 
 function Tabs({children, activeTab, onTabRequest}) {
   const tabsCollection = React.Children.toArray(children);
 
+  const getIcon = (label) => {
+    let icon = null;
+    switch(label) {
+      case "Roster":
+        icon = rosterIcon;
+        break;
+      case "Boat":
+        icon = boatIcon;
+        break;
+      case "+":
+        icon = createPaddlerIcon;
+        break;
+    }
+
+    return icon;
+  };
+
   return (
     <StyledTabs>
-      <div>
+      <StyledTabContainer>
         {tabsCollection.map((tab) => (
           <StyledTab
             key={tab.props.label}
@@ -16,10 +36,10 @@ function Tabs({children, activeTab, onTabRequest}) {
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
-            {tab.props.label}
+            <StyledIcon src={getIcon(tab.props.label)}/>
           </StyledTab>
         ))}
-      </div>
+      </StyledTabContainer>
       <StyledTabContent>
         {tabsCollection.map((tab) =>
           tab.props.label === activeTab ? tab : undefined
@@ -35,34 +55,36 @@ Tabs.propTypes = {
   onTabRequest: PropTypes.func.isRequired
 };
 
+
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
-  grid-template-rows: min-content auto;
+  grid-template-rows: 4.2rem auto;
+`;
+
+const StyledTabContainer = styled.div`
+  background-color: ${primaryBackground};
+  box-shadow: 0px 1px 1px rgb(165, 165, 165);;
+  padding: 0.5rem;
 `;
 
 const StyledTab = styled.button`
-  background: ${props => props.isActive ? primaryBackground : 'rgb(0, 173, 226)'}; 
-  border: black 1px solid;
-  border-bottom: ${primaryBackground};
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
+  border: none;
+  background: none;
   font-size: 1rem;
   font-family: Roboto, Arial, Helvetica, sans-serif;
-  padding: 0.5em 1em;
 
-  &:focus {
-    outline: none;
-    filter: brightness(110%);
-  }
-
-  &:hover {
+  &:hover, &:focus {
     cursor: pointer;
+    border-bottom: black solid 1px;
   }
 `;
 
+const StyledIcon = styled.img`
+  height: 3rem;
+`;
+
 const StyledTabContent = styled.div`
-  background: ${primaryBackground};
   border-radius: 3px;
   height: 100%;
 `;

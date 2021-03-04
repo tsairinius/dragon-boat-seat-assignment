@@ -9,6 +9,7 @@ import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
 import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
+import { primaryBackground } from "./styles";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -56,8 +57,13 @@ function App() {
 
 const StyledApp = styled.div`
   display: grid;
+  width: 85%;
+  margin: 0 auto;
   height: 97vh;
-  grid-template-rows: 10fr 2fr;
+  grid-template-rows: 6fr 1fr;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
 `;
 
 const StyledChooseSeat = styled.div`

@@ -121,7 +121,7 @@ const StyledGenderButtons = styled.span`
 `;
 
 const StyledInput = styled.input`
-  background: rgb(194, 241, 255);
+  background: rgb(240, 240, 240);
   border: rgb(0, 126, 165) solid 1px;
   font-size: 1.2rem;
   height: 1.5em;
