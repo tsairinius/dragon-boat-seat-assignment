@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { primaryBackground } from "../../styles";
 import rosterIcon from "../../assets/img/roster-icon.png";
 import boatIcon from "../../assets/img/boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
+import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
+import paddlerListContext from "../../paddlerListContext";
 
-function Tabs({children, activeTab, onTabRequest}) {
+function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
+  const { dispatch } = useContext(paddlerListContext);
+  
   const tabsCollection = React.Children.toArray(children);
 
   const getIcon = (label) => {
@@ -29,7 +33,10 @@ function Tabs({children, activeTab, onTabRequest}) {
   return (
     <StyledTabs>
       <StyledTabContainer>
-        {tabsCollection.map((tab) => (
+        {assignSeatMode ?
+         <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
+        :
+        tabsCollection.map((tab) => (
           <StyledTab
             key={tab.props.label}
             isActive={tab.props.label === activeTab}

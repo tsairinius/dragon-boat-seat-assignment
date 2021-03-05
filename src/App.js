@@ -32,16 +32,8 @@ function App() {
   return (
     <StyledApp>
         {paddlerFullView === undefined ? (
-          <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
+          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <StyledBoatContainer label="boat">
-              {assignSeatMode ? 
-                <StyledChooseSeat>
-                  <h2>Choose a seat</h2>
-                  <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
-                </StyledChooseSeat>
-                :
-                null
-              }
               <Boat paddlersInBoat={paddlersInBoat} />
             </StyledBoatContainer>
             <Roster label="roster" paddlers={paddlersOnRoster} />
@@ -64,13 +56,6 @@ const StyledApp = styled.div`
   background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
-`;
-
-const StyledChooseSeat = styled.div`
-  position: absolute;
-  border: 1px solid black;
-  padding: 1em;
-  margin: 1em;
 `;
 
 const StyledBoatContainer = styled.div`

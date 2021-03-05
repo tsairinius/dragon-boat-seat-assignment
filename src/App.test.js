@@ -51,46 +51,42 @@ describe("'Choose a seat' message behavior", () => {
     userEvent.click(screen.getByRole("button", {name: "Cancel"}));
   }
 
-  it("'Choose a seat' message with cancel option shown when moving paddler from roster to boat", () => {
+  it("'Cancel button shown when moving paddler from roster to boat", () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Move to Boat"));
 
-    expect(screen.getByText("Choose a seat")).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
   });
 
-  it("'Choose a seat' message disappears once paddler is moved from roster to boat", () => {
+  it("Cancel button disappears once paddler is moved from roster to boat", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
   });
 
-  it("'Choose a seat' box is shown when moving paddler from one seat to another", () => {
+  it("Cancel button is shown when moving paddler from one seat to another", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Switch Seats"));
 
-    expect(screen.getByText("Choose a seat")).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
   });
 
-  it("'Choose a seat' box disappears when paddler is moved from one seat to another", () => {
+  it("Cancel button disappears when paddler is moved from one seat to another", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat6"));
 
-    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
   });
 
-  it("Clicking cancel when choosing a seat exits 'Choose a seat' mode", () => {
+  it("Clicking cancel when choosing a seat exits choose-a-seat mode", () => {
     enterAndExitSeatAssignmentMode();
 
-    expect(screen.queryByText("Choose a seat")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
   });
 
-  it("After exiting choose-a-seat mode, clicking on an empty seat should not move paddler", () => {
+  it("After exiting choose-a-seat mode, clicking on an empty seat should not move previously selected paddler", () => {
     enterAndExitSeatAssignmentMode();
 
     userEvent.click(screen.getByTestId("seat6"));
