@@ -162,16 +162,6 @@ describe("tests interactions with a single paddler", () => {
     expect(screen.getByTestId("boat")).toBeInTheDocument();
   });
 
-  it("displays paddler's info in profile preview window only when hovered over", () => {
-    const paddlerElement = screen.getByText(paddlerInfo.name);
-
-    userEvent.hover(paddlerElement);
-    expect(screen.getByTestId("profileInfo")).toBeInTheDocument();
-
-    userEvent.unhover(paddlerElement);
-    expect(screen.queryByTestId("profileInfo")).not.toBeInTheDocument();
-  });
-
   it("displays profile of selected paddler in full-view window", () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     expect(screen.getByTestId("profileFullView"));
@@ -227,11 +217,11 @@ describe("tests interactions with a single paddler", () => {
     expect(screen.queryByText(paddlerInfo.name)).not.toBeInTheDocument();
     expect(screen.getByText(newInfo.name)).toBeInTheDocument();
 
-    userEvent.hover(screen.getByText("Karen"));
+    userEvent.click(screen.getByText("Karen"));
     const profileInfo = screen.getByTestId("profileInfo");
-    expect(within(profileInfo).getByText(newInfo.name));
-    expect(within(profileInfo).getByText(newInfo.gender));
-    expect(within(profileInfo).getByText(newInfo.weight));
+    expect(within(profileInfo).getByText(newInfo.name)).toBeInTheDocument();
+    expect(within(profileInfo).getByText(newInfo.gender)).toBeInTheDocument();
+    expect(within(profileInfo).getByText(newInfo.weight)).toBeInTheDocument();
   });
 
   it("paddler gets moved from one seat to another in boat", () => {

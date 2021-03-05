@@ -40,17 +40,14 @@ function App() {
         ) : (
           <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
         )}
-        <ProfilePreview paddler={paddlerPreview} />
     </StyledApp>
   );
 }
 
 const StyledApp = styled.div`
-  display: grid;
   width: 85%;
   margin: 0 auto;
   height: 97vh;
-  grid-template-rows: 9fr 1fr;
   background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
