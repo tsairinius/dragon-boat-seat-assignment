@@ -33,9 +33,7 @@ function App() {
     <StyledApp>
         {paddlerFullView === undefined ? (
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <StyledBoatContainer label="boat">
-              <Boat paddlersInBoat={paddlersInBoat} />
-            </StyledBoatContainer>
+            <Boat label="boat" paddlersInBoat={paddlersInBoat} />
             <Roster label="roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
@@ -56,11 +54,6 @@ const StyledApp = styled.div`
   background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
-`;
-
-const StyledBoatContainer = styled.div`
-  position: relative;
-  height: 100%;
 `;
 
 export default App;
