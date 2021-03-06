@@ -10,7 +10,7 @@ import paddlerListContext from "../../paddlerListContext";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);
-  
+
   const tabsCollection = React.Children.toArray(children);
 
   const getIcon = (label) => {
@@ -67,7 +67,8 @@ Tabs.propTypes = {
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
-  grid-template-rows: 3rem auto;
+  grid-template-rows: 1fr 12fr;
+  height: 100%;
 `;
 
 const StyledTabContainer = styled.div`
@@ -95,6 +96,7 @@ const StyledIcon = styled.img`
 const StyledTabContent = styled.div`
   border-radius: 3px;
   height: 100%;
+  padding: 1rem 0;
 `;
 
 export default Tabs;

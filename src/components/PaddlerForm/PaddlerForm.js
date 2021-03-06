@@ -126,6 +126,7 @@ const StyledInput = styled.input`
   font-size: 1.2rem;
   height: 1.5em;
   border-radius: 2px;
+  width: 100%;
 `;
 
 export default PaddlerForm;

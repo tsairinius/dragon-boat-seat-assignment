@@ -70,7 +70,7 @@ const StyledBoatImg = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 2rem;
+  padding: 0 5rem;
 `;
 
 const StyledBoat = styled.div`

@@ -47,7 +47,7 @@ function App() {
 const StyledApp = styled.div`
   width: 85%;
   margin: 0 auto;
-  height: 97vh;
+  height: 100vh;
   background: white;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
