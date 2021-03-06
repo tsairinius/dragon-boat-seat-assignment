@@ -24,6 +24,7 @@ Roster.propTypes = {
 
 const StyledPaddlersContainer = styled.div`
   display: flex;
+  padding: 1rem;
 `;
 
 export default Roster;

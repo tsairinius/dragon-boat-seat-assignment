@@ -46,6 +46,7 @@ function App() {
 
 const StyledApp = styled.div`
   width: 85%;
+  max-width: 700px;
   margin: 0 auto;
   height: 100vh;
   background: white;

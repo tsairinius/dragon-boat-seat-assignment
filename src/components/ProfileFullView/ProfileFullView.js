@@ -89,7 +89,6 @@ ProfileFullView.propTypes = {
 const StyledProfileFullView = styled.div`
   text-align: center;
   font-size: 1.5rem;
-  background: ${primaryBackground};
 `;
 
 export default ProfileFullView;

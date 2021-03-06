@@ -32,6 +32,11 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
 
   return (
     <StyledTabs>
+      <StyledTabContent>
+        {tabsCollection.map((tab) =>
+          tab.props.label === activeTab ? tab : undefined
+        )}
+      </StyledTabContent>
       <StyledTabContainer>
         {assignSeatMode ?
          <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
@@ -48,11 +53,6 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
           </StyledTab>
         ))}
       </StyledTabContainer>
-      <StyledTabContent>
-        {tabsCollection.map((tab) =>
-          tab.props.label === activeTab ? tab : undefined
-        )}
-      </StyledTabContent>
     </StyledTabs>
   );
 }
@@ -67,35 +67,35 @@ Tabs.propTypes = {
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
-  grid-template-rows: 1fr 12fr;
+  grid-template-columns: 6fr 1fr;
   height: 100%;
 `;
 
 const StyledTabContainer = styled.div`
   background-color: ${primaryBackground};
-  box-shadow: 0px 1px 1px rgb(165, 165, 165);;
-  padding: 0.5rem;
+  box-shadow: 0px 1px 1px rgb(165, 165, 165);
 `;
 
 const StyledTab = styled.button`
   border: none;
-  background: none;
-  font-size: 1rem;
+  background: inherit;
   font-family: Roboto, Arial, Helvetica, sans-serif;
+  min-width: 4rem;
+  padding: 0.8rem 0;
 
   &:hover, &:focus {
     cursor: pointer;
-    border-bottom: black solid 1px;
+    filter: brightness(80%);
   }
 `;
 
 const StyledIcon = styled.img`
-  height: 2rem;
+  width: 70%;
+
 `;
 
 const StyledTabContent = styled.div`
   border-radius: 3px;
-  height: 100%;
   padding: 1rem 0;
 `;
 
