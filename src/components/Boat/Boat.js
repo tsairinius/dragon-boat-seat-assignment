@@ -3,7 +3,7 @@ import Seat from "../Seat/Seat";
 import Paddler from "../Paddler/Paddler";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import boatImg from "../../assets/img/new-boat.svg";
+import boatImg from "../../assets/img/wide-boat.svg";
 
 function Boat(props) {
   const createSeatComponents = () => {
@@ -70,7 +70,7 @@ const StyledBoatImg = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 5rem;
+  padding: 0 5rem 1.2rem 5rem;
 `;
 
 const StyledBoat = styled.div`

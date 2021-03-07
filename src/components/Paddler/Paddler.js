@@ -35,7 +35,9 @@ Paddler.propTypes = {
 const StyledPaddler = styled.div`
   width: ${paddlerIconSizePixels}px;
   height: ${paddlerIconSizePixels}px;
+  border-radius: 50%;
   text-align: center;
+  background-color: white;
   background-image: url(${(props) =>
     props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});
   background-size: cover;
