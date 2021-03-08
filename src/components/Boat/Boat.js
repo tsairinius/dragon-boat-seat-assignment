@@ -49,9 +49,9 @@ function Boat(props) {
   };
 
   return (
-    <StyledBoatImg>
+    <StyledBoatContainer>
       <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>
-    </StyledBoatImg>
+    </StyledBoatContainer>
   );
 }
 
@@ -59,26 +59,22 @@ Boat.propTypes = {
   paddlersInBoat: PropTypes.array.isRequired,
 };
 
-const StyledBoatImg = styled.div`
+const StyledBoatContainer = styled.div`
   background-image: url(${boatImg});
-  background-size: contain;
-  background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
   width: min-content;
-  height: 100%;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 5rem 1.2rem 5rem;
+  overflow: auto;
+  padding: 1rem 0;
 `;
 
 const StyledBoat = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
   grid-gap: 0.2rem;
-  justify-content: center;
   justify-items: center;
+  margin: 20rem 2rem;
 `;
 
 export default Boat;

@@ -7,6 +7,7 @@ import boatIcon from "../../assets/img/boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
+import boatImg from "../../assets/img/boat-v2.svg";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);
@@ -91,12 +92,10 @@ const StyledTab = styled.button`
 
 const StyledIcon = styled.img`
   width: 70%;
-
 `;
 
 const StyledTabContent = styled.div`
-  border-radius: 3px;
-  padding: 1rem 0;
+  overflow: scroll;
 `;
 
 export default Tabs;
