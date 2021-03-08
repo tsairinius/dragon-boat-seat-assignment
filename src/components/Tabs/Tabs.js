@@ -73,7 +73,7 @@ const StyledTabs = styled.div`
 
 const StyledTabContainer = styled.div`
   background-color: ${primaryBackground};
-  box-shadow: 0px 1px 1px rgb(165, 165, 165);
+  box-shadow: -1px 0px 1px rgb(165, 165, 165);
 `;
 
 const StyledTab = styled.button`

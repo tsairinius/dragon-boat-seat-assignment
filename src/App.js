@@ -10,6 +10,7 @@ import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
 import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
 import { primaryBackground } from "./styles";
+import backdropImg from "./assets/img/backdrop.svg";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -49,7 +50,11 @@ const StyledApp = styled.div`
   max-width: 700px;
   margin: 0 auto;
   height: 100vh;
-  background: white;
+  background-color: black;
+  background-image: url(${backdropImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
 `;

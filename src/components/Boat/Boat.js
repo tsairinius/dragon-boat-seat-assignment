@@ -3,7 +3,7 @@ import Seat from "../Seat/Seat";
 import Paddler from "../Paddler/Paddler";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import boatImg from "../../assets/img/wide-boat.svg";
+import boatImg from "../../assets/img/boat-v2.svg";
 
 function Boat(props) {
   const createSeatComponents = () => {
