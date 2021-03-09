@@ -30,6 +30,7 @@ const StyledProfileInfo = styled.div`
   grid-template-columns: 1fr 1fr;
   justify-items: start;
   width: 50%;
+  min-width: 230px;
   margin: 1em auto;
 `;
 

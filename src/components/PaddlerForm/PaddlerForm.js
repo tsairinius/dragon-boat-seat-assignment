@@ -106,7 +106,7 @@ const StyledForm = styled.form`
   width: 90%;
   margin: 0 auto;
   font-family: Roboto, Arial, Helvetica, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
 
   @media (min-width: 425px) {
     width: 65%;
@@ -114,7 +114,7 @@ const StyledForm = styled.form`
 `;
 
 const StyledLabel = styled.label`
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   margin-bottom: 3px;
 `;
 
@@ -134,7 +134,7 @@ const StyledGenderButton = styled.input`
 const StyledInput = styled.input`
   background: rgb(240, 240, 240);
   border: rgb(0, 126, 165) solid 1px;
-  font-size: 1.2rem;
+  font-size: 1rem;
   height: 1.5em;
   border-radius: 2px;
   width: 100%;

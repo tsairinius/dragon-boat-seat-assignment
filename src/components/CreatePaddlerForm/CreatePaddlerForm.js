@@ -26,7 +26,7 @@ CreatePaddlerForm.propTypes = {
 
 const StyledCreatePaddlerTitle = styled.h1`
   font-family: Allura;
-  font-size: 40px;
+  font-size: 2rem;
 `;
 
 export default CreatePaddlerForm;
