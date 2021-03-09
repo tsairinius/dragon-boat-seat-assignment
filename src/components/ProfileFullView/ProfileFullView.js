@@ -11,6 +11,8 @@ import {
   unselectPaddlers,
   switchSeats
 } from "../../reducers/paddlerListReducer/paddlerListActions";
+import { StyledButton } from "../StyledButton";
+import { primaryBackground } from "../../styles";
 
 function ProfileFullView({paddler, onMoveToBoat}) {
   console.assert(
@@ -41,23 +43,23 @@ function ProfileFullView({paddler, onMoveToBoat}) {
       <div>
         <h1>Profile</h1>
         <ProfileInfo paddler={paddler} />
-        <button onClick={toggleIsEditRequested}>Edit</button>
-        <button onClick={() => dispatch(deletePaddler())}>Delete</button>
+        <StyledButton onClick={toggleIsEditRequested}>Edit</StyledButton>
+        <StyledButton onClick={() => dispatch(deletePaddler())}>Delete</StyledButton>
         {paddler.inBoat ? (
             <React.Fragment>
-              <button onClick={() => dispatch(moveToRoster(paddler))}>
+              <StyledButton onClick={() => dispatch(moveToRoster(paddler))}>
                 Move to Roster
-              </button>
-              <button onClick={() => dispatch(switchSeats())}>
+              </StyledButton>
+              <StyledButton onClick={() => dispatch(switchSeats())}>
                 Switch Seats
-              </button>
+              </StyledButton>
             </React.Fragment>
           )
         :
-          <button onClick={onMoveToBoat}>
+          <StyledButton onClick={onMoveToBoat}>
             Move to Boat
-          </button>}
-        <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
+          </StyledButton>}
+        <StyledButton onClick={() => dispatch(unselectPaddlers())}>Cancel</StyledButton>
       </div>
     );
   };
@@ -67,7 +69,7 @@ function ProfileFullView({paddler, onMoveToBoat}) {
       <div>
         <h1>Edit Paddler Profile</h1>
         <PaddlerForm onSubmit={handleEditSubmit} paddler={paddler} />
-        <button onClick={toggleIsEditRequested}>Back</button>
+        <StyledButton onClick={toggleIsEditRequested}>Back</StyledButton>
       </div>
     );
   };
@@ -86,9 +88,13 @@ ProfileFullView.propTypes = {
 
 const StyledProfileFullView = styled.div`
   text-align: center;
-  font-family: Allura;
-  height: 80%;
-  border: solid 1px purple;
+  font-size: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 50%);
 `;
 
 export default ProfileFullView;

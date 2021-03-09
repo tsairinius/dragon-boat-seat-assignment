@@ -50,14 +50,13 @@ describe("paddler edit behavior", () => {
 
 describe("display appropriate button for moving paddler between boat and roster", () => {
   const verifyPaddlerInfoAndOptionsDisplayed = (paddler) => {
-    expect(screen.getByRole("list")).toBeInTheDocument();
-    expect(screen.getByText(`Name: ${paddler.name}`)).toBeInTheDocument();
-    expect(
-      screen.getByText(`Gender: ${paddler.gender}`)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(`Weight (lb): ${paddler.weight}`)
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
+    expect(screen.getByText(`Name:`)).toBeInTheDocument();
+    expect(screen.getByText(paddler.name)).toBeInTheDocument();
+    expect(screen.getByText(`Gender:`)).toBeInTheDocument();
+    expect(screen.getByText(paddler.gender)).toBeInTheDocument();
+    expect(screen.getByText(`Weight (lb):`)).toBeInTheDocument();
+    expect(screen.getByText(paddler.weight)).toBeInTheDocument();
   
     expect(screen.getByRole("button", { name: "Edit" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Delete" })).toBeInTheDocument();

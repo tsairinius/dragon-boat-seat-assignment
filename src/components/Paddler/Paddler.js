@@ -9,6 +9,7 @@ import {
   hoverPaddler,
   unhoverPaddler,
 } from "../../reducers/paddlerListReducer/paddlerListActions";
+import { paddlerIconSizePixels } from "../../styles";
 
 function Paddler(props) {
   const { paddlerProfile } = props;
@@ -32,14 +33,14 @@ Paddler.propTypes = {
 };
 
 const StyledPaddler = styled.div`
-  width: 50px;
-  height: 50px;
-  margin: 1px;
+  width: ${paddlerIconSizePixels}px;
+  height: ${paddlerIconSizePixels}px;
+  border-radius: 50%;
   text-align: center;
+  background-color: white;
   background-image: url(${(props) =>
     props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});
   background-size: cover;
-  background-position: 30% 100%;
 `;
 
 export default Paddler;

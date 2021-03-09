@@ -9,6 +9,8 @@ import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
 import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
+import { primaryBackground } from "./styles";
+import backdropImg from "./assets/img/backdrop.svg";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -21,48 +23,40 @@ function App() {
     assignSeatMode
   } = useApp(paddlerList);
 
-  const [activeTab, setActiveTab ] = useState("Boat");
+  const [activeTab, setActiveTab ] = useState("boat");
 
   const handleMoveToBoatRequest = () => {
     dispatch(moveToBoat());
-    setActiveTab("Boat");
+    setActiveTab("boat");
   }
 
   return (
-    <div>
-        {paddlerFullView === undefined ? (
-          <Tabs activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <StyledBoatContainer label="Boat">
-              {assignSeatMode ? 
-                <StyledChooseSeat>
-                  <h2>Choose a seat</h2>
-                  <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
-                </StyledChooseSeat>
-                :
-                null
-              }
-              <Boat paddlersInBoat={paddlersInBoat} />
-            </StyledBoatContainer>
-            <Roster label="Roster" paddlers={paddlersOnRoster} />
-            <CreatePaddlerForm label="+" />
+    <StyledApp>
+          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
+            <Boat label="boat" paddlersInBoat={paddlersInBoat} />
+            <Roster label="roster" paddlers={paddlersOnRoster} />
+            <CreatePaddlerForm label="create-paddler" />
           </Tabs>
-        ) : (
-          <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
-        )}
-        <ProfilePreview paddler={paddlerPreview} />
-    </div>
+          {paddlerFullView ? 
+            <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
+          :
+          null}
+    </StyledApp>
   );
 }
 
-const StyledChooseSeat = styled.div`
-  position: absolute;
-  border: 1px solid black;
-  padding: 1em;
-  margin: 1em;
-`;
-
-const StyledBoatContainer = styled.div`
-  position: relative;
+const StyledApp = styled.div`
+  width: 85%;
+  max-width: 700px;
+  margin: 0 auto;
+  height: 100vh;
+  background-color: black;
+  background-image: url(${backdropImg});
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  border-radius: 10px;
+  box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
 `;
 
 export default App;
