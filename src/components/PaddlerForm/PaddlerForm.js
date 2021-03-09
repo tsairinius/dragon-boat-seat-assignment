@@ -23,9 +23,9 @@ function PaddlerForm({onSubmit, paddler}) {
       onReset={handleReset}
     >
       <StyledField>
-        <label htmlFor="paddlerName">
+        <StyledLabel htmlFor="paddlerName">
           Name
-        </label>
+        </StyledLabel>
         <StyledInput
           type="text"
           name="paddlerName"
@@ -37,11 +37,13 @@ function PaddlerForm({onSubmit, paddler}) {
         />
       </StyledField>
       <StyledField>
-        Gender
-          <StyledGenderButtons>
+          <StyledLabel>
+            Gender
+          </StyledLabel>
+          <div>
             <label>
               Male
-              <input
+              <StyledGenderButton
                 type="radio"
                 name="paddlerGender"
                 value="Male"
@@ -52,7 +54,7 @@ function PaddlerForm({onSubmit, paddler}) {
             </label>
             <label>
               Female
-              <input
+              <StyledGenderButton
                 type="radio"
                 name="paddlerGender"
                 value="Female"
@@ -63,7 +65,7 @@ function PaddlerForm({onSubmit, paddler}) {
             </label>
             <label>
               Other
-              <input
+              <StyledGenderButton
                 type="radio"
                 name="paddlerGender"
                 value="Other"
@@ -72,12 +74,12 @@ function PaddlerForm({onSubmit, paddler}) {
                 required
               />
             </label>
-          </StyledGenderButtons>
+          </div>
       </StyledField>
       <StyledField>
-        <label htmlFor="paddlerWeight">
+        <StyledLabel htmlFor="paddlerWeight">
           Weight(lb)
-        </label>
+        </StyledLabel>
         <StyledInput
           type="number"
           name="paddlerWeight"
@@ -101,23 +103,32 @@ PaddlerForm.propTypes = {
 };
 
 const StyledForm = styled.form`
-  width: 65%;
+  width: 90%;
   margin: 0 auto;
   font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 1.2rem;
+
+  @media (min-width: 425px) {
+    width: 65%;
+  }
+`;
+
+const StyledLabel = styled.label`
+  font-size: 0.95rem;
+  margin-bottom: 3px;
 `;
 
 const StyledField = styled.div`
+  margin: 20px 0;
   display: grid;
-  grid-template-columns: 1fr 3fr;
-  align-items: center;
-  grid-gap: 10px;
-  margin: 20px;
+  grid-template-rows: min-content min-content;
+  justify-items: start;
 `;
 
-const StyledGenderButtons = styled.span`
-  display: flex;
-  justify-content: space-between;
+const StyledGenderButton = styled.input`
+  @media (min-width: 425px) {
+    margin-right: 20px;
+  }
 `;
 
 const StyledInput = styled.input`

@@ -84,7 +84,7 @@ const StyledTab = styled.button`
   min-width: 4rem;
   padding: 0.8rem 0;
 
-  &:hover, &:focus {
+  &:hover {
     cursor: pointer;
     filter: brightness(80%);
   }

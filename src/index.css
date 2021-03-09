@@ -1,18 +1,11 @@
-/* body {
-  background-image: url("./assets/img/leaf_like_line_new.svg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-attachment: fixed;
-} */
-
-
+/* .nothing should be deleted eventually. I've just been using it for viewing the color palette*/
 .nothing {
-  background: rgb(226, 226, 226);
-  font-family: Roboto, Arial, Helvetica, sans-serif
+  background: rgb(70, 181, 245);
 }
 
 body {
   font-family: Roboto, Arial, Helvetica, sans-serif;
+  color: white;
   background: rgb(218, 217, 217);
   margin: 0;
 }

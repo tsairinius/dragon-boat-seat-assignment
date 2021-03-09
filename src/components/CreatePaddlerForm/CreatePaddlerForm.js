@@ -25,7 +25,6 @@ CreatePaddlerForm.propTypes = {
 };
 
 const StyledCreatePaddlerTitle = styled.h1`
-  color: black;
   font-family: Allura;
   font-size: 40px;
 `;
