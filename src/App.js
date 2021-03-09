@@ -32,15 +32,15 @@ function App() {
 
   return (
     <StyledApp>
-        {paddlerFullView === undefined ? (
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <Boat label="boat" paddlersInBoat={paddlersInBoat} />
             <Roster label="roster" paddlers={paddlersOnRoster} />
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
-        ) : (
-          <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
-        )}
+          {paddlerFullView ? 
+            <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
+          :
+          null}
     </StyledApp>
   );
 }
