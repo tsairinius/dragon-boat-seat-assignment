@@ -14,6 +14,7 @@ function Seat(props) {
       data-testid={"seat" + props.id}
       onClick={() => dispatch(clickSeat(props.id))}
     >
+      <div className="seat-position">{`Seat ${props.id}`}</div>
       {props.children}
     </StyledSeat>
   );
@@ -24,6 +25,7 @@ Seat.propTypes = {
 };
 
 const StyledSeat = styled.div`
+  position: relative;
   width: ${paddlerIconSizePixels}px;
   height: ${paddlerIconSizePixels}px;
   background: radial-gradient(black 0%, black 44%, rgb(70, 181, 245) 60%, black 80%);
@@ -34,6 +36,27 @@ const StyledSeat = styled.div`
     props.seatId === 21 || props.seatId === 0 ? "3" : "auto"};
   grid-row-start: ${(props) => (props.seatId === 21 ? "12" : "auto")};
   grid-row-end: ${(props) => (props.seatId === 21 ? "13" : "auto")};
+
+  .seat-position {
+    display: none;
+    position: absolute;
+    top: -35px;
+    background: white;
+    color: black;
+    padding: 0.3em;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    border: 1px solid black;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    > .seat-position {
+      display: block;
+    }
+
+    filter: brightness(150%);
+  }
 `;
 
 export default Seat;

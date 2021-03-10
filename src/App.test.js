@@ -35,6 +35,21 @@ const movePaddlerFromRosterToBoatSeat = (paddler, seat) => {
   userEvent.click(screen.getByTestId(`${seat}`));
 };
 
+describe("Seat behavior", () => {
+  it("Hovering over a seat displays the seat ID", () => {
+    render(
+      <Store>
+        <App />
+      </Store>
+    );
+
+    userEvent.click(screen.getByTestId("tab-boat"));
+    userEvent.hover(screen.getByTestId("seat1"));
+
+    expect(screen.getByText("Seat 1")).toBeInTheDocument();
+  });
+});
+
 describe("'Choose a seat' message behavior", () => {
   beforeEach(async () => {
     render(
@@ -48,19 +63,19 @@ describe("'Choose a seat' message behavior", () => {
   const enterAndExitSeatAssignmentMode = () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Move to Boat"));
-    userEvent.click(screen.getByRole("button", {name: "Cancel"}));
+    userEvent.click(screen.getByTestId("btnCancelSeatAssignment"));
   }
 
   it("'Cancel button shown when moving paddler from roster to boat", () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Move to Boat"));
 
-    expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
+    expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
   });
 
   it("Cancel button disappears once paddler is moved from roster to boat", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
+    expect(screen.queryByTestId("btnCancelSeatAssignment")).not.toBeInTheDocument();
   });
 
   it("Cancel button is shown when moving paddler from one seat to another", () => {
@@ -68,7 +83,7 @@ describe("'Choose a seat' message behavior", () => {
     userEvent.click(screen.getByText(paddlerInfo.name));
     userEvent.click(screen.getByText("Switch Seats"));
 
-    expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
+    expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
   });
 
   it("Cancel button disappears when paddler is moved from one seat to another", () => {
@@ -77,13 +92,13 @@ describe("'Choose a seat' message behavior", () => {
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat6"));
 
-    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
+    expect(screen.queryByTestId("btnCancelSeatAssignment")).not.toBeInTheDocument();
   });
 
   it("Clicking cancel when choosing a seat exits choose-a-seat mode", () => {
     enterAndExitSeatAssignmentMode();
 
-    expect(screen.queryByRole("button", {name: "Cancel"})).not.toBeInTheDocument();
+    expect(screen.queryByTestId("btnCancelSeatAssignment")).not.toBeInTheDocument();
   });
 
   it("After exiting choose-a-seat mode, clicking on an empty seat should not move previously selected paddler", () => {
@@ -148,7 +163,7 @@ describe("tests interactions with a single paddler", () => {
     );
 
     const seat = screen.getByTestId(seatId);
-    expect(seat.firstChild).toBe(screen.getByText(paddlerInfo.name));
+    expect(screen.getByText(paddlerInfo.name).parentElement).toBe(seat);
   });
 
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
@@ -288,12 +303,8 @@ describe("tests interactions with multiple paddlers", () => {
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat21"));
 
-    expect(screen.getByTestId("seat0").firstChild).toBe(
-      screen.getByText(paddler1.name)
-    );
-    expect(screen.getByTestId("seat21").firstChild).toBe(
-      screen.getByText(paddler2.name)
-    );
+    expect(screen.getByText(paddler1.name).parentElement).toBe(screen.getByTestId("seat0"));
+    expect(screen.getByText(paddler2.name).parentElement).toBe(screen.getByTestId("seat21"));
   });
 
   it("enforces that only one paddler on roster can have hover image applied at a time", () => {
