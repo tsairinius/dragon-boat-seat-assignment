@@ -6,7 +6,8 @@ import { screen } from "@testing-library/dom";
 
 const paddlerProfile = Object.freeze({
   id: uuidv4(),
-  name: "John",
+  firstName: "John",
+  lastName: "Smith",
   gender: "male",
   weight: 250,
   inBoat: false,
@@ -24,7 +25,7 @@ it("displays info of specified paddler", () => {
 
   expect(screen.getByTestId("profileInfo")).toBeInTheDocument();
   expect(screen.getByText("Name:")).toBeInTheDocument();
-  expect(screen.getByText("John")).toBeInTheDocument();
+  expect(screen.getByText("John Smith")).toBeInTheDocument();
   expect(screen.getByText("Gender:")).toBeInTheDocument();  
   expect(screen.getByText("male")).toBeInTheDocument();
   expect(screen.getByText("Weight (lb):")).toBeInTheDocument();

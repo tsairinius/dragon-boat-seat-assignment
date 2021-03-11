@@ -12,7 +12,8 @@ it("renders Roster without crashing", () => {
 it("renders Paddler in Roster", () => {
   const paddlerBob = {
     id: uuidv4(),
-    name: "Bob",
+    firstName: "Bob",
+    lastName: "Smith",
     gender: "male",
     weight: "125",
     inBoat: false,

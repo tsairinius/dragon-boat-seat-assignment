@@ -23,7 +23,7 @@ function Paddler(props) {
       onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}
       onMouseLeave={() => dispatch(unhoverPaddler(paddlerProfile.id))}
     >
-      {paddlerProfile.name}
+      {paddlerProfile.firstName}
     </StyledPaddler>
   );
 }

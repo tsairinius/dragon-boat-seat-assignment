@@ -30,7 +30,8 @@ function ProfileFullView({paddler, onMoveToBoat}) {
   const handleEditSubmit = (editedPaddler) => {
     const paddlerProfile = {
       ...paddler,
-      name: editedPaddler.name,
+      firstName: editedPaddler.firstName,
+      lastName: editedPaddler.lastName,
       gender: editedPaddler.gender,
       weight: editedPaddler.weight,
     };

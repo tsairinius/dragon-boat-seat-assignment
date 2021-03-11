@@ -5,17 +5,15 @@ import { v4 as uuidv4 } from "uuid";
 import { screen } from "@testing-library/dom";
 import Store from "../../Store";
 
-let paddlerProfile;
-beforeAll(() => {
-  paddlerProfile = {
-    id: uuidv4(),
-    name: "John",
-    gender: "male",
-    weight: "345",
-    inBoat: false,
-    seatId: "",
-    isSelected: false,
-  };
+const paddlerProfile = Object.freeze({
+  id: uuidv4(),
+  firstName: "John",
+  lastName: "Smith",
+  gender: "male",
+  weight: "345",
+  inBoat: false,
+  seatId: "",
+  isSelected: false,
 });
 
 beforeEach(() => {

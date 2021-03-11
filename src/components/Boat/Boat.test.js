@@ -16,7 +16,8 @@ it("renders Boat component without crashing", () => {
 it("renders boat with paddler in specified seat", () => {
   const paddler = {
     id: uuidv4(),
-    name: "Bob",
+    firstName: "Bob",
+    lastName: "Smith",
     gender: "male",
     weight: "125",
     inBoat: true,

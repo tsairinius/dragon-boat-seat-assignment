@@ -15,10 +15,16 @@ describe("no paddler object is passed in to the PaddlerForm", () => {
     );
   });
 
-  it("paddler name input gets updated as user types in name", async () => {
-    const nameInput = screen.getByLabelText("Name");
-    await userEvent.type(nameInput, "Eric");
-    expect(nameInput.value).toBe("Eric");
+  it("paddler first name input gets updated as user types in first name", async () => {
+    const firstNameInput = screen.getByLabelText("First");
+    await userEvent.type(firstNameInput, "Eric");
+    expect(firstNameInput.value).toBe("Eric");
+  });
+
+  it("paddler last name input gets updated as user types in last name", async () => {
+    const lastNameInput = screen.getByLabelText("Last");
+    await userEvent.type(lastNameInput, "Johnson");
+    expect(lastNameInput.value).toBe("Johnson");
   });
 
   it("male gender radio button is selected when user selects it", () => {
@@ -46,19 +52,22 @@ describe("no paddler object is passed in to the PaddlerForm", () => {
   });
 
   it("all form fields are cleared when user submits new paddler", async () => {
-    const nameInput = screen.getByLabelText("Name");
+    const firstNameInput = screen.getByLabelText("First");
+    const lastNameInput = screen.getByLabelText("Last");
     const maleButton = screen.getByLabelText("Male");
     const femaleButton = screen.getByLabelText("Female");
     const otherButton = screen.getByLabelText("Other");
     const weightInput = screen.getByLabelText("Weight(lb)");
     const submitButton = screen.getByRole("button", { name: "Submit" });
 
-    await userEvent.type(nameInput, "Eric");
+    await userEvent.type(firstNameInput, "Eric");
+    await userEvent.type(lastNameInput, "Johnson");
     userEvent.click(maleButton);
     await userEvent.type(weightInput, "200");
     userEvent.click(submitButton);
 
-    expect(nameInput.value).toBe("");
+    expect(firstNameInput.value).toBe("");
+    expect(lastNameInput.value).toBe("");
     expect(maleButton.checked).toBeFalsy();
     expect(femaleButton.checked).toBeFalsy();
     expect(otherButton.checked).toBeFalsy();
@@ -68,7 +77,8 @@ describe("no paddler object is passed in to the PaddlerForm", () => {
 
 describe("paddler object is passed in to PaddlerForm", () => {
   const paddlerProfile = {
-    name: "Eric",
+    firstName: "Eric",
+    lastName: "Johnson",
     gender: "Male",
     weight: "200",
   };
@@ -81,17 +91,11 @@ describe("paddler object is passed in to PaddlerForm", () => {
   });
 
   it("when a paddler object is passed in, the inputs are pre-filled with that paddler's info", () => {
-    expect(screen.getByLabelText("Name").value).toBe(paddlerProfile.name);
+    expect(screen.getByLabelText("First").value).toBe(paddlerProfile.firstName);
+    expect(screen.getByLabelText("Last").value).toBe(paddlerProfile.lastName);
     expect(screen.getByLabelText(paddlerProfile.gender).checked).toBeTruthy();
     expect(screen.getByLabelText("Weight(lb)").value).toBe(
       paddlerProfile.weight
     );
   });
 });
-
-// it('paddler form is not submitted if any required fields are empty', () => {
-//   const submitButton = screen.getByRole('button', {name: 'Submit'});
-//   userEvent.click(submitButton);
-
-//   expect(handleSubmit).not.toHaveBeenCalled();
-// });
