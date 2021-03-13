@@ -23,7 +23,9 @@ function Paddler(props) {
       onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}
       onMouseLeave={() => dispatch(unhoverPaddler(paddlerProfile.id))}
     >
-      {paddlerProfile.firstName}
+      <div>
+        {`${paddlerProfile.firstName[0].toUpperCase()}${paddlerProfile.lastName[0].toUpperCase()}`}
+      </div>
     </StyledPaddler>
   );
 }
@@ -33,14 +35,23 @@ Paddler.propTypes = {
 };
 
 const StyledPaddler = styled.div`
+  position: relative;
   width: ${paddlerIconSizePixels}px;
   height: ${paddlerIconSizePixels}px;
   border-radius: 50%;
-  text-align: center;
-  background-color: white;
-  background-image: url(${(props) =>
-    props.paddlerProfile.isHovered ? hoverBackground : defaultBackground});
-  background-size: cover;
+  background-color: red;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(170%);
+  }
+
+  div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 `;
 
 export default Paddler;

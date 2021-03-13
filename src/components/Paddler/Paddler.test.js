@@ -16,6 +16,8 @@ const paddlerProfile = Object.freeze({
   isSelected: false,
 });
 
+const paddlerInitials = `${paddlerProfile.firstName[0].toUpperCase()}${paddlerProfile.lastName[0].toUpperCase()}`;
+
 beforeEach(() => {
   render(
     <Store>
@@ -24,9 +26,6 @@ beforeEach(() => {
   );
 });
 
-it("displays name of paddler along with default profile image when component is created", () => {
-  expect(screen.getByText("John")).toHaveStyle(
-    "background-image: url(profile_default_img_new.svg)"
-  );
-  expect(screen.getByText("John")).toBeInTheDocument();
+it("displays initials of paddler when component is created", () => {
+  expect(screen.getByText(paddlerInitials)).toBeInTheDocument();
 });

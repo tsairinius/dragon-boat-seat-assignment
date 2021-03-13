@@ -13,6 +13,8 @@ const paddlerInfo = Object.freeze({
   weight: "200",
 });
 
+const paddlerInitials = `${paddlerInfo.firstName[0].toUpperCase()}${paddlerInfo.lastName[0].toUpperCase()}`;
+
 const createPaddlerAndViewRoster = async () => {
   const rosterTab = screen.getByTestId("tab-roster");
   const createPaddlerTab = screen.getByTestId("tab-create-paddler");
@@ -33,7 +35,8 @@ const createPaddlerAndViewRoster = async () => {
 };
 
 const movePaddlerFromRosterToBoatSeat = (paddler, seat) => {
-  userEvent.click(screen.getByText(paddler.firstName));
+  const paddlerInitials = `${paddler.firstName[0].toUpperCase()}${paddler.lastName[0].toUpperCase()}`;
+  userEvent.click(screen.getByText(paddlerInitials));
   userEvent.click(screen.getByText("Move to Boat"));
   userEvent.click(screen.getByTestId(`${seat}`));
 };
@@ -64,13 +67,13 @@ describe("'Choose a seat' message behavior", () => {
   });
 
   const enterAndExitSeatAssignmentMode = () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("btnCancelSeatAssignment"));
   }
 
   it("'Cancel button shown when moving paddler from roster to boat", () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
 
     expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
@@ -83,7 +86,7 @@ describe("'Choose a seat' message behavior", () => {
 
   it("Cancel button is shown when moving paddler from one seat to another", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
 
     expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
@@ -91,7 +94,7 @@ describe("'Choose a seat' message behavior", () => {
 
   it("Cancel button disappears when paddler is moved from one seat to another", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat6"));
 
@@ -109,13 +112,13 @@ describe("'Choose a seat' message behavior", () => {
 
     userEvent.click(screen.getByTestId("seat6"));
 
-    expect(screen.queryByText(paddlerInfo.firstName)).not.toBeInTheDocument();
+    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
   });
 
   it("After exiting choose-a-seat mode, should be able to select a paddler again", () => {
     enterAndExitSeatAssignmentMode();
     userEvent.click(screen.getByTestId("tab-roster"));
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
 
     expect(screen.getByRole("button", {name: "Move to Boat"})).toBeInTheDocument();
     expect(screen.getByText("Profile")).toBeInTheDocument();
@@ -141,52 +144,36 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("renders Paddler component in roster after new paddler is submitted", () => {
-    expect(screen.getByText(paddlerInfo.firstName)).toBeInTheDocument();
-    expect(screen.getByText(paddlerInfo.firstName).tagName).toBe("DIV");
+    expect(screen.getByText(paddlerInitials)).toBeInTheDocument();
+    expect(screen.getByText(paddlerInitials).tagName).toBe("DIV");
   });
 
-  it("appropriate profile image for paddler is used when unhovered and hovered over", () => {
-    const paddler = screen.getByText(paddlerInfo.firstName);
-
-    expect(paddler).toHaveStyle(
-      "background-image: url(profile_default_img_new.svg)"
-    );
-    userEvent.hover(paddler);
-    expect(paddler).toHaveStyle(
-      "background-image: url(profile_default_img_new_hover.svg)"
-    );
-  });
-
-  it("renders Paddler in specified seat in boat with 'unhovered' profile image", () => {
+  it("renders Paddler in specified seat in boat", () => {
     const seatId = "seat5";
     movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
 
-    expect(screen.getByText(paddlerInfo.firstName)).toHaveStyle(
-      "background-image: url(profile_default_img_new.svg)"
-    );
-
     const seat = screen.getByTestId(seatId);
-    expect(screen.getByText(paddlerInfo.firstName).parentElement).toBe(seat);
+    expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(seat);
   });
 
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
     const seatId = "seat5";
     movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
 
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Move to Roster" }));
 
-    expect(screen.queryByText(paddlerInfo.firstName)).not.toBeInTheDocument();
+    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
     expect(screen.getByTestId("boat")).toBeInTheDocument();
   });
 
   it("displays profile of selected paddler in full-view window", () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
-    expect(screen.getByTestId("profileFullView"));
+    userEvent.click(screen.getByText(paddlerInitials));
+    expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
   });
 
   it("roster returns to screen upon cancelling profile full-view", () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
     expect(screen.getByTestId("roster")).toBeInTheDocument();
@@ -194,22 +181,22 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("paddler gets deleted from roster", () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Delete" }));
 
     expect(screen.queryByTestId("profileFullView")).not.toBeInTheDocument();
-    expect(screen.queryByText(paddlerInfo.firstName)).not.toBeInTheDocument();
+    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
   });
 
   it("paddler gets deleted from boat", () => {
     movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
 
     userEvent.click(screen.getByTestId("tab-boat"));
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByRole("button", {name: "Delete"}));
 
     expect(screen.queryByTestId("profileFullView")).not.toBeInTheDocument();
-    expect(screen.queryByText(paddlerInfo.firstName)).not.toBeInTheDocument();
+    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
   });
 
   it("paddler's info gets updated after edit", async () => {
@@ -220,7 +207,9 @@ describe("tests interactions with a single paddler", () => {
       weight: "400",
     };
 
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    const newPaddlerInitials = `${newInfo.firstName[0].toUpperCase()}${newInfo.lastName[0].toUpperCase()}`;
+
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Edit" }));
 
     const firstNameInput = screen.getByLabelText("First");
@@ -236,10 +225,10 @@ describe("tests interactions with a single paddler", () => {
     await userEvent.type(weightInput, newInfo.weight);
     userEvent.click(screen.getByRole("button", { name: "Submit" }));
 
-    expect(screen.queryByText(paddlerInfo.firstName)).not.toBeInTheDocument();
-    expect(screen.getByText(newInfo.firstName)).toBeInTheDocument();
+    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.getByText(newPaddlerInitials)).toBeInTheDocument();
 
-    userEvent.click(screen.getByText("Karen"));
+    userEvent.click(screen.getByText(newPaddlerInitials));
     const profileInfo = screen.getByTestId("profileInfo");
     expect(within(profileInfo).getByText(`${newInfo.firstName} ${newInfo.lastName}`)).toBeInTheDocument();
     expect(within(profileInfo).getByText(newInfo.gender)).toBeInTheDocument();
@@ -247,14 +236,14 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("paddler gets moved from one seat to another in boat", () => {
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat3"));
-    userEvent.click(screen.getByText(paddlerInfo.firstName));
+    userEvent.click(screen.getByText(paddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat18"));
 
-    expect(screen.getByText(paddlerInfo.firstName).parentElement).toBe(screen.getByTestId("seat18"));
+    expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(screen.getByTestId("seat18"));
   });
 });
 
@@ -266,12 +255,16 @@ describe("tests interactions with multiple paddlers", () => {
     weight: "150",
   };
 
+  const paddler1Initials = `${paddler1.firstName[0].toUpperCase()}${paddler1.lastName[0].toUpperCase()}`;
+
   const paddler2 = {
     firstName: "Jenny",
     lastName: "Gordon",
     gender: "Female",
     weight: "120",
   };
+
+  const paddler2Initials = `${paddler2.firstName[0].toUpperCase()}${paddler2.lastName[0].toUpperCase()}`;
 
   beforeEach(async () => {
     render(
@@ -306,44 +299,30 @@ describe("tests interactions with multiple paddlers", () => {
   });
 
   it("renders multiple paddlers in user-specified seats on boat", () => {
-    userEvent.click(screen.getByText(paddler1.firstName));
+    userEvent.click(screen.getByText(paddler1Initials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat0"));
 
     userEvent.click(screen.getByTestId("tab-roster"));
-    userEvent.click(screen.getByText(paddler2.firstName));
+    userEvent.click(screen.getByText(paddler2Initials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat21"));
 
-    expect(screen.getByText(paddler1.firstName).parentElement).toBe(screen.getByTestId("seat0"));
-    expect(screen.getByText(paddler2.firstName).parentElement).toBe(screen.getByTestId("seat21"));
-  });
-
-  it("enforces that only one paddler on roster can have hover image applied at a time", () => {
-    userEvent.hover(screen.getByText(paddler1.firstName));
-    userEvent.hover(screen.getByText(paddler2.firstName));
-
-    expect(screen.getByText(paddler1.firstName)).toHaveStyle(
-      "background-image: url(profile_default_img_new.svg)"
-    );
-
-    const roster = screen.getByTestId("roster");
-    expect(within(roster).getByText(paddler2.firstName)).toHaveStyle(
-      "background-image: url(profile_default_img_new_hover.svg)"
-    );
+    expect(screen.getByText(paddler1Initials).parentElement.parentElement).toBe(screen.getByTestId("seat0"));
+    expect(screen.getByText(paddler2Initials).parentElement.parentElement).toBe(screen.getByTestId("seat21"));
   });
 
   it("keeps original paddler in seat when user tries to assign another paddler to that seat", () => {
-    userEvent.click(screen.getByText(paddler1.firstName));
+    userEvent.click(screen.getByText(paddler1Initials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat3"));
 
     userEvent.click(screen.getByTestId("tab-roster"));
-    userEvent.click(screen.getByText(paddler2.firstName));
+    userEvent.click(screen.getByText(paddler2Initials));
     userEvent.click(screen.getByText("Move to Boat"));
-    userEvent.click(screen.getByText(paddler1.firstName));
+    userEvent.click(screen.getByText(paddler1Initials));
 
-    expect(screen.getByText(paddler1.firstName).parentElement).toBe(
+    expect(screen.getByText(paddler1Initials).parentElement.parentElement).toBe(
       screen.getByTestId("seat3")
     );
   });

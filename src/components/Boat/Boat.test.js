@@ -25,13 +25,15 @@ it("renders boat with paddler in specified seat", () => {
     isSelected: false,
   };
 
+  const paddlerInitials = `${paddler.firstName[0].toUpperCase()}${paddler.lastName[0].toUpperCase()}`;
+
   render(
     <Store>
       <Boat paddlersInBoat={[paddler]} />
     </Store>
   );
 
-  expect(screen.getByText("Bob").parentElement).toBe(
+  expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(
     screen.getByTestId("seat3")
   );
 });
