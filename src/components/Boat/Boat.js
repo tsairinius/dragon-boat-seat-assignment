@@ -58,27 +58,32 @@ function Boat(props) {
     };
 
     props.paddlersInBoat.forEach(paddler => {
+      const paddlerWeightFloat = parseFloat(paddler.weight);
       if ([1,3,5,7,9].includes(paddler.seatId)) {
-        weightsByQuadrant.fourth += paddler.weight;
+        weightsByQuadrant.fourth += paddlerWeightFloat;
       }
       else if ([11,13,15,17,19].includes(paddler.seatId)) {
-        weightsByQuadrant.third += paddler.weight;
+        weightsByQuadrant.third += paddlerWeightFloat;
       }
       else if ([12,14,16,18,20].includes(paddler.seatId)) {
-        weightsByQuadrant.second += paddler.weight;
+        weightsByQuadrant.second += paddlerWeightFloat;
       }
       else if ([2,4,6,8,10].includes(paddler.seatId)) {
-        weightsByQuadrant.first += paddler.weight;
+        weightsByQuadrant.first += paddlerWeightFloat;
       }
       else if (paddler.seatId === 0) {
-        weightsByQuadrant.first += paddler.weight/2;
-        weightsByQuadrant.fourth += paddler.weight/2;
+        weightsByQuadrant.first += paddlerWeightFloat/2;
+        weightsByQuadrant.fourth += paddlerWeightFloat/2;
       }
       else if (paddler.seatId === 21) {
-        weightsByQuadrant.second += paddler.weight/2;
-        weightsByQuadrant.third += paddler.weight/2;
+        weightsByQuadrant.second += paddlerWeightFloat/2;
+        weightsByQuadrant.third += paddlerWeightFloat/2;
       }
     });
+
+    const weightsByQuadrantArray = [weightsByQuadrant.first, weightsByQuadrant.second, weightsByQuadrant.third, weightsByQuadrant.fourth];
+
+    const maxQuadrantWeight = Math.max(...weightsByQuadrantArray);
 
     const y = weightsByQuadrant.first*Math.sin(Math.PI/4) + weightsByQuadrant.second*Math.sin(3*Math.PI/4)
       + weightsByQuadrant.third*Math.sin(5*Math.PI/4) + weightsByQuadrant.fourth*Math.sin(7*Math.PI/4);
@@ -116,9 +121,10 @@ function Boat(props) {
       vectorDirection = 0;
     }
 
-    return { magnitude, vectorDirection };
-  }
+    const magnitudeNormalized = magnitude/maxQuadrantWeight;
 
+    return { magnitudeNormalized, vectorDirection };
+  }
 
   return (
     <StyledBoatContainer gradientValues={getGradientValues()}>
@@ -134,7 +140,7 @@ Boat.propTypes = {
 };
 
 const StyledBoatContainer = styled.div`
-  background-image: ${props => `linear-gradient(${props.gradientValues.vectorDirection}rad, rgba(0,0,0,0.4), rgba(255,0,0,0.6))`};
+  background-image: ${props => `linear-gradient(${props.gradientValues.vectorDirection}rad, rgba(0,0,0,0.4), rgba(255,0,0,${props.gradientValues.magnitudeNormalized}))`};
 `;
 
 const StyledBoatImage = styled.div`
