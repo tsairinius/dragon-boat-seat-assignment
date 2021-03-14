@@ -48,9 +48,83 @@ function Boat(props) {
     );
   };
 
+  const getGradientValues = () => {
+    // First quadrant corresponds to top right corner of boat
+    const weightsByQuadrant = {
+      first: 0,
+      second: 0,
+      third: 0,
+      fourth: 0
+    };
+
+    props.paddlersInBoat.forEach(paddler => {
+      if ([1,3,5,7,9].includes(paddler.seatId)) {
+        weightsByQuadrant.fourth += paddler.weight;
+      }
+      else if ([11,13,15,17,19].includes(paddler.seatId)) {
+        weightsByQuadrant.third += paddler.weight;
+      }
+      else if ([12,14,16,18,20].includes(paddler.seatId)) {
+        weightsByQuadrant.second += paddler.weight;
+      }
+      else if ([2,4,6,8,10].includes(paddler.seatId)) {
+        weightsByQuadrant.first += paddler.weight;
+      }
+      else if (paddler.seatId === 0) {
+        weightsByQuadrant.first += paddler.weight/2;
+        weightsByQuadrant.fourth += paddler.weight/2;
+      }
+      else if (paddler.seatId === 21) {
+        weightsByQuadrant.second += paddler.weight/2;
+        weightsByQuadrant.third += paddler.weight/2;
+      }
+    });
+
+    const y = weightsByQuadrant.first*Math.sin(Math.PI/4) + weightsByQuadrant.second*Math.sin(3*Math.PI/4)
+      + weightsByQuadrant.third*Math.sin(5*Math.PI/4) + weightsByQuadrant.fourth*Math.sin(7*Math.PI/4);
+
+    const x = weightsByQuadrant.first*Math.cos(Math.PI/4) + weightsByQuadrant.second*Math.cos(3*Math.PI/4)
+    + weightsByQuadrant.third*Math.cos(5*Math.PI/4) + weightsByQuadrant.fourth*Math.cos(7*Math.PI/4);
+
+    const magnitude = Math.hypot(x,y);
+    const theta = Math.atan(Math.abs(y)/Math.abs(x));
+
+    let vectorDirection = null;
+    if (x > 0 && y > 0) {
+      vectorDirection = theta;
+    }
+    else if (x < 0 && y > 0) {
+      vectorDirection = Math.PI - theta;
+    }
+    else if (x < 0 && y < 0) { 
+      vectorDirection = Math.PI + theta;
+    }
+    else if (x > 0 && y < 0) {
+      vectorDirection = 2*Math.PI - theta;
+    }
+    // Handle cases where either x or y are zero
+    else if (x === 0 && y > 0) {
+      vectorDirection = Math.PI/2;
+    }
+    else if (y === 0 && x < 0) {
+      vectorDirection = Math.PI;
+    }
+    else if (x === 0 && y < 0) {
+      vectorDirection = 3*Math.PI/2;
+    }
+    else if (y === 0 && x > 0) {
+      vectorDirection = 0;
+    }
+
+    return { magnitude, vectorDirection };
+  }
+
+
   return (
-    <StyledBoatContainer>
-      <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>
+    <StyledBoatContainer gradientValues={getGradientValues()}>
+      <StyledBoatImage>
+        <StyledBoat data-testid="boat">{createSeatComponents()}</StyledBoat>
+      </StyledBoatImage>
     </StyledBoatContainer>
   );
 }
@@ -60,6 +134,10 @@ Boat.propTypes = {
 };
 
 const StyledBoatContainer = styled.div`
+  background-image: ${props => `linear-gradient(${props.gradientValues.vectorDirection}rad, rgba(0,0,0,0.4), rgba(255,0,0,0.6))`};
+`;
+
+const StyledBoatImage = styled.div`
   background-image: url(${boatImg});
   background-position: center;
   background-size: cover;
