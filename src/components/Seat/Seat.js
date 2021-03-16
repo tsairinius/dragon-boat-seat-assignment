@@ -24,11 +24,13 @@ Seat.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
+// background: radial-gradient(black 0%, black 44%, rgb(70, 181, 245) 60%, black 80%);
 const StyledSeat = styled.div`
   position: relative;
-  width: ${paddlerIconSizePixels}px;
-  height: ${paddlerIconSizePixels}px;
-  background: radial-gradient(black 0%, black 44%, rgb(70, 181, 245) 60%, black 80%);
+  width: ${paddlerIconSizePixels + 8}px;
+  height: ${paddlerIconSizePixels + 8}px;
+  border: solid 4px rgb(196, 42, 42);
+  background: rgb(133, 87, 57);
   border-radius: 50%;
   grid-column-start: ${(props) =>
     props.seatId === 21 || props.seatId === 0 ? "1" : "auto"};

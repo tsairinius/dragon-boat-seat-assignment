@@ -18,6 +18,7 @@ function Paddler(props) {
 
   return (
     <StyledPaddler
+      className="paddler"
       paddlerProfile={paddlerProfile}
       onClick={() => dispatch(clickPaddler(paddlerProfile.id))}
       onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}

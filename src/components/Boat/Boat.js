@@ -62,7 +62,7 @@ Boat.propTypes = {
 };
 
 const StyledBoatContainer = styled.div`
-  background-image: ${props => `linear-gradient(${props.gradientValues.vectorDirection}rad, rgba(0,0,0,0.4), rgba(255,0,0,${props.gradientValues.magnitudeNormalized}))`};
+  background-image: ${props => `linear-gradient(${props.gradientValues.vectorDirection}rad, rgba(0,0,0,0.4), rgba(62, 122, 179,${props.gradientValues.magnitudeNormalized}))`};
 `;
 
 const StyledBoatImage = styled.div`
@@ -78,7 +78,8 @@ const StyledBoatImage = styled.div`
 const StyledBoat = styled.div`
   display: grid;
   grid-template-columns: min-content min-content;
-  grid-gap: 0.2rem;
+  grid-row-gap: 0.4rem;
+  grid-column-gap: 0.6rem;
   justify-items: center;
   margin: 20rem 2rem;
 `;
