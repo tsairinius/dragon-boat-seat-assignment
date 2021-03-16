@@ -41,21 +41,6 @@ const movePaddlerFromRosterToBoatSeat = (paddler, seat) => {
   userEvent.click(screen.getByTestId(`${seat}`));
 };
 
-describe("Seat behavior", () => {
-  it("Hovering over a seat displays the seat ID", () => {
-    render(
-      <Store>
-        <App />
-      </Store>
-    );
-
-    userEvent.click(screen.getByTestId("tab-boat"));
-    userEvent.hover(screen.getByTestId("seat1"));
-
-    expect(screen.getByText("Seat 1")).toBeInTheDocument();
-  });
-});
-
 describe("'Choose a seat' message behavior", () => {
   beforeEach(async () => {
     render(
