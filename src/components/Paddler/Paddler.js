@@ -10,6 +10,7 @@ import {
   unhoverPaddler,
 } from "../../reducers/paddlerListReducer/paddlerListActions";
 import { paddlerIconSizePixels } from "../../styles";
+import StyledHoverMessage from "../StyledHoverMessage";
 
 function Paddler(props) {
   const { paddlerProfile } = props;
@@ -24,7 +25,8 @@ function Paddler(props) {
       onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}
       onMouseLeave={() => dispatch(unhoverPaddler(paddlerProfile.id))}
     >
-      <div>
+      <StyledHoverMessage offset={-30} className="paddler-name">{`${paddlerProfile.firstName} ${paddlerProfile.lastName}`}</StyledHoverMessage>
+      <div className="paddler-initials">
         {`${paddlerProfile.firstName[0].toUpperCase()}${paddlerProfile.lastName[0].toUpperCase()}`}
       </div>
     </StyledPaddler>
@@ -47,7 +49,7 @@ const StyledPaddler = styled.div`
     filter: brightness(170%);
   }
 
-  div {
+  .paddler-initials {
     position: absolute;
     top: 50%;
     left: 50%;
