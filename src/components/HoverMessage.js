@@ -1,4 +1,15 @@
+import React from "react";
 import styled from "styled-components";
+
+const HoverMessage = ({text, className}) => {
+    return (
+        <StyledHoverMessage className={className ? className : null}>
+            {text.map(item => 
+                <p key={item}>{item}</p>
+            )}
+        </StyledHoverMessage>
+    )
+}
 
 const StyledHoverMessage = styled.div`
     display: none;
@@ -16,7 +27,11 @@ const StyledHoverMessage = styled.div`
     p {
         margin: 0;
         float: left;
+
+        &:first-child, &:nth-child(2) {
+            font-weight: bold;
+        }
     }
 `;
 
-export default StyledHoverMessage;
+export default HoverMessage;

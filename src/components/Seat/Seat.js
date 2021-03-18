@@ -4,17 +4,18 @@ import styled from "styled-components";
 import paddlerListContext from "../../paddlerListContext";
 import { clickSeat } from "../../reducers/paddlerListReducer/paddlerListActions";
 import { paddlerIconSizePixels } from "../../styles";
-import StyledHoverMessage from "../StyledHoverMessage";
+import HoverMessage from "../HoverMessage";
 
 function Seat(props) {
   const { dispatch } = useContext(paddlerListContext);
 
-  let paddlerName = null;
+  let hoverMessageContent = [`Seat ${props.id}`];
   if (props.children) {
-    paddlerName = {
-      first: `${props.children.props.paddlerProfile.firstName}`,
-      last: `${props.children.props.paddlerProfile.lastName}`
-    };
+    hoverMessageContent = [
+      props.children.props.paddlerProfile.firstName,
+      props.children.props.paddlerProfile.lastName,
+      ...hoverMessageContent
+    ]
   }
 
   return (
@@ -23,16 +24,7 @@ function Seat(props) {
       data-testid={"seat" + props.id}
       onClick={() => dispatch(clickSeat(props.id))}
     >
-      <StyledHoverMessage className="seat-position">
-        {paddlerName ? 
-          <React.Fragment>
-            <p><b>{paddlerName.first}</b></p> 
-            <p><b>{paddlerName.last}</b></p>
-          </React.Fragment>
-          : 
-          null}
-        <p>{`Seat ${props.id}`}</p>
-      </StyledHoverMessage>
+      <HoverMessage text={hoverMessageContent} className="seat-position" />
       {props.children}
     </StyledSeat>
   );
