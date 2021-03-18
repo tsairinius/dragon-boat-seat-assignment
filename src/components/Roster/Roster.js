@@ -23,7 +23,7 @@ Roster.propTypes = {
 };
 
 const StyledPaddlersContainer = styled.div`
-  padding-top: 20px;
+  padding-top: 35px;
 
   .paddler {
     display: inline-block;

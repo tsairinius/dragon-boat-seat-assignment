@@ -11,7 +11,10 @@ function Seat(props) {
 
   let paddlerName = null;
   if (props.children) {
-    paddlerName = `${props.children.props.paddlerProfile.firstName} ${props.children.props.paddlerProfile.lastName}`;
+    paddlerName = {
+      first: `${props.children.props.paddlerProfile.firstName}`,
+      last: `${props.children.props.paddlerProfile.lastName}`
+    };
   }
 
   return (
@@ -20,8 +23,14 @@ function Seat(props) {
       data-testid={"seat" + props.id}
       onClick={() => dispatch(clickSeat(props.id))}
     >
-      <StyledHoverMessage offset={paddlerName ? -60 : -30} className="seat-position">
-        {paddlerName ? <p>{paddlerName}</p> : null}
+      <StyledHoverMessage className="seat-position">
+        {paddlerName ? 
+          <React.Fragment>
+            <p><b>{paddlerName.first}</b></p> 
+            <p><b>{paddlerName.last}</b></p>
+          </React.Fragment>
+          : 
+          null}
         <p>{`Seat ${props.id}`}</p>
       </StyledHoverMessage>
       {props.children}
@@ -33,7 +42,6 @@ Seat.propTypes = {
   id: PropTypes.number.isRequired,
 };
 
-// background: radial-gradient(black 0%, black 44%, rgb(70, 181, 245) 60%, black 80%);
 const StyledSeat = styled.div`
   position: relative;
   width: ${paddlerIconSizePixels + 8}px;

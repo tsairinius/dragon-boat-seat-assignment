@@ -25,7 +25,10 @@ function Paddler(props) {
       onMouseEnter={() => dispatch(hoverPaddler(paddlerProfile.id))}
       onMouseLeave={() => dispatch(unhoverPaddler(paddlerProfile.id))}
     >
-      <StyledHoverMessage offset={-30} className="paddler-name">{`${paddlerProfile.firstName} ${paddlerProfile.lastName}`}</StyledHoverMessage>
+      <StyledHoverMessage offset={-30} className="paddler-name">
+        <p>{paddlerProfile.firstName}</p>
+        <p>{paddlerProfile.lastName}</p>
+      </StyledHoverMessage>
       <div className="paddler-initials">
         {`${paddlerProfile.firstName[0].toUpperCase()}${paddlerProfile.lastName[0].toUpperCase()}`}
       </div>

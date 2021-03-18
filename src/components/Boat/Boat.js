@@ -71,7 +71,6 @@ const StyledBoatImage = styled.div`
   background-size: cover;
   width: min-content;
   margin: 0 auto;
-  overflow: auto;
   padding: 1rem 0;
 `;
 
