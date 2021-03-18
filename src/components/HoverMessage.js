@@ -2,10 +2,18 @@ import React from "react";
 import styled from "styled-components";
 
 const HoverMessage = ({text, className}) => {
+    const stringMaxLength = 8;
+
     return (
         <StyledHoverMessage className={className ? className : null}>
             {text.map(item => 
-                <p key={item}>{item}</p>
+                <p key={item}>
+                    {item.length > stringMaxLength ? 
+                        `${item.slice(0, stringMaxLength)}...`
+                        :
+                        item
+                    }
+                </p>
             )}
         </StyledHoverMessage>
     )

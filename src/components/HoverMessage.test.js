@@ -18,3 +18,10 @@ it("Assigns class to component based on className prop", () => {
 
     expect(screen.getByText("Hello").parentElement.className).toContain("test-message");
 });
+
+it("Shortens text if it's longer than 8 characters", () => {
+    render(<HoverMessage text={["123456789"]} className={"test-message"} />);
+
+    expect(screen.getByText("12345678...")).toBeInTheDocument();
+    expect(screen.queryByText("123456789")).not.toBeInTheDocument();
+});
