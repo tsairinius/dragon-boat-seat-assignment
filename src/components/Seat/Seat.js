@@ -4,9 +4,19 @@ import styled from "styled-components";
 import paddlerListContext from "../../paddlerListContext";
 import { clickSeat } from "../../reducers/paddlerListReducer/paddlerListActions";
 import { paddlerIconSizePixels } from "../../styles";
+import HoverMessage from "../HoverMessage";
 
 function Seat(props) {
   const { dispatch } = useContext(paddlerListContext);
+
+  let hoverMessageContent = [`Seat ${props.id}`];
+  if (props.children) {
+    hoverMessageContent = [
+      props.children.props.paddlerProfile.firstName,
+      props.children.props.paddlerProfile.lastName,
+      ...hoverMessageContent
+    ]
+  }
 
   return (
     <StyledSeat
@@ -14,6 +24,7 @@ function Seat(props) {
       data-testid={"seat" + props.id}
       onClick={() => dispatch(clickSeat(props.id))}
     >
+      <HoverMessage text={hoverMessageContent} className="seat-position" />
       {props.children}
     </StyledSeat>
   );
@@ -24,9 +35,11 @@ Seat.propTypes = {
 };
 
 const StyledSeat = styled.div`
-  width: ${paddlerIconSizePixels}px;
-  height: ${paddlerIconSizePixels}px;
-  background: radial-gradient(black 0%, black 44%, rgb(70, 181, 245) 60%, black 80%);
+  position: relative;
+  width: ${paddlerIconSizePixels + 8}px;
+  height: ${paddlerIconSizePixels + 8}px;
+  border: solid 4px rgb(196, 42, 42);
+  background: rgb(133, 87, 57);
   border-radius: 50%;
   grid-column-start: ${(props) =>
     props.seatId === 21 || props.seatId === 0 ? "1" : "auto"};
@@ -34,6 +47,14 @@ const StyledSeat = styled.div`
     props.seatId === 21 || props.seatId === 0 ? "3" : "auto"};
   grid-row-start: ${(props) => (props.seatId === 21 ? "12" : "auto")};
   grid-row-end: ${(props) => (props.seatId === 21 ? "13" : "auto")};
+
+  &:hover {
+    > .seat-position {
+      display: block;
+    }
+
+    filter: brightness(150%);
+  }
 `;
 
 export default Seat;

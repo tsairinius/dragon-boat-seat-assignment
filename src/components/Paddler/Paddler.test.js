@@ -5,18 +5,18 @@ import { v4 as uuidv4 } from "uuid";
 import { screen } from "@testing-library/dom";
 import Store from "../../Store";
 
-let paddlerProfile;
-beforeAll(() => {
-  paddlerProfile = {
-    id: uuidv4(),
-    name: "John",
-    gender: "male",
-    weight: "345",
-    inBoat: false,
-    seatId: "",
-    isSelected: false,
-  };
+const paddlerProfile = Object.freeze({
+  id: uuidv4(),
+  firstName: "John",
+  lastName: "Smith",
+  gender: "male",
+  weight: "345",
+  inBoat: false,
+  seatId: "",
+  isSelected: false,
 });
+
+const paddlerInitials = `${paddlerProfile.firstName[0].toUpperCase()}${paddlerProfile.lastName[0].toUpperCase()}`;
 
 beforeEach(() => {
   render(
@@ -26,9 +26,6 @@ beforeEach(() => {
   );
 });
 
-it("displays name of paddler along with default profile image when component is created", () => {
-  expect(screen.getByText("John")).toHaveStyle(
-    "background-image: url(profile_default_img_new.svg)"
-  );
-  expect(screen.getByText("John")).toBeInTheDocument();
+it("displays initials of paddler when component is created", () => {
+  expect(screen.getByText(paddlerInitials)).toBeInTheDocument();
 });

@@ -8,6 +8,7 @@ import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
 import boatImg from "../../assets/img/boat-v2.svg";
+import { StyledButton } from "../StyledButton";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);
@@ -40,7 +41,7 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
       </StyledTabContent>
       <StyledTabContainer>
         {assignSeatMode ?
-         <button onClick={() => dispatch(unselectPaddlers())}>Cancel</button>
+         <StyledButton className="btn-cancel-assignment" data-testid="btnCancelSeatAssignment" onClick={() => dispatch(unselectPaddlers())}>X</StyledButton>
         :
         tabsCollection.map((tab) => (
           <StyledTab
@@ -68,8 +69,13 @@ Tabs.propTypes = {
 const StyledTabs = styled.div`
   text-align: center;
   display: grid;
-  grid-template-columns: 6fr 1fr;
+  grid-template-columns: auto 60px;
   height: 100%;
+
+  .btn-cancel-assignment {
+    background-color: red;
+    padding: 0.5em 1em;
+  }
 `;
 
 const StyledTabContainer = styled.div`
@@ -81,7 +87,6 @@ const StyledTab = styled.button`
   border: none;
   background: inherit;
   font-family: Roboto, Arial, Helvetica, sans-serif;
-  min-width: 4rem;
   padding: 0.8rem 0;
 
   &:hover {

@@ -2,20 +2,23 @@ import { useState } from "react";
 
 function usePaddlerForm(
   onSubmit,
-  paddler = { name: "", gender: "", weight: "" }
+  paddler = { firstName: "", lastName: "", gender: "", weight: "" }
 ) {
-  const [paddlerName, setPaddlerName] = useState(paddler.name);
+  const [paddlerFirstName, setPaddlerFirstName] = useState(paddler.firstName);
+  const [paddlerLastName, setPaddlerLastName] = useState(paddler.lastName);
   const [paddlerGender, setPaddlerGender] = useState(paddler.gender);
   const [paddlerWeight, setPaddlerWeight] = useState(paddler.weight);
 
-  const handleNameChange = (event) => setPaddlerName(event.target.value);
+  const handleFirstNameChange = (event) => setPaddlerFirstName(event.target.value);
+  const handleLastNameChange = (event) => setPaddlerLastName(event.target.value);
   const handleGenderChange = (event) => setPaddlerGender(event.target.value);
   const handleWeightChange = (event) => setPaddlerWeight(event.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const paddlerProfile = {
-      name: paddlerName,
+      firstName: paddlerFirstName,
+      lastName: paddlerLastName,
       gender: paddlerGender,
       weight: paddlerWeight,
     };
@@ -25,16 +28,19 @@ function usePaddlerForm(
   };
 
   const handleReset = () => {
-    setPaddlerName("");
+    setPaddlerFirstName("");
+    setPaddlerLastName("");
     setPaddlerGender("");
     setPaddlerWeight("");
   };
 
   return {
-    paddlerName,
+    paddlerFirstName,
+    paddlerLastName,
     paddlerGender,
     paddlerWeight,
-    handleNameChange,
+    handleFirstNameChange,
+    handleLastNameChange,
     handleGenderChange,
     handleWeightChange,
     handleSubmit,

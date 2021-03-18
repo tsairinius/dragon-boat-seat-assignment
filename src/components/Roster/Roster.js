@@ -23,8 +23,19 @@ Roster.propTypes = {
 };
 
 const StyledPaddlersContainer = styled.div`
-  display: flex;
-  padding: 1rem;
+  padding-top: 35px;
+
+  .paddler {
+    display: inline-block;
+    margin: 10px;
+    float: left;
+
+    &:hover {
+      > .paddler-name {
+        display: block;
+      }
+    }
+  }
 `;
 
 export default Roster;

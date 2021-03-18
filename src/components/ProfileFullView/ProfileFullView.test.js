@@ -8,7 +8,8 @@ import Store from "../../Store";
 
 const paddlerInRoster = Object.freeze({
   id: uuidv4(),
-  name: "John",
+  firstName: "John",
+  lastName: "Smith",
   gender: "Male",
   weight: "250",
   inBoat: false,
@@ -35,7 +36,8 @@ describe("paddler edit behavior", () => {
     userEvent.click(screen.getByRole("button", { name: "Edit" }));
   
     expect(screen.getByTestId("paddlerForm")).toBeInTheDocument();
-    expect(screen.getByLabelText("Name").value).toBe(paddlerInRoster.name);
+    expect(screen.getByLabelText("First").value).toBe(paddlerInRoster.firstName);
+    expect(screen.getByLabelText("Last").value).toBe(paddlerInRoster.lastName);
     expect(screen.getByLabelText(paddlerInRoster.gender).checked).toBeTruthy();
     expect(screen.getByLabelText("Weight(lb)").value).toBe(paddlerInRoster.weight);
   });
@@ -52,7 +54,7 @@ describe("display appropriate button for moving paddler between boat and roster"
   const verifyPaddlerInfoAndOptionsDisplayed = (paddler) => {
     expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
     expect(screen.getByText(`Name:`)).toBeInTheDocument();
-    expect(screen.getByText(paddler.name)).toBeInTheDocument();
+    expect(screen.getByText(`${paddler.firstName} ${paddler.lastName}`)).toBeInTheDocument();
     expect(screen.getByText(`Gender:`)).toBeInTheDocument();
     expect(screen.getByText(paddler.gender)).toBeInTheDocument();
     expect(screen.getByText(`Weight (lb):`)).toBeInTheDocument();

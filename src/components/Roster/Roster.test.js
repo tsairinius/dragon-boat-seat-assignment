@@ -10,9 +10,10 @@ it("renders Roster without crashing", () => {
 });
 
 it("renders Paddler in Roster", () => {
-  const paddlerBob = {
+  const paddler = {
     id: uuidv4(),
-    name: "Bob",
+    firstName: "Bob",
+    lastName: "Smith",
     gender: "male",
     weight: "125",
     inBoat: false,
@@ -20,11 +21,13 @@ it("renders Paddler in Roster", () => {
     isSelected: false,
   };
 
+  const paddlerInitials = `${paddler.firstName[0].toUpperCase()}${paddler.lastName[0].toUpperCase()}`;
+
   const { getByTestId } = render(
     <Store>
-      <Roster label={"Roster"} paddlers={[paddlerBob]} />
+      <Roster label={"Roster"} paddlers={[paddler]} />
     </Store>
   );
 
-  expect(screen.getByText("Bob").parentElement).toBe(getByTestId("roster"));
+  expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(getByTestId("roster"));
 });

@@ -12,7 +12,7 @@ function ProfileInfo(props) {
   return (
     <StyledProfileInfo data-testid="profileInfo">
         <StyledProfileInfoChild>Name:</StyledProfileInfoChild> 
-        <StyledProfileInfoChild>{paddler.name}</StyledProfileInfoChild>
+        <StyledProfileInfoChild>{`${paddler.firstName} ${paddler.lastName}`}</StyledProfileInfoChild>
         <StyledProfileInfoChild>Gender:</StyledProfileInfoChild> 
         <StyledProfileInfoChild>{paddler.gender}</StyledProfileInfoChild>
         <StyledProfileInfoChild>Weight (lb):</StyledProfileInfoChild> 

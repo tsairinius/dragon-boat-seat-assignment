@@ -6,10 +6,12 @@ import { StyledButton } from "../StyledButton";
 
 function PaddlerForm({onSubmit, paddler}) {
   const {
-    paddlerName,
+    paddlerFirstName,
+    paddlerLastName,
     paddlerGender,
     paddlerWeight,
-    handleNameChange,
+    handleFirstNameChange,
+    handleLastNameChange,
     handleGenderChange,
     handleWeightChange,
     handleSubmit,
@@ -23,16 +25,30 @@ function PaddlerForm({onSubmit, paddler}) {
       onReset={handleReset}
     >
       <StyledField>
-        <StyledLabel htmlFor="paddlerName">
-          Name
+        <StyledLabel htmlFor="paddlerFirstName">
+          First
         </StyledLabel>
         <StyledInput
           type="text"
-          name="paddlerName"
-          id="paddlerName"
-          placeholder="e.g. Ed Cheung"
-          value={paddlerName}
-          onChange={handleNameChange}
+          name="paddlerFirstName"
+          id="paddlerFirstName"
+          placeholder="e.g. John"
+          value={paddlerFirstName}
+          onChange={handleFirstNameChange}
+          required
+        />
+      </StyledField>
+      <StyledField>
+        <StyledLabel htmlFor="paddlerLastName">
+          Last
+        </StyledLabel>
+        <StyledInput
+          type="text"
+          name="paddlerLastName"
+          id="paddlerLastName"
+          placeholder="e.g. Smith"
+          value={paddlerLastName}
+          onChange={handleLastNameChange}
           required
         />
       </StyledField>
