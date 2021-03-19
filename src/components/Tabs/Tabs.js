@@ -7,7 +7,6 @@ import boatIcon from "../../assets/img/boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
-import boatImg from "../../assets/img/boat-v2.svg";
 import { StyledButton } from "../StyledButton";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
@@ -43,17 +42,24 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
         {assignSeatMode ?
          <StyledButton className="btn-cancel-assignment" data-testid="btnCancelSeatAssignment" onClick={() => dispatch(unselectPaddlers())}>X</StyledButton>
         :
-        tabsCollection.map((tab) => (
+        <React.Fragment>
+          {tabsCollection.map((tab) => (
           <StyledTab
             key={tab.props.label}
-            isActive={tab.props.label === activeTab}
             data-testid={`tab-${tab.props.label}`}
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
             <StyledIcon src={getIcon(tab.props.label)}/>
-          </StyledTab>
+            </StyledTab>
         ))}
+        {activeTab === "boat" ? 
+        <StyledTab data-testid="tab-save-boat">
+          Save
+        </StyledTab>
+        :
+        null}
+        </React.Fragment>}
       </StyledTabContainer>
     </StyledTabs>
   );

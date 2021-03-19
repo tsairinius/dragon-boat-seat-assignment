@@ -41,6 +41,27 @@ const movePaddlerFromRosterToBoatSeat = (paddler, seat) => {
   userEvent.click(screen.getByTestId(`${seat}`));
 };
 
+describe("Saving seat assignments", () => {
+  beforeEach(() => {
+    render(
+      <Store>
+        <App />
+      </Store>
+    )
+  });
+
+  it("Save tab is shown only when viewing boat", () => {
+    userEvent.click(screen.getByTestId("tab-boat"));
+    expect(screen.getByTestId("tab-save-boat")).toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId("tab-roster"));
+    expect(screen.queryByTestId("tab-save-boat")).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId("tab-create-paddler"));
+    expect(screen.queryByTestId("tab-save-boat")).not.toBeInTheDocument();
+  });
+});
+
 describe("'Choose a seat' message behavior", () => {
   beforeEach(async () => {
     render(
