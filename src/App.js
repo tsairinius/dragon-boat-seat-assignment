@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Boat from "./components/Boat/Boat";
 import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
@@ -11,6 +11,7 @@ import paddlerListContext from "./paddlerListContext";
 import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
 import { primaryBackground } from "./styles";
 import backdropImg from "./assets/img/backdrop.svg";
+import SavedBoats from "./components/SavedBoats";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -23,6 +24,8 @@ function App() {
     assignSeatMode
   } = useApp(paddlerList);
 
+  const [ savedBoats, setSavedBoats ] = useState([]);
+
   const [activeTab, setActiveTab ] = useState("boat");
 
   const handleMoveToBoatRequest = () => {
@@ -30,11 +33,16 @@ function App() {
     setActiveTab("boat");
   }
 
+  const saveBoat = () => {
+    setSavedBoats(prevState => [...prevState, paddlersInBoat]);
+  };
+
   return (
     <StyledApp>
-          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
+          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)} onSaveClick={saveBoat}>
             <Boat label="boat" paddlersInBoat={paddlersInBoat} />
             <Roster label="roster" paddlers={paddlersOnRoster} />
+            <SavedBoats label="savedBoats" savedBoats={savedBoats}/>
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
           {paddlerFullView ? 

@@ -144,6 +144,23 @@ function paddlerListReducer(state, action) {
     return new_state;
   };
 
+  const handleLoadSavedBoat = (boat) => {
+    const new_state = state.map(paddler => {
+      paddler.inBoat = false;
+      for (const paddlerInSavedBoat of boat) {
+        if (paddler.id === paddlerInSavedBoat.id) {
+          paddler.inBoat = true;
+          paddler.seatId = paddlerInSavedBoat.seatId;
+          break;
+        }
+      }
+
+      return paddler;
+    });
+
+    return new_state;
+  };
+
   const isPaddlerSelected = () => {
     let isSelected = false;
     state.forEach((paddler) => {
@@ -186,6 +203,8 @@ function paddlerListReducer(state, action) {
       return handleSeatAssignment();
     case actions.UNSELECT_PADDLERS:
       return handleUnselectPaddlers();
+    case actions.LOAD_SAVED_BOAT:
+      return handleLoadSavedBoat(action.payload);
     default:
       return state;
   }

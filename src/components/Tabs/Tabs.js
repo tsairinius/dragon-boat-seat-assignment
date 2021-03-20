@@ -9,7 +9,7 @@ import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListA
 import paddlerListContext from "../../paddlerListContext";
 import { StyledButton } from "../StyledButton";
 
-function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
+function Tabs({children, assignSeatMode, activeTab, onTabRequest, onSaveClick}) {
   const { dispatch } = useContext(paddlerListContext);
 
   const tabsCollection = React.Children.toArray(children);
@@ -25,6 +25,9 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
         break;
       case "create-paddler":
         icon = createPaddlerIcon;
+        break;
+      case "savedBoats":
+        icon = rosterIcon;
         break;
     }
 
@@ -54,7 +57,7 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
             </StyledTab>
         ))}
         {activeTab === "boat" ? 
-        <StyledTab data-testid="tab-save-boat">
+        <StyledTab data-testid="tab-save-boat" onClick={onSaveClick}>
           Save
         </StyledTab>
         :
