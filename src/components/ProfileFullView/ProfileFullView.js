@@ -76,7 +76,7 @@ function ProfileFullView({paddler, onMoveToBoat}) {
   };
 
   return (
-    <StyledProfileFullView data-testid="profileFullView">
+    <StyledProfileFullView data-testid="profile-full-view">
       {isEditRequested ? showForm() : showProfileWithOptions()}
     </StyledProfileFullView>
   );

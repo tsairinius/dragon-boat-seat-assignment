@@ -12,6 +12,8 @@ import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/padd
 import { primaryBackground } from "./styles";
 import backdropImg from "./assets/img/backdrop.svg";
 import SavedBoats from "./components/SavedBoats";
+import { StyledButton } from "./components/StyledButton";
+import StyledModal from "./components/StyledModal";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -26,7 +28,10 @@ function App() {
 
   const [ savedBoats, setSavedBoats ] = useState([]);
 
-  const [activeTab, setActiveTab ] = useState("boat");
+  const [ activeTab, setActiveTab ] = useState("boat");
+
+  const [ showSaveBoatWindow, setShowSaveBoatWindow ] = useState(false);
+  const [ boatName, setBoatName ] = useState("");
 
   const handleMoveToBoatRequest = () => {
     dispatch(moveToBoat());
@@ -34,21 +39,54 @@ function App() {
   }
 
   const saveBoat = () => {
-    setSavedBoats(prevState => [...prevState, paddlersInBoat]);
+    setSavedBoats(prevState => [
+      ...prevState, 
+      {
+        name: boatName,
+        paddlers: paddlersInBoat
+      }
+    ]);
+
+    setBoatName("");
+    setShowSaveBoatWindow(false);
   };
+
+  const cancelSaveBoat = () => {
+    setBoatName("");
+    setShowSaveBoatWindow(false);
+  }
+
+  const saveBoatButton = {
+    label: "save-boat",
+    onClick: setShowSaveBoatWindow
+  }
 
   return (
     <StyledApp>
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)} onSaveClick={saveBoat}>
-            <Boat label="boat" paddlersInBoat={paddlersInBoat} />
+            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveBoatButton]}/>
             <Roster label="roster" paddlers={paddlersOnRoster} />
-            <SavedBoats label="savedBoats" savedBoats={savedBoats}/>
+            <SavedBoats label="saved-boats" savedBoats={savedBoats}/>
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
           {paddlerFullView ? 
             <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
           :
           null}
+          {showSaveBoatWindow ? 
+            <StyledModal data-testid={"save-boat-window"}>
+              <label>
+                Boat name
+                <input type="text" value={boatName} onChange={event => setBoatName(event.target.value)} />
+              </label>
+              <div>
+                <StyledButton onClick={saveBoat}>Save</StyledButton>
+                <StyledButton onClick={cancelSaveBoat}>Cancel</StyledButton>
+              </div>
+            </StyledModal>
+            :
+            null
+          }
     </StyledApp>
   );
 }

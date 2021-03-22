@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { primaryBackground } from "../../styles";
 import rosterIcon from "../../assets/img/roster-icon.png";
 import boatIcon from "../../assets/img/boat-icon.png";
+import saveBoatIcon from "../../assets/img/save-boat-icon.png";
+import savedBoatsIcon from "../../assets/img/saved-boats-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
@@ -26,13 +28,31 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest, onSaveClick}) 
       case "create-paddler":
         icon = createPaddlerIcon;
         break;
-      case "savedBoats":
-        icon = rosterIcon;
+      case "saved-boats":
+        icon = savedBoatsIcon;
+        break;
+      case "save-boat":
+        icon = saveBoatIcon;
         break;
     }
 
     return icon;
   };
+
+  const tabSpecificButtons =
+    tabsCollection.map((tab) => (
+      tab.props.tabButtons && tab.props.label === activeTab ?
+        tab.props.tabButtons.map(button => 
+          <StyledTab 
+            key={button.label}
+            data-testid={`tab-${button.label}`}
+            onClick={button.onClick}
+          >
+            <StyledIcon src={getIcon(button.label)} /> 
+          </StyledTab>)
+        :
+        null
+    ));
 
   return (
     <StyledTabs>
@@ -55,13 +75,8 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest, onSaveClick}) 
           >
             <StyledIcon src={getIcon(tab.props.label)}/>
             </StyledTab>
-        ))}
-        {activeTab === "boat" ? 
-        <StyledTab data-testid="tab-save-boat" onClick={onSaveClick}>
-          Save
-        </StyledTab>
-        :
-        null}
+          ))}
+          {tabSpecificButtons}
         </React.Fragment>}
       </StyledTabContainer>
     </StyledTabs>

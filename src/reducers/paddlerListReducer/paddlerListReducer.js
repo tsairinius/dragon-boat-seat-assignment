@@ -147,7 +147,7 @@ function paddlerListReducer(state, action) {
   const handleLoadSavedBoat = (boat) => {
     const new_state = state.map(paddler => {
       paddler.inBoat = false;
-      for (const paddlerInSavedBoat of boat) {
+      for (const paddlerInSavedBoat of boat.paddlers) {
         if (paddler.id === paddlerInSavedBoat.id) {
           paddler.inBoat = true;
           paddler.seatId = paddlerInSavedBoat.seatId;

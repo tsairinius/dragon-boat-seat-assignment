@@ -52,7 +52,7 @@ describe("paddler edit behavior", () => {
 
 describe("display appropriate button for moving paddler between boat and roster", () => {
   const verifyPaddlerInfoAndOptionsDisplayed = (paddler) => {
-    expect(screen.getByTestId("profileFullView")).toBeInTheDocument();
+    expect(screen.getByTestId("profile-full-view")).toBeInTheDocument();
     expect(screen.getByText(`Name:`)).toBeInTheDocument();
     expect(screen.getByText(`${paddler.firstName} ${paddler.lastName}`)).toBeInTheDocument();
     expect(screen.getByText(`Gender:`)).toBeInTheDocument();

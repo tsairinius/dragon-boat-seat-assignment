@@ -8,14 +8,14 @@ import { loadSavedBoat } from "../reducers/paddlerListReducer/paddlerListActions
 function SavedBoats({savedBoats}) {
   const { dispatch } = useContext(paddlerListContext);
   const boatComponents = savedBoats.map((boat) => (
-    <div key={uuidv4()} className="boat-saved" onClick={() => dispatch(loadSavedBoat(boat))}>
-        Boat
+    <div key={uuidv4()} className="saved-boat" onClick={() => dispatch(loadSavedBoat(boat))}>
+        {boat.name}
     </div>
   ));
 
   return (
     <div>
-      <StyledBoatsContainer data-testid={"savedBoats"}>
+      <StyledBoatsContainer data-testid={"saved-boats"}>
         {boatComponents}
       </StyledBoatsContainer>
     </div>
@@ -30,7 +30,7 @@ SavedBoats.propTypes = {
 const StyledBoatsContainer = styled.div`
   padding-top: 35px;
 
-  .boat-saved {
+  .saved-boat {
     display: inline-block;
     margin: 10px;
     float: left;
