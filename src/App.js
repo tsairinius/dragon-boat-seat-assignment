@@ -15,6 +15,7 @@ import SavedBoats from "./components/SavedBoats";
 import { StyledButton } from "./components/StyledButton";
 import StyledModalContainer from "./components/StyledModalContainer";
 import StyledModal from "./components/StyledModal";
+import deepCopyArrayOfObjects from "./deepCopyArrayOfObjects";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -44,7 +45,7 @@ function App() {
       ...prevState, 
       {
         name: boatName,
-        paddlers: paddlersInBoat
+        paddlers: deepCopyArrayOfObjects(paddlersInBoat)
       }
     ]);
 

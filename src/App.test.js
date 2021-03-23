@@ -6,30 +6,38 @@ import userEvent from "@testing-library/user-event";
 
 import Store from "./Store";
 
-const paddlerInfo = Object.freeze({
+const firstPaddler = Object.freeze({
   firstName: "Eric",
   lastName: "Johnson",
   gender: "Male",
   weight: "200",
 });
 
-const paddlerInitials = `${paddlerInfo.firstName[0].toUpperCase()}${paddlerInfo.lastName[0].toUpperCase()}`;
+const secondPaddler = Object.freeze({
+  firstName: "Karen",
+  lastName: "Wheeler",
+  gender: "Female",
+  weight: "400",
+});
 
-const createPaddlerAndViewRoster = async () => {
+const firstPaddlerInitials = `${firstPaddler.firstName[0].toUpperCase()}${firstPaddler.lastName[0].toUpperCase()}`;
+const secondPaddlerInitials = `${secondPaddler.firstName[0].toUpperCase()}${secondPaddler.lastName[0].toUpperCase()}`;
+
+const createPaddlerAndViewRoster = async (paddler) => {
   const rosterTab = screen.getByTestId("tab-roster");
   const createPaddlerTab = screen.getByTestId("tab-create-paddler");
   userEvent.click(createPaddlerTab);
 
   const firstNameInput = screen.getByLabelText("First");
   const lastNameInput = screen.getByLabelText("Last");
-  const maleButton = screen.getByLabelText(paddlerInfo.gender);
+  const maleButton = screen.getByLabelText(paddler.gender);
   const weightInput = screen.getByLabelText("Weight(lb)");
   const submitButton = screen.getByRole("button", { name: "Submit" });
 
-  await userEvent.type(firstNameInput, paddlerInfo.firstName);
-  await userEvent.type(lastNameInput, paddlerInfo.lastName);
+  await userEvent.type(firstNameInput, paddler.firstName);
+  await userEvent.type(lastNameInput, paddler.lastName);
   userEvent.click(maleButton);
-  await userEvent.type(weightInput, paddlerInfo.weight);
+  await userEvent.type(weightInput, paddler.weight);
   userEvent.click(submitButton);
   userEvent.click(rosterTab);
 };
@@ -69,38 +77,38 @@ describe("'Choose a seat' message behavior", () => {
         <App />
       </Store>
     );
-    await createPaddlerAndViewRoster();
+    await createPaddlerAndViewRoster(firstPaddler);
   });
 
   const enterAndExitSeatAssignmentMode = () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("btnCancelSeatAssignment"));
   }
 
   it("'Cancel button shown when moving paddler from roster to boat", () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
 
     expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
   });
 
   it("Cancel button disappears once paddler is moved from roster to boat", () => {
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat4");
     expect(screen.queryByTestId("btnCancelSeatAssignment")).not.toBeInTheDocument();
   });
 
   it("Cancel button is shown when moving paddler from one seat to another", () => {
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    userEvent.click(screen.getByText(paddlerInitials));
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat4");
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
 
     expect(screen.getByTestId("btnCancelSeatAssignment")).toBeInTheDocument();
   });
 
   it("Cancel button disappears when paddler is moved from one seat to another", () => {
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
-    userEvent.click(screen.getByText(paddlerInitials));
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat4");
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat6"));
 
@@ -118,13 +126,13 @@ describe("'Choose a seat' message behavior", () => {
 
     userEvent.click(screen.getByTestId("seat6"));
 
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
   });
 
   it("After exiting choose-a-seat mode, should be able to select a paddler again", () => {
     enterAndExitSeatAssignmentMode();
     userEvent.click(screen.getByTestId("tab-roster"));
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
 
     expect(screen.getByRole("button", {name: "Move to Boat"})).toBeInTheDocument();
     expect(screen.getByText("Profile")).toBeInTheDocument();
@@ -139,7 +147,7 @@ describe("tests interactions with a single paddler", () => {
         <App />
       </Store>
     );
-    await createPaddlerAndViewRoster();
+    await createPaddlerAndViewRoster(firstPaddler);
   });
 
   it("renders paddler form when create-a-paddler tab is clicked", () => {
@@ -150,36 +158,36 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("renders Paddler component in roster after new paddler is submitted", () => {
-    expect(screen.getByText(paddlerInitials)).toBeInTheDocument();
-    expect(screen.getByText(paddlerInitials).tagName).toBe("DIV");
+    expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
+    expect(screen.getByText(firstPaddlerInitials).tagName).toBe("DIV");
   });
 
   it("renders Paddler in specified seat in boat", () => {
     const seatId = "seat5";
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
+    movePaddlerFromRosterToBoatSeat(firstPaddler, seatId);
 
     const seat = screen.getByTestId(seatId);
-    expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(seat);
+    expect(screen.getByText(firstPaddlerInitials).parentElement.parentElement).toBe(seat);
   });
 
   it("moves paddler back to roster from boat when move-to-roster button is clicked", () => {
     const seatId = "seat5";
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, seatId);
+    movePaddlerFromRosterToBoatSeat(firstPaddler, seatId);
 
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Move to Roster" }));
 
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
     expect(screen.getByTestId("boat")).toBeInTheDocument();
   });
 
   it("displays profile of selected paddler in full-view window", () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     expect(screen.getByTestId("profile-full-view")).toBeInTheDocument();
   });
 
   it("roster returns to screen upon cancelling profile full-view", () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Cancel" }));
 
     expect(screen.getByTestId("roster")).toBeInTheDocument();
@@ -187,35 +195,26 @@ describe("tests interactions with a single paddler", () => {
   });
 
   it("paddler gets deleted from roster", () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Delete" }));
 
     expect(screen.queryByTestId("profile-full-view")).not.toBeInTheDocument();
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
   });
 
   it("paddler gets deleted from boat", () => {
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat4");
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat4");
 
     userEvent.click(screen.getByTestId("tab-boat"));
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", {name: "Delete"}));
 
     expect(screen.queryByTestId("profile-full-view")).not.toBeInTheDocument();
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
   });
 
   it("paddler's info gets updated after edit", async () => {
-    const newInfo = {
-      firstName: "Karen",
-      lastName: "Wheeler",
-      gender: "Female",
-      weight: "400",
-    };
-
-    const newPaddlerInitials = `${newInfo.firstName[0].toUpperCase()}${newInfo.lastName[0].toUpperCase()}`;
-
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", { name: "Edit" }));
 
     const firstNameInput = screen.getByLabelText("First");
@@ -223,33 +222,33 @@ describe("tests interactions with a single paddler", () => {
     const weightInput = screen.getByLabelText("Weight(lb)");
 
     userEvent.clear(firstNameInput);
-    await userEvent.type(firstNameInput, newInfo.firstName);
+    await userEvent.type(firstNameInput, secondPaddler.firstName);
     userEvent.clear(lastNameInput);
-    await userEvent.type(lastNameInput, newInfo.lastName);
-    userEvent.click(screen.getByLabelText(newInfo.gender));
+    await userEvent.type(lastNameInput, secondPaddler.lastName);
+    userEvent.click(screen.getByLabelText(secondPaddler.gender));
     userEvent.clear(weightInput);
-    await userEvent.type(weightInput, newInfo.weight);
+    await userEvent.type(weightInput, secondPaddler.weight);
     userEvent.click(screen.getByRole("button", { name: "Submit" }));
 
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
-    expect(screen.getByText(newPaddlerInitials)).toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
+    expect(screen.getByText(secondPaddlerInitials)).toBeInTheDocument();
 
-    userEvent.click(screen.getByText(newPaddlerInitials));
+    userEvent.click(screen.getByText(secondPaddlerInitials));
     const profileInfo = screen.getByTestId("profileInfo");
-    expect(within(profileInfo).getByText(`${newInfo.firstName} ${newInfo.lastName}`)).toBeInTheDocument();
-    expect(within(profileInfo).getByText(newInfo.gender)).toBeInTheDocument();
-    expect(within(profileInfo).getByText(newInfo.weight)).toBeInTheDocument();
+    expect(within(profileInfo).getByText(`${secondPaddler.firstName} ${secondPaddler.lastName}`)).toBeInTheDocument();
+    expect(within(profileInfo).getByText(secondPaddler.gender)).toBeInTheDocument();
+    expect(within(profileInfo).getByText(secondPaddler.weight)).toBeInTheDocument();
   });
 
   it("paddler gets moved from one seat to another in boat", () => {
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Move to Boat"));
     userEvent.click(screen.getByTestId("seat3"));
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByText("Switch Seats"));
     userEvent.click(screen.getByTestId("seat18"));
 
-    expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(screen.getByTestId("seat18"));
+    expect(screen.getByText(firstPaddlerInitials).parentElement.parentElement).toBe(screen.getByTestId("seat18"));
   });
 });
 
@@ -342,8 +341,8 @@ describe("Boat saving feature", () => {
       </Store>
     );
 
-    await createPaddlerAndViewRoster();
-    movePaddlerFromRosterToBoatSeat(paddlerInfo, "seat1");
+    await createPaddlerAndViewRoster(firstPaddler);
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat1");
   });
 
   const saveBoat = async (boatName) => {
@@ -375,15 +374,46 @@ describe("Boat saving feature", () => {
   it("Clicking on a saved seating assignment loads it into boat", async () => {
     await saveBoat("Boat 1");
 
-    userEvent.click(screen.getByText(paddlerInitials));
+    userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", {name: "Move to Roster"}));
     
-    expect(screen.queryByText(paddlerInitials)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
 
     userEvent.click(screen.getByTestId("tab-saved-boats"));
     userEvent.click(screen.getByText("Boat 1"));
 
     userEvent.click(screen.getByTestId("tab-boat"));
-    expect(screen.getByText(paddlerInitials).parentElement.parentElement).toBe(screen.getByTestId("seat1"));
+    expect(screen.getByText(firstPaddlerInitials).parentElement.parentElement).toBe(screen.getByTestId("seat1"));
+  });
+
+  it("Applying seat assignment with paddlers no longer on current roster will re-add them to roster", async () => {
+    await saveBoat("Boat 1");
+
+    userEvent.click(screen.getByText(firstPaddlerInitials));
+    userEvent.click(screen.getByRole("button", {name: "Delete"}));
+
+    userEvent.click(screen.getByTestId("tab-saved-boats"));
+    userEvent.click(screen.getByText("Boat 1"));
+    userEvent.click(screen.getByTestId("tab-boat"));
+    expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
+  });
+
+  it("Successfully apply saved seat assignment to boat multiple times", async () => {
+    const movePaddlerToRosterAndApplySavedBoat = () => {
+      userEvent.click(screen.getByText(firstPaddlerInitials));
+      userEvent.click(screen.getByRole("button", {name: "Move to Roster"}));
+      userEvent.click(screen.getByTestId("tab-saved-boats"));
+      userEvent.click(screen.getByText("Boat 1"));
+      userEvent.click(screen.getByTestId("tab-boat"));
+    }
+
+    await createPaddlerAndViewRoster(secondPaddler);
+    userEvent.click(screen.getByTestId("tab-boat"));
+    await saveBoat("Boat 1");
+
+    movePaddlerToRosterAndApplySavedBoat();
+    movePaddlerToRosterAndApplySavedBoat();
+
+    expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
   });
 });

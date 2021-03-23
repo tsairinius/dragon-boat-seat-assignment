@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import * as actions from "./paddlerListActions";
+import deepCopyArrayOfObjects from "../../deepCopyArrayOfObjects";
 
 function paddlerListReducer(state, action) {
   const addPaddlerToList = (paddlerProfile) => {
@@ -145,18 +146,31 @@ function paddlerListReducer(state, action) {
   };
 
   const handleLoadSavedBoat = (boat) => {
-    const new_state = state.map(paddler => {
+    let boatCopy = {
+      ...boat,
+      paddlers: deepCopyArrayOfObjects(boat.paddlers)
+    }
+
+    let new_state = state.map(paddler => {
       paddler.inBoat = false;
-      for (const paddlerInSavedBoat of boat.paddlers) {
+      for (const [index, paddlerInSavedBoat] of boatCopy.paddlers.entries()) {
         if (paddler.id === paddlerInSavedBoat.id) {
           paddler.inBoat = true;
           paddler.seatId = paddlerInSavedBoat.seatId;
+          boatCopy.paddlers.splice(index, 1);
           break;
         }
       }
 
       return paddler;
     });
+
+    if (boatCopy.paddlers) {
+      new_state = [
+        ...new_state,
+        ...boatCopy.paddlers
+      ]
+    }
 
     return new_state;
   };
