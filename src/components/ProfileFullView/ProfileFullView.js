@@ -12,7 +12,8 @@ import {
   switchSeats
 } from "../../reducers/paddlerListReducer/paddlerListActions";
 import { StyledButton } from "../StyledButton";
-import { primaryBackground } from "../../styles";
+import StyledModalContainer from "../StyledModalContainer";
+import StyledModal from "../StyledModal";
 
 function ProfileFullView({paddler, onMoveToBoat}) {
   console.assert(
@@ -76,9 +77,11 @@ function ProfileFullView({paddler, onMoveToBoat}) {
   };
 
   return (
-    <StyledProfileFullView data-testid="profile-full-view">
-      {isEditRequested ? showForm() : showProfileWithOptions()}
-    </StyledProfileFullView>
+    <StyledModalContainer data-testid="profile-full-view">
+      <StyledModal>
+        {isEditRequested ? showForm() : showProfileWithOptions()}
+      </StyledModal>
+    </StyledModalContainer>
   );
 }
 
@@ -86,16 +89,5 @@ ProfileFullView.propTypes = {
   paddler: PropTypes.object.isRequired,
   onMoveToBoat: PropTypes.func.isRequired
 };
-
-const StyledProfileFullView = styled.div`
-  text-align: center;
-  font-size: 1rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgb(0, 0, 0, 50%);
-`;
 
 export default ProfileFullView;

@@ -13,6 +13,7 @@ import { primaryBackground } from "./styles";
 import backdropImg from "./assets/img/backdrop.svg";
 import SavedBoats from "./components/SavedBoats";
 import { StyledButton } from "./components/StyledButton";
+import StyledModalContainer from "./components/StyledModalContainer";
 import StyledModal from "./components/StyledModal";
 
 function App() {
@@ -74,16 +75,18 @@ function App() {
           :
           null}
           {showSaveBoatWindow ? 
-            <StyledModal data-testid={"save-boat-window"}>
-              <label>
-                Boat name
-                <input type="text" value={boatName} onChange={event => setBoatName(event.target.value)} />
-              </label>
-              <div>
-                <StyledButton onClick={saveBoat}>Save</StyledButton>
-                <StyledButton onClick={cancelSaveBoat}>Cancel</StyledButton>
-              </div>
-            </StyledModal>
+            <StyledModalContainer data-testid={"save-boat-window"}>
+              <StyledModal>
+                <label className={"label-boat-name"}>
+                  Boat name
+                  <input className={"input-boat-name"} type="text" value={boatName} onChange={event => setBoatName(event.target.value)} />
+                </label>
+                <div>
+                  <StyledButton onClick={saveBoat}>Save</StyledButton>
+                  <StyledButton onClick={cancelSaveBoat}>Cancel</StyledButton>
+                </div>
+              </StyledModal>
+            </StyledModalContainer>
             :
             null
           }
@@ -103,6 +106,10 @@ const StyledApp = styled.div`
   background-position: bottom;
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
+
+  .input-boat-name {
+    margin-left: 1em;
+  }
 `;
 
 export default App;
