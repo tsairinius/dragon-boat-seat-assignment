@@ -16,6 +16,7 @@ import { StyledButton } from "./components/StyledButton";
 import StyledModalContainer from "./components/StyledModalContainer";
 import StyledModal from "./components/StyledModal";
 import deepCopyArrayOfObjects from "./deepCopyArrayOfObjects";
+import SaveAssignment from "./components/SaveAssignment";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -33,40 +34,37 @@ function App() {
   const [ activeTab, setActiveTab ] = useState("boat");
 
   const [ showSaveBoatWindow, setShowSaveBoatWindow ] = useState(false);
-  const [ boatName, setBoatName ] = useState("");
 
   const handleMoveToBoatRequest = () => {
     dispatch(moveToBoat());
     setActiveTab("boat");
   }
 
-  const saveBoat = () => {
+  const saveNewSeatAssignment = (assignmentName) => {
     setSavedBoats(prevState => [
       ...prevState, 
       {
-        name: boatName,
+        name: assignmentName,
         paddlers: deepCopyArrayOfObjects(paddlersInBoat)
       }
     ]);
 
-    setBoatName("");
     setShowSaveBoatWindow(false);
   };
 
-  const cancelSaveBoat = () => {
-    setBoatName("");
+  const exitSaveAssignment = () => {
     setShowSaveBoatWindow(false);
   }
 
-  const saveBoatButton = {
+  const saveAssignmentButton = {
     label: "save-boat",
     onClick: setShowSaveBoatWindow
   }
 
   return (
     <StyledApp>
-          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)} onSaveClick={saveBoat}>
-            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveBoatButton]}/>
+          <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
+            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton]}/>
             <Roster label="roster" paddlers={paddlersOnRoster} />
             <SavedBoats label="saved-boats" savedBoats={savedBoats}/>
             <CreatePaddlerForm label="create-paddler" />
@@ -76,18 +74,7 @@ function App() {
           :
           null}
           {showSaveBoatWindow ? 
-            <StyledModalContainer data-testid={"save-boat-window"}>
-              <StyledModal>
-                <label className={"label-boat-name"}>
-                  Boat name
-                  <input className={"input-boat-name"} type="text" value={boatName} onChange={event => setBoatName(event.target.value)} />
-                </label>
-                <div>
-                  <StyledButton onClick={saveBoat}>Save</StyledButton>
-                  <StyledButton onClick={cancelSaveBoat}>Cancel</StyledButton>
-                </div>
-              </StyledModal>
-            </StyledModalContainer>
+            <SaveAssignment onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
             :
             null
           }

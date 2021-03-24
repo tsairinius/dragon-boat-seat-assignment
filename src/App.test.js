@@ -347,13 +347,19 @@ describe("Boat saving feature", () => {
 
   const saveBoat = async (boatName) => {
     userEvent.click(screen.getByTestId("tab-save-boat"));
-    await userEvent.type(screen.getByLabelText("Boat name"), boatName);
+    await userEvent.type(screen.getByLabelText("Name"), boatName);
     userEvent.click(screen.getByRole("button", {name: "Save"}));
   };
 
+  // it("Clicking save button brings up options to save seat assignment as a new or existing assignment", () => {
+  //   userEvent.click(screen.getByTestId("tab-save-boat"));
+  //   expect(screen.getByRole("button", {name: "Save as existing assignment"})).toBeInTheDocument();
+  //   expect(screen.getByRole("button", {name: "Save as new seat assignment"})).toBeInTheDocument();
+  // });
+
   it("Clicking save on boat tab brings up window to name and save current seating assignment", () => {
     userEvent.click(screen.getByTestId("tab-save-boat"));
-    expect(screen.getByLabelText("Boat name")).toBeInTheDocument();
+    expect(screen.getByLabelText("Name")).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Save"})).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
   });

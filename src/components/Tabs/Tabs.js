@@ -11,7 +11,7 @@ import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListA
 import paddlerListContext from "../../paddlerListContext";
 import { StyledButton } from "../StyledButton";
 
-function Tabs({children, assignSeatMode, activeTab, onTabRequest, onSaveClick}) {
+function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);
 
   const tabsCollection = React.Children.toArray(children);
