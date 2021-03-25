@@ -60,13 +60,13 @@ describe("Saving seat assignments", () => {
 
   it("Save tab is shown only when viewing boat", () => {
     userEvent.click(screen.getByTestId("tab-boat"));
-    expect(screen.getByTestId("tab-save-boat")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-save-assignment")).toBeInTheDocument();
 
     userEvent.click(screen.getByTestId("tab-roster"));
-    expect(screen.queryByTestId("tab-save-boat")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();
 
     userEvent.click(screen.getByTestId("tab-create-paddler"));
-    expect(screen.queryByTestId("tab-save-boat")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();
   });
 });
 
@@ -333,7 +333,7 @@ describe("tests interactions with multiple paddlers", () => {
   });
 });
 
-describe("Boat saving feature", () => {
+describe("Assignment saving feature", () => {
   beforeEach(async () => {
     render(
       <Store>
@@ -345,47 +345,48 @@ describe("Boat saving feature", () => {
     movePaddlerFromRosterToBoatSeat(firstPaddler, "seat1");
   });
 
-  const saveBoat = async (boatName) => {
-    userEvent.click(screen.getByTestId("tab-save-boat"));
-    await userEvent.type(screen.getByLabelText("Name"), boatName);
+  const saveFirstAssignment = async (assignmentName) => {
+    userEvent.click(screen.getByTestId("tab-save-assignment"));
+    await userEvent.type(screen.getByLabelText("Name"), assignmentName);
     userEvent.click(screen.getByRole("button", {name: "Save"}));
   };
 
-  // it("Clicking save button brings up options to save seat assignment as a new or existing assignment", () => {
-  //   userEvent.click(screen.getByTestId("tab-save-boat"));
-  //   expect(screen.getByRole("button", {name: "Save as existing assignment"})).toBeInTheDocument();
-  //   expect(screen.getByRole("button", {name: "Save as new seat assignment"})).toBeInTheDocument();
-  // });
+  const saveAndApplyFirstAssignment = async (assignmentName) => {
+    await saveFirstAssignment(assignmentName);
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
+    userEvent.click(screen.getByText("Boat 1"));
+    userEvent.click(screen.getByTestId("tab-boat"));
+  }
 
   it("Clicking save on boat tab brings up window to name and save current seating assignment", () => {
-    userEvent.click(screen.getByTestId("tab-save-boat"));
+    userEvent.click(screen.getByTestId("tab-save-assignment"));
     expect(screen.getByLabelText("Name")).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Save"})).toBeInTheDocument();
     expect(screen.getByRole("button", {name: "Cancel"})).toBeInTheDocument();
   });
 
-  it("Entering a boat name and clicking save result in saved seat assignment in saved boats tab", async () => {
-    await saveBoat("Boat 1");
-    userEvent.click(screen.getByTestId("tab-saved-boats"));
+  it("Entering a boat name and clicking save result in saved seat assignment in saved assignments tab", async () => {
+    await saveFirstAssignment("Boat 1");
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
     expect(screen.getByText("Boat 1")).toBeInTheDocument();
   });
 
-  it("Clicking cancel in save-boat window exits the window and returns to boat", () => {
-    userEvent.click(screen.getByTestId("tab-save-boat"));
+  it("Clicking cancel in save-assignment window exits the window and returns to boat", () => {
+    userEvent.click(screen.getByTestId("tab-save-assignment"));
     userEvent.click(screen.getByRole("button", {name: "Cancel"}));
 
-    expect(screen.queryByTestId("save-boat-window")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("save-assignment-window")).not.toBeInTheDocument();
   });
 
   it("Clicking on a saved seating assignment loads it into boat", async () => {
-    await saveBoat("Boat 1");
+    await saveFirstAssignment("Boat 1");
 
     userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", {name: "Move to Roster"}));
     
     expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
 
-    userEvent.click(screen.getByTestId("tab-saved-boats"));
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
     userEvent.click(screen.getByText("Boat 1"));
 
     userEvent.click(screen.getByTestId("tab-boat"));
@@ -393,33 +394,83 @@ describe("Boat saving feature", () => {
   });
 
   it("Applying seat assignment with paddlers no longer on current roster will re-add them to roster", async () => {
-    await saveBoat("Boat 1");
+    await saveFirstAssignment("Boat 1");
 
     userEvent.click(screen.getByText(firstPaddlerInitials));
     userEvent.click(screen.getByRole("button", {name: "Delete"}));
 
-    userEvent.click(screen.getByTestId("tab-saved-boats"));
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
     userEvent.click(screen.getByText("Boat 1"));
     userEvent.click(screen.getByTestId("tab-boat"));
     expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
   });
 
   it("Successfully apply saved seat assignment to boat multiple times", async () => {
-    const movePaddlerToRosterAndApplySavedBoat = () => {
+    const movePaddlerToRosterAndApplySavedAssignment = () => {
       userEvent.click(screen.getByText(firstPaddlerInitials));
       userEvent.click(screen.getByRole("button", {name: "Move to Roster"}));
-      userEvent.click(screen.getByTestId("tab-saved-boats"));
+      userEvent.click(screen.getByTestId("tab-saved-assignments"));
       userEvent.click(screen.getByText("Boat 1"));
       userEvent.click(screen.getByTestId("tab-boat"));
     }
 
     await createPaddlerAndViewRoster(secondPaddler);
     userEvent.click(screen.getByTestId("tab-boat"));
-    await saveBoat("Boat 1");
+    await saveFirstAssignment("Boat 1");
 
-    movePaddlerToRosterAndApplySavedBoat();
-    movePaddlerToRosterAndApplySavedBoat();
+    movePaddlerToRosterAndApplySavedAssignment();
+    movePaddlerToRosterAndApplySavedAssignment();
 
     expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
+  });
+
+  describe("Saving assignment after applying one to boat", () => {
+    it("Applying assignment to boat and clicking save brings up options to save as the current or existing assignment", async () => {
+      await saveAndApplyFirstAssignment("Boat 1");
+      userEvent.click(screen.getByTestId("tab-save-assignment"));
+  
+      expect(screen.getByText("Save as the current assignment, Boat 1?")).toBeInTheDocument();
+      expect(screen.getByRole("button", {name: "Yes"})).toBeInTheDocument();
+      expect(screen.getByRole("button", {name: "No, save as a new assignment"})).toBeInTheDocument();
+    });
+
+    it("Option to save as current assignment unavailable no assignment has been applied previously", async () => {
+      await saveFirstAssignment("Boat 1");
+
+      userEvent.click(screen.getByTestId("tab-save-assignment"));
+      expect(screen.queryByText("Save as the current assignment, Boat 1?")).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", {name: "Yes"})).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", {name: "No, save as a new assignment"})).not.toBeInTheDocument();
+      expect(screen.getByRole("button", {name: "Save"})).toBeInTheDocument();
+    });
+
+    it("Opting to save as current seating assignment will update current assignment", async () => {
+      await saveAndApplyFirstAssignment("Boat 1");
+
+      userEvent.click(screen.getByText(firstPaddlerInitials));
+      userEvent.click(screen.getByRole("button", {name: "Switch Seats"}));
+      userEvent.click(screen.getByTestId("seat14"));
+
+      userEvent.click(screen.getByTestId("tab-save-assignment"));
+      userEvent.click(screen.getByRole("button", {name: "Yes"}));
+      userEvent.click(screen.getByText(firstPaddlerInitials));
+      userEvent.click(screen.getByRole("button", {name: "Move to Roster"}));
+      userEvent.click(screen.getByTestId("tab-saved-assignments"));
+
+      userEvent.click(screen.getByText("Boat 1"));
+      userEvent.click(screen.getByTestId("tab-boat"));
+
+      expect(screen.getByText(firstPaddlerInitials).parentElement.parentElement)
+        .toBe(screen.getByTestId("seat14"));
+    });
+
+    it("Opting to save as a new seating assignment shows input for new assignment name", async () => {
+      await saveAndApplyFirstAssignment("Boat 1");
+
+      userEvent.click(screen.getByTestId("tab-save-assignment"));
+      userEvent.click(screen.getByRole("button", {name: "No, save as a new assignment"}));
+
+      expect(screen.getByLabelText("Name")).toBeInTheDocument();
+    });
   });
 });

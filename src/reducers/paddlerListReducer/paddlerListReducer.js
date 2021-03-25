@@ -145,19 +145,19 @@ function paddlerListReducer(state, action) {
     return new_state;
   };
 
-  const handleLoadSavedBoat = (boat) => {
-    let boatCopy = {
-      ...boat,
-      paddlers: deepCopyArrayOfObjects(boat.paddlers)
+  const handleLoadSavedAssignment = (assignment) => {
+    let assignmentCopy = {
+      ...assignment,
+      paddlers: deepCopyArrayOfObjects(assignment.paddlers)
     }
 
     let new_state = state.map(paddler => {
       paddler.inBoat = false;
-      for (const [index, paddlerInSavedBoat] of boatCopy.paddlers.entries()) {
-        if (paddler.id === paddlerInSavedBoat.id) {
+      for (const [index, paddlerInAssignment] of assignmentCopy.paddlers.entries()) {
+        if (paddler.id === paddlerInAssignment.id) {
           paddler.inBoat = true;
-          paddler.seatId = paddlerInSavedBoat.seatId;
-          boatCopy.paddlers.splice(index, 1);
+          paddler.seatId = paddlerInAssignment.seatId;
+          assignmentCopy.paddlers.splice(index, 1);
           break;
         }
       }
@@ -165,10 +165,10 @@ function paddlerListReducer(state, action) {
       return paddler;
     });
 
-    if (boatCopy.paddlers) {
+    if (assignmentCopy.paddlers) {
       new_state = [
         ...new_state,
-        ...boatCopy.paddlers
+        ...assignmentCopy.paddlers
       ]
     }
 
@@ -217,8 +217,8 @@ function paddlerListReducer(state, action) {
       return handleSeatAssignment();
     case actions.UNSELECT_PADDLERS:
       return handleUnselectPaddlers();
-    case actions.LOAD_SAVED_BOAT:
-      return handleLoadSavedBoat(action.payload);
+    case actions.LOAD_SAVED_ASSIGNMENT:
+      return handleLoadSavedAssignment(action.payload);
     default:
       return state;
   }

@@ -1,22 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Boat from "./components/Boat/Boat";
 import Roster from "./components/Roster/Roster";
 import CreatePaddlerForm from "./components/CreatePaddlerForm/CreatePaddlerForm";
 import Tabs from "./components/Tabs/Tabs";
-import ProfilePreview from "./components/ProfilePreview/ProfilePreview";
 import styled from "styled-components";
 import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
-import { moveToBoat, unselectPaddlers } from "./reducers/paddlerListReducer/paddlerListActions";
-import { primaryBackground } from "./styles";
+import { moveToBoat, loadSavedAssignment } from "./reducers/paddlerListReducer/paddlerListActions";
 import backdropImg from "./assets/img/backdrop.svg";
-import SavedBoats from "./components/SavedBoats";
-import { StyledButton } from "./components/StyledButton";
-import StyledModalContainer from "./components/StyledModalContainer";
-import StyledModal from "./components/StyledModal";
+import SavedAssignments from "./components/SavedAssignments";
 import deepCopyArrayOfObjects from "./deepCopyArrayOfObjects";
 import SaveAssignment from "./components/SaveAssignment";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -29,36 +25,60 @@ function App() {
     assignSeatMode
   } = useApp(paddlerList);
 
-  const [ savedBoats, setSavedBoats ] = useState([]);
+  const [ savedAssignments, setSavedAssignments ] = useState([]);
 
   const [ activeTab, setActiveTab ] = useState("boat");
 
-  const [ showSaveBoatWindow, setShowSaveBoatWindow ] = useState(false);
+  const [ showSaveAssignmentWindow, setShowSaveAssignmentWindow ] = useState(false);
+
+  const [ currentSeatAssignment, setCurrentSeatAssignment ] = useState(null);
+
+  const loadSeatAssignment = (assignment) => {
+    dispatch(loadSavedAssignment(assignment));
+    setCurrentSeatAssignment(assignment);
+  };
 
   const handleMoveToBoatRequest = () => {
     dispatch(moveToBoat());
     setActiveTab("boat");
   }
 
+  const saveCurrentSeatAssignment = () => {
+    setSavedAssignments(prevState => 
+      prevState.map(assignment => {
+        if (assignment.id === currentSeatAssignment.id) {
+          assignment = {
+            ...assignment,
+            paddlers: deepCopyArrayOfObjects(paddlersInBoat)
+          }
+        }
+        return assignment;
+      })  
+    )
+
+    setShowSaveAssignmentWindow(false);
+  }
+
   const saveNewSeatAssignment = (assignmentName) => {
-    setSavedBoats(prevState => [
+    setSavedAssignments(prevState => [
       ...prevState, 
       {
         name: assignmentName,
+        id: uuidv4(),
         paddlers: deepCopyArrayOfObjects(paddlersInBoat)
       }
     ]);
 
-    setShowSaveBoatWindow(false);
+    setShowSaveAssignmentWindow(false);
   };
 
   const exitSaveAssignment = () => {
-    setShowSaveBoatWindow(false);
+    setShowSaveAssignmentWindow(false);
   }
 
   const saveAssignmentButton = {
-    label: "save-boat",
-    onClick: setShowSaveBoatWindow
+    label: "save-assignment",
+    onClick: setShowSaveAssignmentWindow
   }
 
   return (
@@ -66,15 +86,15 @@ function App() {
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton]}/>
             <Roster label="roster" paddlers={paddlersOnRoster} />
-            <SavedBoats label="saved-boats" savedBoats={savedBoats}/>
+            <SavedAssignments label="saved-assignments" savedAssignments={savedAssignments} onAssignmentClick={loadSeatAssignment}/>
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
           {paddlerFullView ? 
             <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
           :
           null}
-          {showSaveBoatWindow ? 
-            <SaveAssignment onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
+          {showSaveAssignmentWindow ? 
+            <SaveAssignment currentSeatAssignmentName={currentSeatAssignment ? currentSeatAssignment.name : ""} onCurrentAssignmentSave={saveCurrentSeatAssignment} onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
             :
             null
           }

@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { primaryBackground } from "../../styles";
 import rosterIcon from "../../assets/img/roster-icon.png";
 import boatIcon from "../../assets/img/boat-icon.png";
-import saveBoatIcon from "../../assets/img/save-boat-icon.png";
-import savedBoatsIcon from "../../assets/img/saved-boats-icon.png";
+import saveAssignmentIcon from "../../assets/img/save-assignment-icon.png";
+import savedAssignmentsIcon from "../../assets/img/saved-assignments-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
@@ -28,11 +28,11 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
       case "create-paddler":
         icon = createPaddlerIcon;
         break;
-      case "saved-boats":
-        icon = savedBoatsIcon;
+      case "saved-assignments":
+        icon = savedAssignmentsIcon;
         break;
-      case "save-boat":
-        icon = saveBoatIcon;
+      case "save-assignment":
+        icon = saveAssignmentIcon;
         break;
     }
 
