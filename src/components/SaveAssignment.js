@@ -40,6 +40,7 @@ const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onN
                     <p>Save as the current assignment, {currentSeatAssignmentName}?</p>
                     <StyledButton onClick={onCurrentAssignmentSave}>Yes</StyledButton>
                     <StyledButton onClick={() => setShowNewAssignmentForm(true)}>No, save as a new assignment</StyledButton>
+                    <StyledButton onClick={cancelSaveAssignment}>Cancel</StyledButton>
                 </React.Fragment>
             }
         </StyledModal>

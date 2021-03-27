@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
 
 const HoverMessage = ({text, className}) => {
     const stringMaxLength = 8;
@@ -7,7 +8,7 @@ const HoverMessage = ({text, className}) => {
     return (
         <StyledHoverMessage className={className ? className : null}>
             {text.map(item => 
-                <p key={item}>
+                <p key={uuidv4()}>
                     {item.length > stringMaxLength ? 
                         `${item.slice(0, stringMaxLength)}...`
                         :

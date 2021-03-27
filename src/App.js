@@ -86,7 +86,7 @@ function App() {
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton]}/>
             <Roster label="roster" paddlers={paddlersOnRoster} />
-            <SavedAssignments label="saved-assignments" savedAssignments={savedAssignments} onAssignmentClick={loadSeatAssignment}/>
+            <SavedAssignments label="saved-assignments" savedAssignments={savedAssignments} setSavedAssignments={setSavedAssignments} onApplyClick={loadSeatAssignment}/>
             <CreatePaddlerForm label="create-paddler" />
           </Tabs>
           {paddlerFullView ? 
