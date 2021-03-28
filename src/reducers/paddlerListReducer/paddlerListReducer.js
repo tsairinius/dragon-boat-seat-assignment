@@ -175,6 +175,17 @@ function paddlerListReducer(state, action) {
     return new_state;
   };
 
+  const handleClearBoat = () => {
+    const new_state = state.map(paddler => (
+      {
+        ...paddler,
+        inBoat: false
+      }
+    ));
+
+    return new_state;
+  };
+
   const isPaddlerSelected = () => {
     let isSelected = false;
     state.forEach((paddler) => {
@@ -219,6 +230,8 @@ function paddlerListReducer(state, action) {
       return handleUnselectPaddlers();
     case actions.LOAD_SAVED_ASSIGNMENT:
       return handleLoadSavedAssignment(action.payload);
+    case actions.CLEAR_BOAT:
+      return handleClearBoat();
     default:
       return state;
   }

@@ -7,12 +7,15 @@ import styled from "styled-components";
 import useApp from "./useApp";
 import ProfileFullView from "./components/ProfileFullView/ProfileFullView";
 import paddlerListContext from "./paddlerListContext";
-import { moveToBoat, loadSavedAssignment } from "./reducers/paddlerListReducer/paddlerListActions";
+import { moveToBoat, loadSavedAssignment, clearBoat } from "./reducers/paddlerListReducer/paddlerListActions";
 import backdropImg from "./assets/img/backdrop.svg";
 import SavedAssignments from "./components/SavedAssignments";
 import deepCopyArrayOfObjects from "./deepCopyArrayOfObjects";
 import SaveAssignment from "./components/SaveAssignment";
 import { v4 as uuidv4 } from "uuid";
+import StyledModalContainer from "./components/StyledModalContainer";
+import StyledModal from "./components/StyledModal";
+import { StyledButton } from "./components/StyledButton";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -30,6 +33,8 @@ function App() {
   const [ activeTab, setActiveTab ] = useState("boat");
 
   const [ showSaveAssignmentWindow, setShowSaveAssignmentWindow ] = useState(false);
+
+  const [ showClearBoatWindow, setShowClearBoatWindow ] = useState(false);
 
   const [ currentSeatAssignment, setCurrentSeatAssignment ] = useState(null);
 
@@ -76,15 +81,25 @@ function App() {
     setShowSaveAssignmentWindow(false);
   }
 
+  const clearBoatAndExitModal = () => {
+    dispatch(clearBoat());
+    setShowClearBoatWindow(false);
+  }
+
   const saveAssignmentButton = {
     label: "save-assignment",
     onClick: setShowSaveAssignmentWindow
   }
 
+  const clearBoatButton = {
+    label: "clear-boat",
+    onClick: () => setShowClearBoatWindow(true)
+  }
+
   return (
     <StyledApp>
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton]}/>
+            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton, clearBoatButton]}/>
             <Roster label="roster" paddlers={paddlersOnRoster} />
             <SavedAssignments label="saved-assignments" savedAssignments={savedAssignments} setSavedAssignments={setSavedAssignments} onApplyClick={loadSeatAssignment}/>
             <CreatePaddlerForm label="create-paddler" />
@@ -95,6 +110,17 @@ function App() {
           null}
           {showSaveAssignmentWindow ? 
             <SaveAssignment currentSeatAssignmentName={currentSeatAssignment ? currentSeatAssignment.name : ""} onCurrentAssignmentSave={saveCurrentSeatAssignment} onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
+            :
+            null
+          }
+          {showClearBoatWindow ? 
+            <StyledModalContainer>
+              <StyledModal>
+                <h2>Move all paddlers back to roster?</h2>
+                <StyledButton onClick={clearBoatAndExitModal}>Clear Boat</StyledButton>
+                <StyledButton onClick={() => setShowClearBoatWindow(false)}>Cancel</StyledButton>
+              </StyledModal>
+            </StyledModalContainer>
             :
             null
           }

@@ -10,6 +10,7 @@ export const MOVE_TO_BOAT = "MOVE_TO_BOAT";
 export const SWITCH_SEATS = "SWITCH_SEATS";
 export const UNSELECT_PADDLERS = "UNSELECT_PADDLERS";
 export const LOAD_SAVED_ASSIGNMENT = "LOAD_SAVED_ASSIGNMENT";
+export const CLEAR_BOAT = "CLEAR_BOAT";
 
 export const addPaddler = (paddlerProfile) => {
   return { type: ADD_PADDLER, payload: paddlerProfile };
@@ -57,4 +58,8 @@ export const unselectPaddlers = () => {
 
 export const loadSavedAssignment = (assignment) => {
   return { type: LOAD_SAVED_ASSIGNMENT, payload: assignment };
+};
+
+export const clearBoat = () => {
+  return { type: CLEAR_BOAT }
 };

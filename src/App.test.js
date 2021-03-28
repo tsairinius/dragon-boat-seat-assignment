@@ -357,7 +357,18 @@ describe("Assignment saving feature", () => {
     userEvent.click(screen.getByText("Boat 1"));
     userEvent.click(screen.getByRole("button", {name: "Apply to Boat"}));
     userEvent.click(screen.getByTestId("tab-boat"));
-  }
+  };
+
+  it("Save-assignment option does not appear on any tab other than the boat tab", () => {
+    userEvent.click(screen.getByTestId("tab-roster"));
+    expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-create-paddler"));
+    expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
+    expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-boat"));
+    expect(screen.getByTestId("tab-save-assignment")).toBeInTheDocument();
+  });
 
   it("Clicking save on boat tab brings up window to name and save current seating assignment", () => {
     userEvent.click(screen.getByTestId("tab-save-assignment"));
@@ -513,3 +524,53 @@ describe("Assignment saving feature", () => {
   });
 });
 
+describe("Clear boat of paddlers", () => {
+  const clearBoatQuestion = "Move all paddlers back to roster?";
+
+  beforeEach(() => {
+    render(
+      <Store>
+        <App /> 
+      </Store>
+    );
+  });
+
+  it("Clear-boat option does not appear on any tab other than the boat tab", () => {
+    userEvent.click(screen.getByTestId("tab-roster"));
+    expect(screen.queryByTestId("tab-clear-boat")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-create-paddler"));
+    expect(screen.queryByTestId("tab-clear-boat")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
+    expect(screen.queryByTestId("tab-clear-boat")).not.toBeInTheDocument();
+    userEvent.click(screen.getByTestId("tab-boat"));
+    expect(screen.getByTestId("tab-clear-boat")).toBeInTheDocument();
+  });
+
+  it("Pressing clear-boat option closes window and moves paddlers back to roster", async () => {
+    await createPaddlerAndViewRoster(firstPaddler);
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat1");
+
+    userEvent.click(screen.getByTestId("tab-clear-boat"));
+    userEvent.click(screen.getByRole("button", {name: "Clear Boat"}));
+
+    expect(screen.queryByText(clearBoatQuestion)).not.toBeInTheDocument();
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId("tab-roster"));
+    expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
+  });
+
+  it("Pressing cancel exits clear-boat window and does not move paddlers back to roster", async () => {
+    await createPaddlerAndViewRoster(firstPaddler);
+    movePaddlerFromRosterToBoatSeat(firstPaddler, "seat1");
+
+    userEvent.click(screen.getByTestId("tab-clear-boat"));
+    userEvent.click(screen.getByRole("button", {name: "Cancel"}));
+
+    expect(screen.queryByText(clearBoatQuestion)).not.toBeInTheDocument();
+    expect(screen.getByText(firstPaddlerInitials)).toBeInTheDocument();
+
+    userEvent.click(screen.getByTestId("tab-roster"));
+    expect(screen.queryByText(firstPaddlerInitials)).not.toBeInTheDocument();
+  });
+});

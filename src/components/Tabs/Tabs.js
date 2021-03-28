@@ -6,6 +6,7 @@ import rosterIcon from "../../assets/img/roster-icon.png";
 import boatIcon from "../../assets/img/boat-icon.png";
 import saveAssignmentIcon from "../../assets/img/save-assignment-icon.png";
 import savedAssignmentsIcon from "../../assets/img/saved-assignments-icon.png";
+import clearBoatIcon from "../../assets/img/clear-boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
@@ -33,6 +34,9 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
         break;
       case "save-assignment":
         icon = saveAssignmentIcon;
+        break;
+      case "clear-boat":
+        icon = clearBoatIcon;
         break;
     }
 
