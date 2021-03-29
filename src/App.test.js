@@ -359,6 +359,14 @@ describe("Assignment saving feature", () => {
     userEvent.click(screen.getByTestId("tab-boat"));
   };
 
+  it("An assignment with an extra long name has its name display in truncated form", async () => {
+    await saveFirstAssignment("Antetokounmpo");
+
+    userEvent.click(screen.getByTestId("tab-saved-assignments"));
+    expect(screen.getByText("Antetokoun...")).toBeInTheDocument();
+    expect(screen.queryByText("Antetokounmpo")).not.toBeInTheDocument();
+  });
+
   it("Save-assignment option does not appear on any tab other than the boat tab", () => {
     userEvent.click(screen.getByTestId("tab-roster"));
     expect(screen.queryByTestId("tab-save-assignment")).not.toBeInTheDocument();

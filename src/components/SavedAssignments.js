@@ -5,14 +5,24 @@ import { v4 as uuidv4 } from "uuid";
 import StyledModalContainer from "./StyledModalContainer";
 import StyledModal from "./StyledModal";
 import { StyledButton } from "./StyledButton";
+import savedAssignmentIcon from "../assets/img/saved-assignment-icon.svg";
 
 function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick}) {
   const [ showAssignmentOptions, setShowAssignmentOptions ] = useState(false);
-  const [ selectedAssignment, setSelectedAssignment ] = useState(null)
+  const [ selectedAssignment, setSelectedAssignment ] = useState(null);
+
+  const maxAssignmentNameLength = 10;
 
   const assignmentComponents = savedAssignments.map((assignment) => (
     <div key={uuidv4()} className="saved-assignment" onClick={() => selectAssignment(assignment)}>
-        {assignment.name}
+        <img src={savedAssignmentIcon} className="saved-assignment-image" width="60px" height="60px"></img>
+        <p className="saved-assignment-name">
+          {assignment.name.length > maxAssignmentNameLength ? 
+            `${assignment.name.slice(0, maxAssignmentNameLength)}...`
+            :
+            assignment.name
+          }
+          </p>
     </div>
   ));
 
@@ -49,6 +59,7 @@ function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick})
 
   return (
     <div>
+      <h1 className="tab-title">Assignments</h1>
       <StyledAssignmentsContainer data-testid={"saved-assignments"}>
         {assignmentComponents}
         {showAssignmentOptions ? 
@@ -73,16 +84,23 @@ SavedAssignments.propTypes = {
 };
 
 const StyledAssignmentsContainer = styled.div`
-  padding-top: 35px;
+  padding-top: 45px;
 
   .saved-assignment {
+    position: relative;
     display: inline-block;
     margin: 10px;
     float: left;
+    text-align: center;
 
     &:hover {
       cursor: pointer;
+      filter: brightness(130%);
     }
+  }
+
+  .saved-assignment-name {
+    margin: 0;
   }
 `;
 

@@ -38,6 +38,8 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
       case "clear-boat":
         icon = clearBoatIcon;
         break;
+      default:
+        break;
     }
 
     return icon;

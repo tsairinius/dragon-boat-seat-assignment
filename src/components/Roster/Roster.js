@@ -10,6 +10,7 @@ function Roster(props) {
 
   return (
     <div>
+      <h1 className="tab-title">Roster</h1>
       <StyledPaddlersContainer data-testid={"roster"}>
         {paddlerComponents}
       </StyledPaddlersContainer>

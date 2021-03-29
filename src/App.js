@@ -141,6 +141,10 @@ const StyledApp = styled.div`
   border-radius: 10px;
   box-shadow: 1px 1px 2px rgb(200, 200, 200);, -1px 1px 2px rgb(200, 200, 200);
 
+  .tab-title {
+    font-family: Allura, Roboto, Arial, Helvetica, sans-serif;
+  }
+
   .input-boat-name {
     margin-left: 1em;
   }

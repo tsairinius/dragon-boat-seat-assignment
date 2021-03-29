@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import ProfileInfo from "../ProfileInfo/ProfileInfo";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import PaddlerForm from "../PaddlerForm/PaddlerForm";
 import paddlerListContext from "../../paddlerListContext";
 import {
