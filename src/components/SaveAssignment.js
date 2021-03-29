@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react"
-import { StyledButton } from "./StyledButton"
-import StyledModal from "./StyledModal"
-import StyledModalContainer from "./StyledModalContainer"
+import Modal from "./Modal";
+import StyledButton from "./StyledButton"
+import StyledField from "./StyledField";
 
 const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onNewAssignmentSave, onCancel}) => {
     const [ assignmentName, setAssignmentName ] = useState("");
@@ -21,18 +21,19 @@ const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onN
     }
 
     return (
-        <StyledModalContainer data-testid={"save-assignment-window"}>
-        <StyledModal>
-          <h2>Save Seat Assignment</h2>
+        <Modal dataTestId={"save-assignment-window"}>
+            <h2>Save Seat Assignment</h2>
             {showNewAssignmentForm || !currentSeatAssignmentName ? 
                 <form onSubmit={saveAssignment}>
-                    <label className={"label-boat-name"}>
-                    Name
-                    <input className={"input-boat-name"} type="text" value={assignmentName} onChange={event => setAssignmentName(event.target.value)} required/>
-                    </label>
+                    <StyledField>
+                        <label htmlFor="assignment-name">
+                            Name
+                        </label>
+                        <input id="assignment-name" type="text" value={assignmentName} onChange={event => setAssignmentName(event.target.value)} required/>
+                    </StyledField>
                     <div>
-                    <StyledButton type="submit">Save</StyledButton>
-                    <StyledButton onClick={cancelSaveAssignment}>Cancel</StyledButton>
+                        <StyledButton type="submit">Save</StyledButton>
+                        <StyledButton type="button" onClick={cancelSaveAssignment}>Cancel</StyledButton>
                     </div>
                 </form>
                 :
@@ -43,10 +44,8 @@ const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onN
                     <StyledButton onClick={cancelSaveAssignment}>Cancel</StyledButton>
                 </React.Fragment>
             }
-        </StyledModal>
-      </StyledModalContainer>
+      </Modal>
     )
-
 }
 
 export default SaveAssignment;

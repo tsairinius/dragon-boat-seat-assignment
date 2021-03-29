@@ -13,9 +13,8 @@ import SavedAssignments from "./components/SavedAssignments";
 import deepCopyArrayOfObjects from "./deepCopyArrayOfObjects";
 import SaveAssignment from "./components/SaveAssignment";
 import { v4 as uuidv4 } from "uuid";
-import StyledModalContainer from "./components/StyledModalContainer";
-import StyledModal from "./components/StyledModal";
-import { StyledButton } from "./components/StyledButton";
+import StyledButton from "./components/StyledButton";
+import Modal from "./components/Modal";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -114,13 +113,11 @@ function App() {
             null
           }
           {showClearBoatWindow ? 
-            <StyledModalContainer>
-              <StyledModal>
-                <h2>Move all paddlers back to roster?</h2>
-                <StyledButton onClick={clearBoatAndExitModal}>Clear Boat</StyledButton>
-                <StyledButton onClick={() => setShowClearBoatWindow(false)}>Cancel</StyledButton>
-              </StyledModal>
-            </StyledModalContainer>
+            <Modal>
+              <h2>Move all paddlers back to roster?</h2>
+              <StyledButton onClick={clearBoatAndExitModal}>Clear Boat</StyledButton>
+              <StyledButton onClick={() => setShowClearBoatWindow(false)}>Cancel</StyledButton>
+            </Modal>
             :
             null
           }
@@ -143,10 +140,6 @@ const StyledApp = styled.div`
 
   .tab-title {
     font-family: Allura, Roboto, Arial, Helvetica, sans-serif;
-  }
-
-  .input-boat-name {
-    margin-left: 1em;
   }
 `;
 

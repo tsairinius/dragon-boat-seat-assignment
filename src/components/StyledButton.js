@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
-
-export const StyledButton = styled.button`
+const StyledButton = styled.button`
     background: rgb(50, 100, 200);
     font-size: 0.8rem;
     font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -16,3 +15,5 @@ export const StyledButton = styled.button`
         filter: brightness(130%);
     }
 `;
+
+export default StyledButton;

@@ -10,9 +10,8 @@ import {
   unselectPaddlers,
   switchSeats
 } from "../../reducers/paddlerListReducer/paddlerListActions";
-import { StyledButton } from "../StyledButton";
-import StyledModalContainer from "../StyledModalContainer";
-import StyledModal from "../StyledModal";
+import StyledButton from "../StyledButton";
+import Modal from "../Modal";
 
 function ProfileFullView({paddler, onMoveToBoat}) {
   console.assert(
@@ -76,11 +75,9 @@ function ProfileFullView({paddler, onMoveToBoat}) {
   };
 
   return (
-    <StyledModalContainer data-testid="profile-full-view">
-      <StyledModal>
-        {isEditRequested ? showForm() : showProfileWithOptions()}
-      </StyledModal>
-    </StyledModalContainer>
+    <Modal dataTestId="profile-full-view">
+      {isEditRequested ? showForm() : showProfileWithOptions()}
+    </Modal>
   );
 }
 

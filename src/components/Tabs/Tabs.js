@@ -10,7 +10,7 @@ import clearBoatIcon from "../../assets/img/clear-boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
-import { StyledButton } from "../StyledButton";
+import StyledButton from "../StyledButton";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);

@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import usePaddlerForm from "./usePaddlerForm";
 import styled from "styled-components";
-import { StyledButton } from "../StyledButton";
+import StyledButton from "../StyledButton";
+import StyledField from "../StyledField";
 
 function PaddlerForm({onSubmit, paddler}) {
   const {
@@ -25,10 +26,10 @@ function PaddlerForm({onSubmit, paddler}) {
       onReset={handleReset}
     >
       <StyledField>
-        <StyledLabel htmlFor="paddlerFirstName">
+        <label htmlFor="paddlerFirstName">
           First
-        </StyledLabel>
-        <StyledInput
+        </label>
+        <input
           type="text"
           name="paddlerFirstName"
           id="paddlerFirstName"
@@ -39,10 +40,10 @@ function PaddlerForm({onSubmit, paddler}) {
         />
       </StyledField>
       <StyledField>
-        <StyledLabel htmlFor="paddlerLastName">
+        <label htmlFor="paddlerLastName">
           Last
-        </StyledLabel>
-        <StyledInput
+        </label>
+        <input
           type="text"
           name="paddlerLastName"
           id="paddlerLastName"
@@ -53,11 +54,11 @@ function PaddlerForm({onSubmit, paddler}) {
         />
       </StyledField>
       <StyledField>
-          <StyledLabel>
+          <label>
             Gender
-          </StyledLabel>
+          </label>
           <div>
-            <label>
+            <label className="gender-label">
               Male
               <StyledGenderButton
                 type="radio"
@@ -68,7 +69,7 @@ function PaddlerForm({onSubmit, paddler}) {
                 required
               />
             </label>
-            <label>
+            <label className="gender-label">
               Female
               <StyledGenderButton
                 type="radio"
@@ -79,7 +80,7 @@ function PaddlerForm({onSubmit, paddler}) {
                 required
               />
             </label>
-            <label>
+            <label className="gender-label">
               Other
               <StyledGenderButton
                 type="radio"
@@ -93,10 +94,10 @@ function PaddlerForm({onSubmit, paddler}) {
           </div>
       </StyledField>
       <StyledField>
-        <StyledLabel htmlFor="paddlerWeight">
+        <label htmlFor="paddlerWeight">
           Weight(lb)
-        </StyledLabel>
-        <StyledInput
+        </label>
+        <input
           type="number"
           name="paddlerWeight"
           id="paddlerWeight"
@@ -127,33 +128,16 @@ const StyledForm = styled.form`
   @media (min-width: 425px) {
     width: 65%;
   }
-`;
 
-const StyledLabel = styled.label`
-  font-size: 0.85rem;
-  margin-bottom: 3px;
-`;
-
-const StyledField = styled.div`
-  margin: 20px 0;
-  display: grid;
-  grid-template-rows: min-content min-content;
-  justify-items: start;
+  .gender-label {
+    font-size: 1rem;
+  }
 `;
 
 const StyledGenderButton = styled.input`
   @media (min-width: 425px) {
     margin-right: 20px;
   }
-`;
-
-const StyledInput = styled.input`
-  background: rgb(240, 240, 240);
-  border: rgb(0, 126, 165) solid 1px;
-  font-size: 1rem;
-  height: 1.5em;
-  border-radius: 2px;
-  width: 100%;
 `;
 
 export default PaddlerForm;
