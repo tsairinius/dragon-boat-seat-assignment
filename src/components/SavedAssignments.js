@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import StyledModalContainer from "./StyledModalContainer";
-import StyledModal from "./StyledModal";
-import { StyledButton } from "./StyledButton";
+import StyledButton from "./StyledButton";
 import savedAssignmentIcon from "../assets/img/saved-assignment-icon.svg";
+import Modal from "./Modal";
 
 function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick}) {
   const [ showAssignmentOptions, setShowAssignmentOptions ] = useState(false);
@@ -63,14 +62,12 @@ function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick})
       <StyledAssignmentsContainer data-testid={"saved-assignments"}>
         {assignmentComponents}
         {showAssignmentOptions ? 
-          <StyledModalContainer data-testid="selected-assignment-options">
-            <StyledModal>
-              <h1>{selectedAssignment.name}</h1>
-              <StyledButton onClick={applyAssignment}>Apply to Boat</StyledButton>
-              <StyledButton onClick={deleteAssignment}>Delete</StyledButton>
-              <StyledButton onClick={cancelSelection}>Cancel</StyledButton>
-            </StyledModal>
-          </StyledModalContainer>
+          <Modal dataTestId="selected-assignment-options">
+            <h1>{selectedAssignment.name}</h1>
+            <StyledButton onClick={applyAssignment}>Apply to Boat</StyledButton>
+            <StyledButton onClick={deleteAssignment}>Delete</StyledButton>
+            <StyledButton onClick={cancelSelection}>Cancel</StyledButton>
+          </Modal>
           :
           null}
       </StyledAssignmentsContainer>
