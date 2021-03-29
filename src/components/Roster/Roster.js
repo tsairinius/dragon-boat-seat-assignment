@@ -10,6 +10,7 @@ function Roster(props) {
 
   return (
     <div>
+      <h1 className="tab-title">Roster</h1>
       <StyledPaddlersContainer data-testid={"roster"}>
         {paddlerComponents}
       </StyledPaddlersContainer>
@@ -23,7 +24,7 @@ Roster.propTypes = {
 };
 
 const StyledPaddlersContainer = styled.div`
-  padding-top: 35px;
+  padding-top: 45px;
 
   .paddler {
     display: inline-block;

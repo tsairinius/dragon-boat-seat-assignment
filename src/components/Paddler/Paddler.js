@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import paddlerListContext from "../../paddlerListContext";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import defaultBackground from "../../assets/img/profile_default_img_new.svg";
-import hoverBackground from "../../assets/img/profile_default_img_new_hover.svg";
 import {
   clickPaddler,
   hoverPaddler,

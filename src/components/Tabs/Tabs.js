@@ -4,10 +4,12 @@ import styled from "styled-components";
 import { primaryBackground } from "../../styles";
 import rosterIcon from "../../assets/img/roster-icon.png";
 import boatIcon from "../../assets/img/boat-icon.png";
+import saveAssignmentIcon from "../../assets/img/save-assignment-icon.png";
+import savedAssignmentsIcon from "../../assets/img/saved-assignments-icon.png";
+import clearBoatIcon from "../../assets/img/clear-boat-icon.png";
 import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
-import boatImg from "../../assets/img/boat-v2.svg";
 import { StyledButton } from "../StyledButton";
 
 function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
@@ -27,10 +29,36 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
       case "create-paddler":
         icon = createPaddlerIcon;
         break;
+      case "saved-assignments":
+        icon = savedAssignmentsIcon;
+        break;
+      case "save-assignment":
+        icon = saveAssignmentIcon;
+        break;
+      case "clear-boat":
+        icon = clearBoatIcon;
+        break;
+      default:
+        break;
     }
 
     return icon;
   };
+
+  const tabSpecificButtons =
+    tabsCollection.map((tab) => (
+      tab.props.tabButtons && tab.props.label === activeTab ?
+        tab.props.tabButtons.map(button => 
+          <StyledTab 
+            key={button.label}
+            data-testid={`tab-${button.label}`}
+            onClick={button.onClick}
+          >
+            <StyledIcon src={getIcon(button.label)} /> 
+          </StyledTab>)
+        :
+        null
+    ));
 
   return (
     <StyledTabs>
@@ -43,17 +71,19 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
         {assignSeatMode ?
          <StyledButton className="btn-cancel-assignment" data-testid="btnCancelSeatAssignment" onClick={() => dispatch(unselectPaddlers())}>X</StyledButton>
         :
-        tabsCollection.map((tab) => (
+        <React.Fragment>
+          {tabsCollection.map((tab) => (
           <StyledTab
             key={tab.props.label}
-            isActive={tab.props.label === activeTab}
             data-testid={`tab-${tab.props.label}`}
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
             <StyledIcon src={getIcon(tab.props.label)}/>
-          </StyledTab>
-        ))}
+            </StyledTab>
+          ))}
+          {tabSpecificButtons}
+        </React.Fragment>}
       </StyledTabContainer>
     </StyledTabs>
   );

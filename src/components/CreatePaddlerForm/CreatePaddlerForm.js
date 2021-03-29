@@ -26,7 +26,7 @@ function CreatePaddlerForm() {
 
   return (
     <StyledCreatePaddlerContainer data-testid="createPaddlerForm">
-      <h1>Create a Paddler</h1>
+      <h1 className={"tab-title"}>Create a Paddler</h1>
       <PaddlerForm onSubmit={handleSubmit} />
       <p className="message-paddler-created">Paddler added to roster!</p>
     </StyledCreatePaddlerContainer>
