@@ -2,12 +2,6 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { primaryBackground } from "../../styles";
-import rosterIcon from "../../assets/img/roster-icon.png";
-import boatIcon from "../../assets/img/boat-icon.png";
-import saveAssignmentIcon from "../../assets/img/save-assignment-icon.png";
-import savedAssignmentsIcon from "../../assets/img/saved-assignments-icon.png";
-import clearBoatIcon from "../../assets/img/clear-boat-icon.png";
-import createPaddlerIcon from "../../assets/img/create-paddler-icon.png";
 import { unselectPaddlers } from "../../reducers/paddlerListReducer/paddlerListActions";
 import paddlerListContext from "../../paddlerListContext";
 import StyledButton from "../StyledButton";
@@ -16,34 +10,6 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
   const { dispatch } = useContext(paddlerListContext);
 
   const tabsCollection = React.Children.toArray(children);
-
-  const getIcon = (label) => {
-    let icon = null;
-    switch(label) {
-      case "roster":
-        icon = rosterIcon;
-        break;
-      case "boat":
-        icon = boatIcon;
-        break;
-      case "create-paddler":
-        icon = createPaddlerIcon;
-        break;
-      case "saved-assignments":
-        icon = savedAssignmentsIcon;
-        break;
-      case "save-assignment":
-        icon = saveAssignmentIcon;
-        break;
-      case "clear-boat":
-        icon = clearBoatIcon;
-        break;
-      default:
-        break;
-    }
-
-    return icon;
-  };
 
   const tabSpecificButtons =
     tabsCollection.map((tab) => (
@@ -54,7 +20,7 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
             data-testid={`tab-${button.label}`}
             onClick={button.onClick}
           >
-            <StyledIcon src={getIcon(button.label)} /> 
+            <StyledIcon src={button.icon} /> 
           </StyledTab>)
         :
         null
@@ -79,7 +45,7 @@ function Tabs({children, assignSeatMode, activeTab, onTabRequest}) {
             type="button"
             onClick={() => onTabRequest(tab.props.label)}
           >
-            <StyledIcon src={getIcon(tab.props.label)}/>
+            <StyledIcon src={tab.props.icon}/>
             </StyledTab>
           ))}
           {tabSpecificButtons}

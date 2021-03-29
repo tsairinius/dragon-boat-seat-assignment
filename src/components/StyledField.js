@@ -6,7 +6,7 @@ const StyledField = styled.div`
   grid-template-rows: min-content min-content;
   justify-items: start;
 
-  input[type="text"] {
+  input[type="text"], input[type="number"] {
     border: black solid 1px;
     font-size: 1rem;
     height: 1.5em;

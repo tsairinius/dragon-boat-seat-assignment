@@ -15,6 +15,12 @@ import SaveAssignment from "./components/SaveAssignment";
 import { v4 as uuidv4 } from "uuid";
 import StyledButton from "./components/StyledButton";
 import Modal from "./components/Modal";
+import rosterIcon from "./assets/img/roster-icon.png";
+import boatIcon from "./assets/img/boat-icon.png";
+import saveAssignmentIcon from "./assets/img/save-assignment-icon.png";
+import savedAssignmentsIcon from "./assets/img/saved-assignments-icon.png";
+import clearBoatIcon from "./assets/img/clear-boat-icon.png";
+import createPaddlerIcon from "./assets/img/create-paddler-icon.png";
 
 function App() {
   const { paddlerList, dispatch } = useContext(paddlerListContext);
@@ -87,21 +93,23 @@ function App() {
 
   const saveAssignmentButton = {
     label: "save-assignment",
-    onClick: setShowSaveAssignmentWindow
+    onClick: setShowSaveAssignmentWindow,
+    icon: saveAssignmentIcon
   }
 
   const clearBoatButton = {
     label: "clear-boat",
-    onClick: () => setShowClearBoatWindow(true)
+    onClick: () => setShowClearBoatWindow(true),
+    icon: clearBoatIcon
   }
 
   return (
     <StyledApp>
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
-            <Boat label="boat" paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton, clearBoatButton]}/>
-            <Roster label="roster" paddlers={paddlersOnRoster} />
-            <SavedAssignments label="saved-assignments" savedAssignments={savedAssignments} setSavedAssignments={setSavedAssignments} onApplyClick={loadSeatAssignment}/>
-            <CreatePaddlerForm label="create-paddler" />
+            <Boat label="boat" icon={boatIcon} paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton, clearBoatButton]}/>
+            <Roster label="roster" icon={rosterIcon} paddlers={paddlersOnRoster} />
+            <SavedAssignments label="saved-assignments" icon={savedAssignmentsIcon} savedAssignments={savedAssignments} setSavedAssignments={setSavedAssignments} onApplyClick={loadSeatAssignment}/>
+            <CreatePaddlerForm label="create-paddler" icon={createPaddlerIcon} />
           </Tabs>
           {paddlerFullView ? 
             <ProfileFullView paddler={paddlerFullView} onMoveToBoat={handleMoveToBoatRequest}/>
