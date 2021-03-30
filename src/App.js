@@ -41,11 +41,11 @@ function App() {
 
   const [ showClearBoatWindow, setShowClearBoatWindow ] = useState(false);
 
-  const [ currentSeatAssignment, setCurrentSeatAssignment ] = useState(null);
+  const [ currentAppliedAssignment, setCurrentAppliedAssignment ] = useState(null);
 
   const loadSeatAssignment = (assignment) => {
     dispatch(loadSavedAssignment(assignment));
-    setCurrentSeatAssignment(assignment);
+    setCurrentAppliedAssignment(assignment);
   };
 
   const handleMoveToBoatRequest = () => {
@@ -56,7 +56,7 @@ function App() {
   const saveCurrentSeatAssignment = () => {
     setSavedAssignments(prevState => 
       prevState.map(assignment => {
-        if (assignment.id === currentSeatAssignment.id) {
+        if (assignment.id === currentAppliedAssignment.id) {
           assignment = {
             ...assignment,
             paddlers: deepCopyArrayOfObjects(paddlersInBoat)
@@ -91,6 +91,16 @@ function App() {
     setShowClearBoatWindow(false);
   }
 
+  const deleteAssignmentAndCheckCurrentAppliedOne = (assignmentToDelete) => {
+    if (currentAppliedAssignment && (assignmentToDelete.id === currentAppliedAssignment.id)) {
+      setCurrentAppliedAssignment(null);
+    }
+
+    setSavedAssignments(prevAssignments => (
+      prevAssignments.filter(assignment => assignment.id !== assignmentToDelete.id)
+    ));
+  }
+
   const saveAssignmentButton = {
     label: "save-assignment",
     onClick: setShowSaveAssignmentWindow,
@@ -108,7 +118,7 @@ function App() {
           <Tabs assignSeatMode={assignSeatMode} activeTab={activeTab} onTabRequest={label => setActiveTab(label)}>
             <Boat label="boat" icon={boatIcon} paddlersInBoat={paddlersInBoat} tabButtons={[saveAssignmentButton, clearBoatButton]}/>
             <Roster label="roster" icon={rosterIcon} paddlers={paddlersOnRoster} />
-            <SavedAssignments label="saved-assignments" icon={savedAssignmentsIcon} savedAssignments={savedAssignments} setSavedAssignments={setSavedAssignments} onApplyClick={loadSeatAssignment}/>
+            <SavedAssignments label="saved-assignments" icon={savedAssignmentsIcon} savedAssignments={savedAssignments} onApplyClick={loadSeatAssignment} onDelete={(assignment) => deleteAssignmentAndCheckCurrentAppliedOne(assignment)} />
             <CreatePaddlerForm label="create-paddler" icon={createPaddlerIcon} />
           </Tabs>
           {paddlerFullView ? 
@@ -116,7 +126,7 @@ function App() {
           :
           null}
           {showSaveAssignmentWindow ? 
-            <SaveAssignment currentSeatAssignmentName={currentSeatAssignment ? currentSeatAssignment.name : ""} onCurrentAssignmentSave={saveCurrentSeatAssignment} onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
+            <SaveAssignment currentAppliedAssignmentName={currentAppliedAssignment ? currentAppliedAssignment.name : ""} onCurrentAppliedAssignmentSave={saveCurrentSeatAssignment} onNewAssignmentSave={saveNewSeatAssignment} onCancel={exitSaveAssignment} />
             :
             null
           }

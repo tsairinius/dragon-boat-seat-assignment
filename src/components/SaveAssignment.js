@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import StyledButton from "./StyledButton"
 import StyledField from "./StyledField";
 
-const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onNewAssignmentSave, onCancel}) => {
+const SaveAssignment = ({currentAppliedAssignmentName, onCurrentAppliedAssignmentSave, onNewAssignmentSave, onCancel}) => {
     const [ assignmentName, setAssignmentName ] = useState("");
     const [ showNewAssignmentForm, setShowNewAssignmentForm ] = useState(false);
 
@@ -23,7 +23,7 @@ const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onN
     return (
         <Modal dataTestId={"save-assignment-window"}>
             <h2>Save Seat Assignment</h2>
-            {showNewAssignmentForm || !currentSeatAssignmentName ? 
+            {showNewAssignmentForm || !currentAppliedAssignmentName ? 
                 <form onSubmit={saveAssignment}>
                     <StyledField>
                         <label htmlFor="assignment-name">
@@ -38,8 +38,8 @@ const SaveAssignment = ({currentSeatAssignmentName, onCurrentAssignmentSave, onN
                 </form>
                 :
                 <React.Fragment>
-                    <p>Save as the current assignment, {currentSeatAssignmentName}?</p>
-                    <StyledButton onClick={onCurrentAssignmentSave}>Yes</StyledButton>
+                    <p>Save as the current assignment, {currentAppliedAssignmentName}?</p>
+                    <StyledButton onClick={onCurrentAppliedAssignmentSave}>Yes</StyledButton>
                     <StyledButton onClick={() => setShowNewAssignmentForm(true)}>No, save as a new assignment</StyledButton>
                     <StyledButton onClick={cancelSaveAssignment}>Cancel</StyledButton>
                 </React.Fragment>
