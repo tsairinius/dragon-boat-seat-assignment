@@ -6,7 +6,7 @@ import StyledButton from "./StyledButton";
 import savedAssignmentIcon from "../assets/img/saved-assignment-icon.svg";
 import Modal from "./Modal";
 
-function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick}) {
+function SavedAssignments({onDelete, savedAssignments, onApplyClick}) {
   const [ showAssignmentOptions, setShowAssignmentOptions ] = useState(false);
   const [ selectedAssignment, setSelectedAssignment ] = useState(null);
 
@@ -44,16 +44,14 @@ function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick})
     setShowAssignmentOptions(false);
   }
 
-  const deleteAssignment = () => {
+  const deleteAssignmentAndExitModal = () => {
     if (!selectedAssignment) {
       throw new Error("Selected assignment is null");
     }
 
-    setSavedAssignments(prevAssignments => (
-      prevAssignments.filter(assignment => assignment.id !== selectedAssignment.id)
-    ));
-
     setShowAssignmentOptions(false);
+
+    onDelete(selectedAssignment);
   };
 
   return (
@@ -65,7 +63,7 @@ function SavedAssignments({savedAssignments, setSavedAssignments, onApplyClick})
           <Modal dataTestId="selected-assignment-options">
             <h1>{selectedAssignment.name}</h1>
             <StyledButton onClick={applyAssignment}>Apply to Boat</StyledButton>
-            <StyledButton onClick={deleteAssignment}>Delete</StyledButton>
+            <StyledButton onClick={deleteAssignmentAndExitModal}>Delete</StyledButton>
             <StyledButton onClick={cancelSelection}>Cancel</StyledButton>
           </Modal>
           :

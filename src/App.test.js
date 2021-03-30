@@ -529,6 +529,18 @@ describe("Assignment saving feature", () => {
       userEvent.click(screen.getByRole("button", {name: "Cancel"}));
       expect(screen.queryByTestId("save-assignment-window")).not.toBeInTheDocument();
     });
+
+    it("When applying followed by deleting assignment: When saving assignment, only option displayed is to save as a new assignment", async () => {
+      await saveAndApplyFirstAssignment("Boat 1");
+
+      userEvent.click(screen.getByTestId("tab-saved-assignments"));
+      userEvent.click(screen.getByText("Boat 1"));
+      userEvent.click(screen.getByRole("button", {name: "Delete"}));
+      userEvent.click(screen.getByTestId("tab-boat"));
+      userEvent.click(screen.getByTestId("tab-save-assignment"));
+
+      expect(screen.queryByRole("button", {name: "No, save as a new assignment"})).not.toBeInTheDocument();
+    });
   });
 });
 
